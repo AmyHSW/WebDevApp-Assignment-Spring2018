@@ -2,8 +2,15 @@ body {
   padding-top: 70px;
   padding-bottom: 70px;
 }
+
 input.form-control {
   margin-bottom: 5px;
+}
+
+.divider {
+  border-left: 1px solid #808080;
+  margin-top: -10px;
+  height: 92vh;
 }
 
 .cl-form-bottom-padding{
@@ -58,13 +65,13 @@ a:hover{
 }
 
 .cl-widget-heading{
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .cl-widget-paragraph{
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .cl-height{
@@ -79,13 +86,13 @@ a:hover{
   position: absolute;
 }
 .cl-widget-list-icons{
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   z-index: 10;
   background-color: white;
 }
 .cl-zero-right-padding{
-  padding-right: 0px;
+  padding-right: 0;
 }
 
 .cl-list-item-borderless {
@@ -101,3 +108,4 @@ a:hover{
   z-index: 100;
   position: relative;
 }
+
