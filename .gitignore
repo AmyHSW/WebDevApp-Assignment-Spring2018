@@ -3,7 +3,6 @@
 
 
 # compiled outputs
-/dist
 /tmp
 /out-tsc
 
