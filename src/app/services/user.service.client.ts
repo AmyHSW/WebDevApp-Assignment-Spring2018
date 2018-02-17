@@ -4,14 +4,20 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class UserService {
   users: User[] = [
-    new User('123', 'alice', 'alice', 'Alice', 'Wonder'),
-    new User('234', 'bob', 'bob', 'Bod', 'Marley'),
-    new User('345', 'charlie', 'charly', 'Charly', 'Garcia'),
-    new User('456', 'jannunzi', 'jannunzi', 'Jose', 'Annunzi')
+    new User('123', 'alice', 'alice', 'alice@test.com', 'Alice', 'Wonder'),
+    new User('234', 'bob', 'bob', 'bob@test.com', 'Bod', 'Marley'),
+    new User('345', 'charlie', 'charly', 'charlie@test.com', 'Charly', 'Garcia'),
+    new User('456', 'jannunzi', 'jannunzi', 'jannunzi@test.com', 'Jose', 'Annunzi')
   ];
 
+  static getNewUser() {
+    return new User(undefined, undefined, undefined, undefined, undefined, undefined);
+  }
+
   createUser(user: User) {
-    this.users.push(new User(user._id, user.username, user.password, user.firstName, user.lastName));
+    user._id = Math.random() + '';
+    this.users.push(user);
+    return user;
   }
 
   findUserByCredential(username: String, password: String) {
@@ -32,9 +38,10 @@ export class UserService {
     });
   }
 
-  updateUser(user: User) {
+  updateUser(userId: String, user: User) {
     for (let i = 0; i < this.users.length; i++) {
       if (this.users[i]._id === user._id) {
+        this.users[i].email = user.email;
         this.users[i].firstName = user.firstName;
         this.users[i].lastName = user.lastName;
         return this.users[i];

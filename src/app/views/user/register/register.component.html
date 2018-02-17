@@ -1,0 +1,42 @@
+<div class="container-fluid">
+
+  <h1>Register</h1>
+
+  <div *ngIf="errorFlag" class="alert alert_danger">
+    {{errorMsg}}
+  </div>
+
+  <form>
+
+    <input [(ngModel)]="user.username"
+           id="username"
+           placeholder="username"
+           type="text"
+           class="form-control"
+           [ngModelOptions]="{standalone: true}"/>
+
+    <input [(ngModel)]="user.password"
+           id="password"
+           placeholder="password"
+           type="password"
+           class="form-control"
+           [ngModelOptions]="{standalone: true}"/>
+
+    <input [(ngModel)]="v_password"
+           id="v_password"
+           placeholder="verify password"
+           type="password"
+           class="form-control"
+           [ngModelOptions]="{standalone: true}"/>
+    <br/>
+
+    <button class="btn btn-primary btn-block"
+            (click)="register()">Register</button>
+
+    <button class="btn btn-danger  btn-block"
+            (click)="cancel()">Cancel</button>
+
+  </form>
+
+</div>
+

@@ -1,0 +1,19 @@
+<div *ngFor="let widget of widgets">
+
+  <div [ngSwitch]="widget.type">
+
+    <div *ngSwitchCase="'Header'">
+      ...
+    </div>
+
+    <div *ngSwitchCase="'YouTube'">
+      ...
+    </div>
+
+    <div *ngSwitchCase="'Image'">
+      ...
+    </div>
+
+  </div>
+
+</div>

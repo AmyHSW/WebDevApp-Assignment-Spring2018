@@ -46,6 +46,7 @@ export class WebsiteService {
       if (this.websites[i]._id === websiteId) {
         this.websites[i].name = website.name;
         this.websites[i].description = website.description;
+        return this.websites[i];
       }
     }
   }
