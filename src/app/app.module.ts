@@ -16,7 +16,7 @@ import { PageNewComponent } from './views/page/page-new/page-new.component';
 import { PageEditComponent } from './views/page/page-edit/page-edit.component';
 
 import { WidgetChooserComponent } from './views/widget/widget-chooser/widget-chooser.component';
-import { WidgetHeadingComponent } from './views/widget/widget-edit/widget-header/widget-heading.component';
+import { WidgetHeadingComponent } from './views/widget/widget-edit/widget-header/widget-header.component';
 import { WidgetEditComponent } from './views/widget/widget-edit/widget-edit.component';
 import { WidgetImageComponent } from './views/widget/widget-edit/widget-image/widget-image.component';
 import { WidgetListComponent } from './views/widget/widget-list/widget-list.component';

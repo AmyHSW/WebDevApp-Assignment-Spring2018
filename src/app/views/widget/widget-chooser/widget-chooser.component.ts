@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
+import {Widget} from '../../../models/widget.model.client';
+import {ActivatedRoute} from '@angular/router';
+import {WidgetService} from '../../../services/widget.service.client';
 
 @Component({
   selector: 'app-widget-chooser',
@@ -8,12 +10,18 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class WidgetChooserComponent implements OnInit {
 
-  public safeUrl;
+  widgets: Widget[] = [];
+  pageId: String;
 
-  constructor(private domSanitizer: DomSanitizer) { }
+  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/d5nCbSNS9mA');
+    this.activatedRoute.params.subscribe((params: any) => {
+      console.log(params['pid']);
+      this.pageId = params['pid'];
+    });
+    this.widgets = this.widgetService.findWidgetsByPageId(this.pageId);
+
   }
 
 }

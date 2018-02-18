@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WidgetHeadingComponent } from './widget-heading.component';
+import { WidgetHeadingComponent } from './widget-header.component';
 
 describe('WidgetHeadingComponent', () => {
   let component: WidgetHeadingComponent;
