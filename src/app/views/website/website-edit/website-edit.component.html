@@ -65,7 +65,9 @@
       </div>
 
       <br/>
-      <a class="btn btn-danger btn-block" routerLink="/profile/{{userId}}/website">Delete</a>
+      <a class="btn btn-danger btn-block"
+         (click)="deleteWebsite()"
+         routerLink="/profile/{{userId}}/website">Delete</a>
     </form>
   </div>
 </div>

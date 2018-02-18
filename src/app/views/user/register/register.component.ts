@@ -15,9 +15,9 @@ export class RegisterComponent implements OnInit {
   user: User;
   v_password: String;
 
-  userErrorFlag = false;
+  userErrorFlag: boolean;
   userErrorMsg = 'The username already exists! Please use a different name.';
-  pwErrorFlag = false;
+  pwErrorFlag: boolean;
   pwErrorMsg = 'Password mis-matching!';
 
   constructor(private userService: UserService, private router: Router) { }
@@ -26,6 +26,9 @@ export class RegisterComponent implements OnInit {
     this.user.username = this.registerForm.value.username;
     this.user.password = this.registerForm.value.password;
     this.v_password = this.registerForm.value.v_password;
+
+    this.userErrorFlag = false;
+    this.pwErrorFlag = false;
 
     if (this.userService.findUserByUsername(this.user.username)) {
       this.userErrorFlag = true;

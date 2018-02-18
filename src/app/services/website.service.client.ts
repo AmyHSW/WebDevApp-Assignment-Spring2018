@@ -13,11 +13,15 @@ export class WebsiteService {
     new Website('234', 'Amazon', '789', 'test' ),
   ];
 
+  static getNewWebsite() {
+    return new Website(undefined, undefined, undefined, undefined);
+  }
+
   createWebsite(userId: String, website: Website) {
     const new_website = {
       _id: (new Date()).getTime() + '',
       name: website.name,
-      developerId: website.developerId,
+      developerId: userId,
       description: website.description
     };
 
@@ -32,6 +36,12 @@ export class WebsiteService {
       }
     }
     return resultSet;
+  }
+
+  findWebsitesByUser2(userId: String) {
+    return this.websites.filter(function (website) {
+      return website.developerId === userId;
+    });
   }
 
   findWebsitesById(websiteId: String) {
