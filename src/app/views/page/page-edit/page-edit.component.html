@@ -2,16 +2,18 @@
   <div class="container-fluid row">
 
     <div class="navbar-text pull-left">
-      <a routerLink="/profile/{{userId}}/website/{{webId}}/page" class="cl-text-black cl-icon-padding">
+      <a routerLink=".." class="cl-text-black cl-icon-padding">
               <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <a (click)="updatePage()" routerLink="/profile/{{userId}}/website/{{webId}}/page" class="cl-icon-padding cl-text-black">
+      <a (click)="updatePage()"
+         routerLink=".."
+         class="cl-icon-padding cl-text-black">
               <span class="glyphicon glyphicon-ok"></span>
       </a>
     </div>
-    <a class="navbar-brand cl-text-white cl-text-bold" routerLink="/profile/{{userId}}/website/{{webId}}/page/{{page._id}}">
+    <a class="navbar-brand cl-text-white cl-text-bold" routerLink=".">
       Edit Page
     </a>
   </div>
@@ -39,13 +41,16 @@
              [ngModelOptions]="{standalone: true}">
     </div>
   </form>
-  <a class="btn btn-danger btn-block" routerLink="/profile/{{userId}}/website/{{webId}}/page">Delete</a>
+
+  <a class="btn btn-danger btn-block"
+     (click)="deletePage()"
+     routerLink="..">Delete</a>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid row">
     <div class="pull-right navbar-text">
-      <a routerLink="/profile/{{userId}}" class="cl-icon-padding">
+      <a routerLink="../../../.." class="cl-icon-padding">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </div>

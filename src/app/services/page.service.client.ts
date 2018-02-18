@@ -1,5 +1,5 @@
 import { Page } from '../models/page.model.client';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PageService {
@@ -13,15 +13,17 @@ export class PageService {
     new Page('234', 'page234', '234', 'test page 234' ),
   ];
 
-  createWebsite(websiteId: String, page: Page) {
+  static getNewPage() {
+    return new Page(undefined, undefined, undefined, undefined);
+  }
 
+  createWebsite(websiteId: String, page: Page) {
     const new_page = {
       _id: (new Date()).getTime() + '',
       name: page.name,
-      websiteId: page.websiteId,
+      websiteId: websiteId,
       title: page.title
     };
-
     this.pages.push(new_page);
   }
 
@@ -33,6 +35,12 @@ export class PageService {
       }
     }
     return resultSet;
+  }
+
+  findPageByWebsiteId2(websiteId: String) {
+    return this.pages.filter(function (page) {
+      return page.websiteId === websiteId;
+    });
   }
 
   findPageById(pageId: String) {
