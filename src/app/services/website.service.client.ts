@@ -1,7 +1,6 @@
 import { Website } from '../models/website.model.client';
 import {Injectable} from '@angular/core';
 
-
 @Injectable()
 export class WebsiteService {
 
@@ -27,7 +26,7 @@ export class WebsiteService {
 
   findWebsitesByUser(userId: String) {
     const resultSet = [];
-    for ( const i in this.websites) {
+    for (const i in this.websites) {
       if (this.websites[i].developerId === userId) {
         resultSet.push(this.websites[i]);
       }

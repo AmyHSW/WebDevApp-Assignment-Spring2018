@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
 import {User} from '../../../models/user.model.client';
 
@@ -15,12 +15,18 @@ export class ProfileComponent implements OnInit {
   updateFlag = false;
   updateMsg = 'Profile updated!';
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) { }
 
   updateUser(user) {
     console.log(user);
     this.user = this.userService.updateUser(this.user._id, this.user);
     this.updateFlag = true;
+  }
+  logout() {
+    this.router.navigate(['/login']);
   }
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {

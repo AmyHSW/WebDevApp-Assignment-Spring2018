@@ -4,7 +4,6 @@ import {User} from '../../../models/user.model.client';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,30 +11,36 @@ import {NgForm} from '@angular/forms';
 })
 
 export class RegisterComponent implements OnInit {
-  @ViewChild('f') loginForm: NgForm;
+  @ViewChild('f') registerForm: NgForm;
   user: User;
   v_password: String;
 
-  errorFlag = false;
-  errorMsg = 'Password mis-matching!';
+  userErrorFlag = false;
+  userErrorMsg = 'The username already exists! Please use a different name.';
+  pwErrorFlag = false;
+  pwErrorMsg = 'Password mis-matching!';
 
   constructor(private userService: UserService, private router: Router) { }
 
   register() {
-    if (this.v_password === this.user.password) {
-      this.errorFlag = false;
-      this.user = this.userService.createUser(this.user);
-      this.router.navigate(['/profile', this.user._id]);
+    this.user.username = this.registerForm.value.username;
+    this.user.password = this.registerForm.value.password;
+    this.v_password = this.registerForm.value.v_password;
+
+    if (this.userService.findUserByUsername(this.user.username)) {
+      this.userErrorFlag = true;
+    } else if (this.v_password !== this.user.password) {
+      this.pwErrorFlag = true;
     } else {
-      this.errorFlag = true;
+      this.userService.createUser(this.user);
+      this.router.navigate(['/profile', this.user._id]);
     }
   }
   cancel() {
     this.router.navigate(['/login']);
   }
   ngOnInit() {
-    this.user = UserService.getNewUser();
+    this.user = this.userService.getNewUser();
   }
-
 
 }

@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   username: String; // see usage as two-way data binding
   password: String; // see usage as two-way data binding
 
-  errorFlag: boolean;
+  errorFlag = false;
   errorMsg = 'Invalid username or password!';
 
   constructor(private userService: UserService, private router: Router) {}
@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
     const user: User = this.userService.findUserByCredential(this.username, this.password);
     if (user) {
       this.router.navigate(['/profile', user._id]);
+    } else {
+      this.errorFlag = true;
     }
   }
 

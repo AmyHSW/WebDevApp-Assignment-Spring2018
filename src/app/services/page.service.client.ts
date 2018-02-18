@@ -46,6 +46,7 @@ export class PageService {
       if (this.pages[i]._id === pageId) {
         this.pages[i].name = page.name;
         this.pages[i].title = page.title;
+        return this.pages[i];
       }
     }
   }

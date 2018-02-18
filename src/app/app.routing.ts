@@ -14,6 +14,7 @@ import {WidgetChooserComponent} from './views/widget/widget-chooser/widget-choos
 import {WidgetEditComponent} from './views/widget/widget-edit/widget-edit.component';
 
 const appRoutes: Routes = [
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'profile/:uid', component: ProfileComponent},

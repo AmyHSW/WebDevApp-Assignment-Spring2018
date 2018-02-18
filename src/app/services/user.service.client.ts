@@ -10,14 +10,12 @@ export class UserService {
     new User('456', 'jannunzi', 'jannunzi', 'jannunzi@test.com', 'Jose', 'Annunzi')
   ];
 
-  static getNewUser() {
-    return new User(undefined, undefined, undefined, undefined, undefined, undefined);
+  getNewUser() {
+    return new User(this.users.length + 1, undefined, undefined, undefined, undefined, undefined);
   }
 
   createUser(user: User) {
-    user._id = Math.random() + '';
     this.users.push(user);
-    return user;
   }
 
   findUserByCredential(username: String, password: String) {
