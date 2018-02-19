@@ -15,6 +15,8 @@ export class WidgetHeadingComponent implements OnInit {
 
   widgetId: String;
   pageId: String;
+  webId: String;
+  userId: String;
   widget: Widget;
 
   constructor(private widgetService: WidgetService,
@@ -25,6 +27,8 @@ export class WidgetHeadingComponent implements OnInit {
       console.log(params['wgid']);
       this.widgetId = params['wgid'];
       this.pageId = params['pid'];
+      this.webId = params['wid'];
+      this.userId = params['uid'];
     });
     if (this.widgetId === undefined) {
       this.widget = WidgetService.getNewWidget();
