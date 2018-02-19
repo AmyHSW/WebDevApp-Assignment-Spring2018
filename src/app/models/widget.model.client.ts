@@ -16,5 +16,6 @@ export class Widget {
     this.url = url;
     this.width = width;
     this.name = name;
+    this.text = text;
   }
 }
