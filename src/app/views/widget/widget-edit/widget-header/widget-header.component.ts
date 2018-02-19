@@ -11,16 +11,32 @@ import {Widget} from '../../../../models/widget.model.client';
 export class WidgetHeadingComponent implements OnInit {
 
   widgetId: String;
+  pageId: String;
+  widget: Widget;
 
   constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
+      console.log(params['pid']);
       console.log(params['wgid']);
       this.widgetId = params['wgid'];
+      this.pageId = params['pid'];
     });
+    if (this.widgetId === undefined) {
+      this.widget = this.widgetService.getNewWidget();
+      this.widgetId = this.widget._id;
+      this.widget.widgetType = 'HEADER';
+      this.widget.pageId = this.pageId;
+      this.widgetService.createWidget(this.pageId, this.widget);
+    } else {
+      this.widget = this.widgetService.findWidgetById(this.widgetId);
+    }
   }
 
+  updateWidget() {
+    this.widgetService.updateWidget(this.widgetId, this.widget);
+  }
   deleteWidget() {
     this.widgetService.deleteWidget(this.widgetId);
   }

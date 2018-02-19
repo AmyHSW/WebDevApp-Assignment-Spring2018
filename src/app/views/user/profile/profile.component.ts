@@ -20,8 +20,7 @@ export class ProfileComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router) { }
 
-  updateUser(user) {
-    console.log(user);
+  updateUser() {
     this.user = this.userService.updateUser(this.user._id, this.user);
     this.updateFlag = true;
   }
@@ -30,6 +29,7 @@ export class ProfileComponent implements OnInit {
   }
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
+      console.log(params['uid']);
       this.user = this.userService.findUserById(params['uid']);
     });
   }

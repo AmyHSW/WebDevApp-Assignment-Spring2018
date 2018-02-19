@@ -1,14 +1,12 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
-
     <div class="navbar-text pull-left">
       <a routerLink=".." class="cl-text-black cl-icon-padding">
-              <span class="glyphicon glyphicon-chevron-left">
-              </span>
+        <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <a routerLink=".." class="cl-icon-padding cl-text-black">
+      <a (click)="updateWidget()" routerLink=".." class="cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </a>
     </div>
@@ -22,20 +20,37 @@
   <form>
     <div class="form-group">
       <label for="heading-name">Name</label>
-      <input type="text" class="form-control" id="heading-name" placeholder="Name">
+      <input [(ngModel)]="widget.name"
+             type="text"
+             class="form-control"
+             id="heading-name"
+             placeholder="name"
+             [ngModelOptions]="{standalone: true}"/>
     </div>
     <div class="form-group">
       <label for="heading-text">Text</label>
-      <input type="text" class="form-control" id="heading-text" placeholder="Text">
+      <input [(ngModel)]="widget.text"
+             type="text"
+             class="form-control"
+             id="heading-text"
+             placeholder="Text"
+             [ngModelOptions]="{standalone: true}"/>
     </div>
     <div class="form-group">
       <label for="heading-size">Size</label>
-      <input type="text" class="form-control" id="heading-size" placeholder="3">
+      <input [(ngModel)]="widget.size"
+             type="text"
+             class="form-control"
+             id="heading-size"
+             placeholder="3"
+             [ngModelOptions]="{standalone: true}"/>
     </div>
+
+    <button class="btn btn-danger  btn-block"
+       (click)="deleteWidget()"
+       routerLink="..">Delete</button>
+
   </form>
-  <a class="btn btn-danger  btn-block"
-     (click)="deleteWidget()"
-     routerLink="..">Delete</a>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">

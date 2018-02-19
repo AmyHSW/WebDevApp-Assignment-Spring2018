@@ -1,9 +1,9 @@
 <nav class="navbar navbar-fixed-top cl-blue-navbar">
   <div class="container-fluid">
-    <a class="cl-text-white navbar-brand cl-text-bold" routerLink="/profile/{{user._id}}}">
+    <a class="cl-text-white navbar-brand cl-text-bold" routerLink="/profile/{{user._id}}">
       Profile
     </a>
-    <a (click)="updateUser(user)" routerLink="/profile/{{user._id}}" class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
+    <a (click)="updateUser()" routerLink="/profile/{{user._id}}" class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
       <span class="glyphicon glyphicon-ok"></span>
     </a>
   </div>
@@ -61,7 +61,7 @@
             routerLink="./website">Websites</button>
 
     <button class="btn btn-danger btn-block"
-            (click)="logout()">Logout</button>
+            routerLink="/login">Logout</button>
 
   </form>
 </div>

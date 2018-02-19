@@ -1,12 +1,10 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
-
     <div class="navbar-text pull-left">
       <a routerLink=".." class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
-
     <a class="navbar-brand cl-text-white cl-text-bold" routerLink=".">
       Choose Widget
     </a>
@@ -15,8 +13,14 @@
 
 <div class="container-fluid cl-container-padding">
   <ul class="list-group cl-list-group-borderless">
-    <li *ngFor="let widget of widgets" class="list-group-item cl-list-item-borderless">
-      <a routerLink="../{{widget._id}}">{{widget.widgetType}}</a>
+    <li class="list-group-item cl-list-item-borderless">
+      <a routerLink="./header">Header</a>
+    </li>
+    <li class="list-group-item cl-list-item-borderless">
+      <a routerLink="./image">Image</a>
+    </li>
+    <li class="list-group-item cl-list-item-borderless">
+      <a routerLink="./youtube">Youtube</a>
     </li>
   </ul>
 </div>

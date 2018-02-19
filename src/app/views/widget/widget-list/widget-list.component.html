@@ -3,12 +3,12 @@
 
     <div class="navbar-text pull-left">
       <a routerLink="../.." class="cl-text-black cl-icon-padding">
-              <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
     <div class="navbar-text pull-right">
       <a routerLink="./new" class="cl-icon-padding cl-text-black">
-              <span class="glyphicon glyphicon-plus"></span>
+        <span class="glyphicon glyphicon-plus"></span>
       </a>
     </div>
     <a class="navbar-brand cl-text-white cl-text-bold" routerLink=".">
@@ -22,27 +22,19 @@
     <div [ngSwitch]="widget.widgetType">
 
       <div *ngSwitchCase="'HEADER'">
-        <div class="pull-right">
-          <a routerLink="." class="pull-right">
-            <span class="glyphicon glyphicon-menu-hamburger"></span>
-          </a>
-          <a routerLink="./{{widget._id}}">
-            <span class="glyphicon glyphicon-cog"></span>
-          </a>
-        </div>
-        <h1>{{widget.text}}</h1>
+        <a routerLink="./{{widget._id}}" class="pull-right">
+          <span class="glyphicon glyphicon-cog whiteBackground"></span>
+        </a>
+        <h2>{{widget.text}}</h2>
       </div>
 
       <div *ngSwitchCase="'YOUTUBE'">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe width={{widget.width}}
+          <iframe class="embed-responsive-item" width={{widget.width}}
                   height="315"
                   [src]=getUrl(widget.url)
                   frameborder="0"
                   allowfullscreen></iframe>
-          <a routerLink="." class="pull-right">
-            <span class="glyphicon glyphicon-menu-hamburger"></span>
-          </a>
           <a routerLink="./{{widget._id}}" class="pull-right">
             <span class="glyphicon glyphicon-cog whiteBackground"></span>
           </a>
@@ -50,14 +42,11 @@
       </div>
 
       <div *ngSwitchCase="'IMAGE'">
-          <a routerLink="." class="pull-right">
-            <span class="glyphicon glyphicon-menu-hamburger"></span>
-          </a>
           <a routerLink="./{{widget._id}}" class="pull-right">
-            <span class="glyphicon glyphicon-cog"></span>
+            <span class="glyphicon glyphicon-cog whiteBackground"></span>
           </a>
           <img class="img-responsive img-rounded cl-widget-images"
-               src={{widget.url}}>
+               src="{{widget.url}}">
       </div>
 
       <div *ngSwitchCase="'HTML'">
