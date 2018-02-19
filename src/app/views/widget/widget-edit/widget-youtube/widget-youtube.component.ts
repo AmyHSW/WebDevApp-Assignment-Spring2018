@@ -24,20 +24,19 @@ export class WidgetYoutubeComponent implements OnInit {
       this.pageId = params['pid'];
     });
     if (this.widgetId === undefined) {
-      this.widget = this.widgetService.getNewWidget();
-      this.widgetId = this.widget._id;
+      this.widget = WidgetService.getNewWidget();
       this.widget.widgetType = 'YOUTUBE';
       this.widget.pageId = this.pageId;
-      this.widgetService.createWidget(this.pageId, this.widget);
+      this.widget = this.widgetService.createWidget(this.pageId, this.widget);
     } else {
       this.widget = this.widgetService.findWidgetById(this.widgetId);
     }
   }
 
   deleteYoutube() {
-    this.widgetService.deleteWidget(this.widgetId);
+    this.widgetService.deleteWidget(this.widget._id);
   }
   updateYoutube() {
-    this.widgetService.updateWidget(this.widgetId, this.widget);
+    this.widgetService.updateWidget(this.widget._id, this.widget);
   }
 }

@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
     } else if (this.v_password !== this.user.password) {
       this.pwErrorFlag = true;
     } else {
-      this.userService.createUser(this.user);
+      this.user = this.userService.createUser(this.user);
       this.router.navigate(['/profile', this.user._id]);
     }
   }
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   ngOnInit() {
-    this.user = this.userService.getNewUser();
+    this.user = UserService.getNewUser();
   }
 
 }

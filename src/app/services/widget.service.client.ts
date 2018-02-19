@@ -13,12 +13,14 @@ export class WidgetService {
     new Widget('5', 'YOUTUBE', '321', '2', 'text', '100%', 'https://www.youtube.com/embed/d5nCbSNS9mA')
   ];
 
-  getNewWidget() {
-    return new Widget(this.widgets.length + 1, undefined, undefined);
+  static getNewWidget() {
+    return new Widget(undefined, undefined, undefined);
   }
 
   createWidget(pageId: String, widget: Widget) {
+    widget._id = String(this.widgets.length + 1);
     this.widgets.push(widget);
+    return widget;
   }
 
   findWidgetsByPageId(pageId: String) {
