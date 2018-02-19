@@ -12,7 +12,6 @@ import {ActivatedRoute} from '@angular/router';
 
 export class WidgetImageComponent implements OnInit {
 
-  pageId: String;
   widgetId: String;
   widget: Widget;
 
@@ -20,19 +19,10 @@ export class WidgetImageComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
-      console.log(params['pid']);
       console.log(params['wgid']);
-      this.pageId = params['pid'];
       this.widgetId = params['wgid'];
     });
-    if (this.widgetId === undefined) {
-      this.widget = WidgetService.getNewWidget();
-      this.widget.widgetType = 'IMAGE';
-      this.widget.pageId = this.pageId;
-      this.widget = this.widgetService.createWidget(this.pageId, this.widget);
-    } else {
-      this.widget = this.widgetService.findWidgetById(this.widgetId);
-    }
+    this.widget = this.widgetService.findWidgetById(this.widgetId);
   }
 
   deleteImage() {
