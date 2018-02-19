@@ -3,12 +3,12 @@
     <div class="col-xs-4">
 
       <p class="navbar-text pull-left">
-        <a routerLink="/profile/{{userId}}/website" class="navbar-link cl-text-white">
+        <a routerLink=".." class="navbar-link cl-text-white">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
       </p>
 
-      <a class="cl-text-white navbar-brand cl-text-bold hidden-xs" routerLink="/profile/{{userId}}/website">
+      <a class="cl-text-white navbar-brand cl-text-bold hidden-xs" routerLink="..">
         Websites
       </a>
 
@@ -24,10 +24,13 @@
         New Websites
       </a>
 
-      <a routerLink="/profile/{{userId}}/website"
-         class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
+      <button routerLink=".."
+              (click)="f.ngSubmit.emit()"
+              [disabled]="!f.valid"
+              class="btn btn-link pull-right cl-text-white cl-icon-padding"
+              aria-hidden="true">
         <span class="glyphicon glyphicon-ok"></span>
-      </a>
+      </button>
     </div>
   </div>
 </nav>
@@ -44,10 +47,6 @@
   </div>
 
   <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-
-    <div *ngIf="createFlag" class="alert alert-success">
-      {{createMsg}}
-    </div>
 
     <form (ngSubmit)="createWebsite()" #f="ngForm">
       <div class="form-group">
@@ -67,18 +66,14 @@
 
       <div class="form-group">
         <label for="website-description">Description</label>
-        <textarea id="website-description"
+        <textarea [(ngModel)]="website.description"
+                  id="website-description"
                   class="form-control"
                   rows="5"
                   placeholder="Description"
-                  name="description"
-                  ngModel required
-                  #description="ngModel"></textarea>
+                  name="description">
+        </textarea>
       </div>
-
-      <button class="btn btn-success btn-block"
-              type="submit"
-              [disabled]="!f.valid">Create</button>
 
     </form>
   </div>

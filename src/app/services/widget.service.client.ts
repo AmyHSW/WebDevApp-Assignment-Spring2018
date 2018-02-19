@@ -9,7 +9,9 @@ export class WidgetService {
     new Widget('1', 'HEADER', '321', '2', 'GIZMODO'),
     new Widget('2', 'HEADER', '321', '4', 'Lorem ipsum'),
     new Widget('3', 'IMAGE', '321', '2', 'text', '100%', 'http://lorempixel.com/400/200/'),
-    new Widget('4', 'HTML', '321', '2', '<p>blalbla</p>'),
+    new Widget('4', 'IMAGE', '321', '2', 'my image', '100%',
+      'http://food.fnr.sndimg.com/content/dam/images/food/fullset/2009/11/4/2/FNM_120109-Sugar-Fix-006_s4x3.jpg'
+        + '.rend.hgtvcom.616.462.suffix/1382539033745.jpeg'),
     new Widget('5', 'YOUTUBE', '321', '2', 'text', '100%', 'https://www.youtube.com/embed/d5nCbSNS9mA')
   ];
 

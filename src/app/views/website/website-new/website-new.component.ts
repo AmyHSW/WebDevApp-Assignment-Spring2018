@@ -15,26 +15,21 @@ export class WebsiteNewComponent implements OnInit {
   userId: String;
   websites: Website[] = [];
   website: Website;
-  createFlag = false;
-  createMsg = 'New Website Created!';
 
   constructor(private websiteService: WebsiteService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
-      /*console.log(params['uid']);*/
+      console.log(params['uid']);
       this.userId = params['uid'];
     });
     this.websites = this.websiteService.findWebsitesByUser2(this.userId);
-    /*console.log(this.websites);*/
     this.website = WebsiteService.getNewWebsite();
   }
 
   createWebsite() {
     this.website.name = this.webForm.value.name;
-    this.website.description = this.webForm.value.description;
     this.websiteService.createWebsite(this.userId, this.website);
-    this.createFlag = true;
   }
 }

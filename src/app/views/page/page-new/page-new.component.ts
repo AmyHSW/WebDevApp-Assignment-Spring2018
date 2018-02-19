@@ -14,8 +14,6 @@ export class PageNewComponent implements OnInit {
 
   page: Page;
   webId: String;
-  createFlag = false;
-  createMsg = 'New Page Created!';
 
   constructor(private pageService: PageService, private activatedRoute: ActivatedRoute) { }
 
@@ -28,8 +26,6 @@ export class PageNewComponent implements OnInit {
 
   createPage() {
     this.page.name = this.pageForm.value.name;
-    this.page.title = this.pageForm.value.title;
     this.pageService.createWebsite(this.webId, this.page);
-    this.createFlag = true;
   }
 }

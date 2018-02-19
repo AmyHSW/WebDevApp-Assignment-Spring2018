@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute} from '@angular/router';
 import {Widget} from '../../../../models/widget.model.client';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-widget-youtube',
@@ -9,8 +10,10 @@ import {Widget} from '../../../../models/widget.model.client';
   styleUrls: ['./widget-youtube.component.css']
 })
 export class WidgetYoutubeComponent implements OnInit {
+@ViewChild('f') youtubeForm: NgForm;
 
   widgetId: String;
+  pageId: String;
   widget: Widget;
 
   constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
@@ -19,14 +22,28 @@ export class WidgetYoutubeComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: any) => {
       console.log(params['wgid']);
       this.widgetId = params['wgid'];
+      this.pageId = params['pid'];
     });
-    this.widget = this.widgetService.findWidgetById(this.widgetId);
+    if (this.widgetId === undefined) {
+      this.widget = WidgetService.getNewWidget();
+    } else {
+      this.widget = this.widgetService.findWidgetById(this.widgetId);
+    }
   }
 
   deleteYoutube() {
-    this.widgetService.deleteWidget(this.widget._id);
+    if (this.widgetId !== undefined) {
+      this.widgetService.deleteWidget(this.widget._id);
+    }
   }
   updateYoutube() {
-    this.widgetService.updateWidget(this.widget._id, this.widget);
+    this.widget.url = this.youtubeForm.value.url;
+    if (this.widgetId === undefined) {
+      this.widget.widgetType = 'YOUTUBE';
+      this.widget.pageId = this.pageId;
+      this.widget = this.widgetService.createWidget(this.pageId, this.widget);
+    } else {
+      this.widgetService.updateWidget(this.widget._id, this.widget);
+    }
   }
 }

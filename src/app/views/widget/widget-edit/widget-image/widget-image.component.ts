@@ -11,26 +11,43 @@ import {ActivatedRoute} from '@angular/router';
 })
 
 export class WidgetImageComponent implements OnInit {
+@ViewChild('f') imageForm: NgForm;
 
   widgetId: String;
+  pageId: String;
   widget: Widget;
 
-  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
+  constructor(private widgetService: WidgetService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
       console.log(params['wgid']);
       this.widgetId = params['wgid'];
+      this.pageId = params['pid'];
     });
-    this.widget = this.widgetService.findWidgetById(this.widgetId);
+    if (this.widgetId === undefined) {
+      this.widget = WidgetService.getNewWidget();
+    } else {
+      this.widget = this.widgetService.findWidgetById(this.widgetId);
+    }
   }
 
   deleteImage() {
-    this.widgetService.deleteWidget(this.widget._id);
+    if (this.widgetId !== undefined) {
+      this.widgetService.deleteWidget(this.widget._id);
+    }
   }
 
   updateImage() {
-    this.widgetService.updateWidget(this.widget._id, this.widget);
+    this.widget.url = this.imageForm.value.url;
+    if (this.widgetId === undefined) {
+      this.widget.widgetType = 'IMAGE';
+      this.widget.pageId = this.pageId;
+      this.widget = this.widgetService.createWidget(this.pageId, this.widget);
+    } else {
+      this.widgetService.updateWidget(this.widget._id, this.widget);
+    }
   }
 
 }

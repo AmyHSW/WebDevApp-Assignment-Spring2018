@@ -8,11 +8,12 @@
     </div>
 
     <div class="navbar-text pull-right">
-      <a (click)="updateYoutube()"
-         routerLink=".."
-         class="cl-icon-padding cl-text-black">
+      <button (click)="f.ngSubmit.emit()"
+              [disabled]="!f.valid"
+              routerLink=".."
+              class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
-      </a>
+      </button>
     </div>
 
     <a class="navbar-brand cl-text-white cl-text-bold" routerLink=".">
@@ -23,7 +24,7 @@
 </nav>
 
 <div class="container-fluid">
-  <form>
+  <form (ngSubmit)="updateYoutube()" #f="ngForm">
 
     <div class="form-group">
       <label for="youtube-name">Name</label>
@@ -47,13 +48,18 @@
 
     <div class="form-group">
       <label for="youtube-URL">URL</label>
-      <input [(ngModel)]="widget.url"
-             type="text"
+      <input type="text"
+             name="url"
              class="form-control"
              id="youtube-URL"
-             placeholder="URL"
-             [ngModelOptions]="{standalone: true}"/>
+             placeholder="{{widget.url}}"
+             ngModel required
+             #url="ngModel"/>
     </div>
+
+    <span class="help-block" *ngIf="!url.valid && url.touched">
+          Please enter URL!
+    </span>
 
     <div class="form-group">
       <label for="youtube-width">Width</label>

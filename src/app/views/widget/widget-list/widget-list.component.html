@@ -1,6 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
-
     <div class="navbar-text pull-left">
       <a routerLink="../.." class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
@@ -30,9 +29,7 @@
 
       <div *ngSwitchCase="'YOUTUBE'">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" width={{widget.width}}
-                  height="315"
-                  [src]=getUrl(widget.url)
+          <iframe [src]=getUrl(widget.url)
                   frameborder="0"
                   allowfullscreen></iframe>
           <a routerLink="./{{widget._id}}" class="pull-right">
@@ -42,15 +39,11 @@
       </div>
 
       <div *ngSwitchCase="'IMAGE'">
-          <a routerLink="./{{widget._id}}" class="pull-right">
-            <span class="glyphicon glyphicon-cog whiteBackground"></span>
-          </a>
-          <img class="img-responsive img-rounded cl-widget-images"
-               src="{{widget.url}}">
-      </div>
-
-      <div *ngSwitchCase="'HTML'">
-        {{widget.text}}
+        <a routerLink="./{{widget._id}}" class="pull-right">
+          <span class="glyphicon glyphicon-cog whiteBackground"></span>
+        </a>
+        <img class="img-responsive img-rounded cl-widget-images"
+             src="{{widget.url}}">
       </div>
 
     </div>
