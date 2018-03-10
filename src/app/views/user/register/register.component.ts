@@ -16,9 +16,9 @@ export class RegisterComponent implements OnInit {
   v_password: String;
 
   userErrorFlag: boolean;
-  userErrorMsg = 'The username already exists! Please use a different name.';
+  userErrorMsg: String;
   pwErrorFlag: boolean;
-  pwErrorMsg = 'Password mis-matching!';
+  pwErrorMsg: String;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -30,19 +30,30 @@ export class RegisterComponent implements OnInit {
     this.userErrorFlag = false;
     this.pwErrorFlag = false;
 
-    if (this.userService.findUserByUsername(this.user.username)) {
-      this.userErrorFlag = true;
-    } else if (this.v_password !== this.user.password) {
+    this.userService.findUserByUsername(this.user.username).subscribe(
+      (user: any) => {
+        if (typeof user._id !== 'undefined') {
+          this.userErrorFlag = true;
+          return;
+        }
+      });
+    if (this.v_password !== this.user.password) {
       this.pwErrorFlag = true;
     } else {
-      this.user = this.userService.createUser(this.user);
-      this.router.navigate(['/profile', this.user._id]);
+      this.userService.createUser(this.user).subscribe(
+        (data: User) => {
+          this.router.navigate(['/user', data._id]);
+        }
+      );
     }
   }
   cancel() {
     this.router.navigate(['/login']);
   }
   ngOnInit() {
+    this.userErrorMsg = 'The username already exists! Please use a different name.';
+    this.pwErrorMsg = 'Password mis-matching!';
+
     this.user = UserService.getNewUser();
   }
 

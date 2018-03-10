@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
     <div class="navbar-text pull-left">
-      <a routerLink="/profile/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
+      <a routerLink="/user/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
          class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
@@ -9,7 +9,7 @@
     <div class="navbar-text pull-right">
       <button (click)="f.ngSubmit.emit()"
               [disabled]="!f.valid"
-              routerLink="/profile/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
+              routerLink="/user/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
               class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </button>
@@ -84,7 +84,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid row">
     <div class="pull-right navbar-text">
-      <a routerLink="/profile/{{userId}}" class="cl-icon-padding">
+      <a routerLink="/user/{{userId}}" class="cl-icon-padding">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </div>

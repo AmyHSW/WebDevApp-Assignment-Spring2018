@@ -14,7 +14,6 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.1.0",
-    "@angular/cli": "1.6.4",
     "@angular/common": "^5.1.0",
     "@angular/compiler": "^5.1.0",
     "@angular/compiler-cli": "^5.1.0",
@@ -24,6 +23,7 @@
     "@angular/platform-browser": "^5.1.0",
     "@angular/platform-browser-dynamic": "^5.1.0",
     "@angular/router": "^5.1.0",
+    "body-parser": "^1.18.2",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
     "nodemon": "^1.14.11",
@@ -32,6 +32,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
+    "@angular/cli": "^1.7.3",
     "@angular/language-service": "^5.2.4",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",

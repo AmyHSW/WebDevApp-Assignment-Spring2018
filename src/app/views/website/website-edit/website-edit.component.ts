@@ -11,25 +11,50 @@ import {ActivatedRoute} from '@angular/router';
 export class WebsiteEditComponent implements OnInit {
 
   website: Website;
-  userId: String;
   websites: Website[] = [];
-  constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute) { }
+  constructor(private websiteService: WebsiteService,
+              private activatedRoute: ActivatedRoute) { }
 
   updateWebsite() {
-    console.log(this.website);
-    this.website = this.websiteService.updateWebsite(this.website._id, this.website);
+    this.websiteService.updateWebsite(this.website._id, this.website).subscribe(
+      (website: Website) => {
+        console.log(website);
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
   deleteWebsite() {
-    this.websiteService.deleteWebsite(this.website._id);
+    this.websiteService.deleteWebsite(this.website._id).subscribe(
+      (data: any) => {
+        console.log('deleted website');
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
-      this.userId = params['uid'];
-      this.website = this.websiteService.findWebsitesById(params['wid']);
+      this.websiteService.findWebsitesByUser(params['uid']).subscribe(
+        (websites: any) => {
+          this.websites = websites;
+        },
+        (error: any) => {
+          console.log(error);
+        });
+      this.websiteService.findWebsitesById(params['wid']).subscribe(
+        (website: Website) => {
+          this.website = website;
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
     });
-    this.websites = this.websiteService.findWebsitesByUser(this.userId);
   }
 
 }

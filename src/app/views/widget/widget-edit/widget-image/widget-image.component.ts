@@ -33,7 +33,11 @@ export class WidgetImageComponent implements OnInit {
     if (this.widgetId === undefined) {
       this.widget = WidgetService.getNewWidget();
     } else {
-      this.widget = this.widgetService.findWidgetById(this.widgetId);
+      this.widgetService.findWidgetById(this.widgetId).subscribe(
+        (widget: Widget) => {
+          this.widget = widget;
+        }
+      );
     }
   }
 
@@ -48,7 +52,11 @@ export class WidgetImageComponent implements OnInit {
     if (this.widgetId === undefined) {
       this.widget.widgetType = 'IMAGE';
       this.widget.pageId = this.pageId;
-      this.widget = this.widgetService.createWidget(this.pageId, this.widget);
+      this.widgetService.createWidget(this.pageId, this.widget).subscribe(
+        (widget: Widget) => {
+          this.widget = widget;
+        }
+      );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget);
     }

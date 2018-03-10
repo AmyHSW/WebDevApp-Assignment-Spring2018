@@ -26,6 +26,14 @@ export class PageNewComponent implements OnInit {
 
   createPage() {
     this.page.name = this.pageForm.value.name;
-    this.pageService.createWebsite(this.webId, this.page);
+    this.pageService.createPage(this.webId, this.page).subscribe(
+      (page: Page) => {
+        console.log('create page: ' + page._id + ' ' + page.name);
+        this.page = page;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 }

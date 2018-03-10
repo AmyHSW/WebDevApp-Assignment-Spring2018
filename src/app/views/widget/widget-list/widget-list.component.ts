@@ -13,7 +13,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class WidgetListComponent implements OnInit {
 
   widgets: Widget[] = [];
-  pageId: String;
 
   constructor(private widgetService: WidgetService,
               private activatedRoute: ActivatedRoute,
@@ -21,10 +20,15 @@ export class WidgetListComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
-      console.log(params['pid']);
-      this.pageId = params['pid'];
+      this.widgetService.findWidgetsByPageId(params['pid']).subscribe(
+        (widgets: any) => {
+          this.widgets = widgets;
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
     });
-    this.widgets = this.widgetService.findWidgetsByPageId(this.pageId);
   }
 
   getUrl(url: String) {

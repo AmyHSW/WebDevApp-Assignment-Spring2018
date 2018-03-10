@@ -11,7 +11,6 @@ import {Website} from '../../../models/website.model.client';
 
 export class WebsiteListComponent implements OnInit {
 
-  userId: String;
   websites: Website[] = [];
 
   constructor(
@@ -19,12 +18,16 @@ export class WebsiteListComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(
-      (params: any) => {
-        this.userId = params['uid'];
+    this.activatedRoute.params.subscribe((params: any) => {
+      return this.websiteService.findWebsitesByUser(params['uid']).subscribe(
+        (websites: any) => {
+          this.websites = websites;
+        },
+        (error: any) => {
+          console.log(error);
+        });
       }
     );
-    this.websites = this.websiteService.findWebsitesByUser(this.userId);
   }
 
 }

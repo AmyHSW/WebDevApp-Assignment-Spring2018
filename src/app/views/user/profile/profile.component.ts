@@ -12,8 +12,8 @@ import {User} from '../../../models/user.model.client';
 export class ProfileComponent implements OnInit {
 
   user: User;
-  updateFlag = false;
-  updateMsg = 'Profile updated!';
+  updateFlag: boolean;
+  updateMsg: String;
 
   constructor(
     private userService: UserService,
@@ -21,17 +21,32 @@ export class ProfileComponent implements OnInit {
     private router: Router) { }
 
   updateUser() {
-    this.user = this.userService.updateUser(this.user._id, this.user);
-    this.updateFlag = true;
+    this.userService.updateUser(this.user._id, this.user).subscribe(
+      (user: User) => {
+        this.user = user;
+        this.updateFlag = true;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
   logout() {
     this.router.navigate(['/login']);
   }
   ngOnInit() {
+    this.updateFlag = false;
+    this.updateMsg = 'Profile updated!';
+
     this.activatedRoute.params.subscribe((params: any) => {
-      console.log(params['uid']);
-      this.user = this.userService.findUserById(params['uid']);
+      return this.userService.findUserById(params['uid']).subscribe(
+        (user: User) => {
+          this.user = user;
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
     });
   }
-
 }
