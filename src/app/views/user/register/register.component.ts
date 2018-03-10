@@ -31,21 +31,19 @@ export class RegisterComponent implements OnInit {
     this.pwErrorFlag = false;
 
     this.userService.findUserByUsername(this.user.username).subscribe(
-      (user: any) => {
+      (user: User) => {
         if (typeof user._id !== 'undefined') {
           this.userErrorFlag = true;
-          return;
+        } else if (this.v_password !== this.user.password) {
+          this.pwErrorFlag = true;
+        } else {
+          return this.userService.createUser(this.user).subscribe(
+            (newUser: User) => {
+              this.router.navigate(['/user', newUser._id]);
+            }
+          );
         }
       });
-    if (this.v_password !== this.user.password) {
-      this.pwErrorFlag = true;
-    } else {
-      this.userService.createUser(this.user).subscribe(
-        (data: User) => {
-          this.router.navigate(['/user', data._id]);
-        }
-      );
-    }
   }
   cancel() {
     this.router.navigate(['/login']);
