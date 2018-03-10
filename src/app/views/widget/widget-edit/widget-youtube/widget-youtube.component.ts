@@ -41,21 +41,31 @@ export class WidgetYoutubeComponent implements OnInit {
 
   deleteYoutube() {
     if (this.widgetId !== undefined) {
-      this.widgetService.deleteWidget(this.widget._id);
-    }
+      this.widgetService.deleteWidget(this.widget._id).subscribe(
+        (data: any) => {
+          console.log('delete widget youtube');
+        },
+        (error: any) => console.log(error)
+      );    }
   }
   updateYoutube() {
     this.widget.url = this.youtubeForm.value.url;
     if (this.widgetId === undefined) {
-      this.widget.widgetType = 'YOUTUBE';
+      this.widget.type = 'YOUTUBE';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widget: Widget) => {
-          this.widget = widget;
-        }
+          console.log('create widget youtube: ' + widget._id + ' ' + widget.url);
+        },
+        (error: any) => console.log(error)
       );
     } else {
-      this.widgetService.updateWidget(this.widget._id, this.widget);
+      this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
+        (widget: Widget) => {
+          console.log('update widget youtube: ' + widget._id + ' ' + widget.url);
+        },
+        (error: any) => console.log(error)
+      );
     }
   }
 }

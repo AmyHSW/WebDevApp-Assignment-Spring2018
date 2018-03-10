@@ -11,7 +11,8 @@ export class WidgetService {
   baseUrl = environment.baseUrl;
 
   static getNewWidget() {
-    return new Widget(undefined, undefined, undefined);
+    return new Widget(undefined, undefined, undefined, undefined,
+      undefined, undefined, undefined, undefined);
   }
 
   createWidget(pageId: String, widget: Widget) {

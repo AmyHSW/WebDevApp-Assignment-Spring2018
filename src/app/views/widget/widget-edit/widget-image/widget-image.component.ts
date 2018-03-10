@@ -43,22 +43,32 @@ export class WidgetImageComponent implements OnInit {
 
   deleteImage() {
     if (this.widgetId !== undefined) {
-      this.widgetService.deleteWidget(this.widget._id);
-    }
+      this.widgetService.deleteWidget(this.widget._id).subscribe(
+        (data: any) => {
+          console.log('delete widget image');
+        },
+        (error: any) => console.log(error)
+      );    }
   }
 
   updateImage() {
     this.widget.url = this.imageForm.value.url;
     if (this.widgetId === undefined) {
-      this.widget.widgetType = 'IMAGE';
+      this.widget.type = 'IMAGE';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widget: Widget) => {
-          this.widget = widget;
-        }
+          console.log('create widget image: ' + widget._id + ' ' + widget.url);
+        },
+        (error: any) => console.log(error)
       );
     } else {
-      this.widgetService.updateWidget(this.widget._id, this.widget);
+      this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
+        (widget: Widget) => {
+          console.log('update widget image: ' + widget._id + ' ' + widget.url);
+        },
+        (error: any) => console.log(error)
+      );
     }
   }
 

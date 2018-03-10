@@ -20,7 +20,7 @@ export class WidgetListComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
-      this.widgetService.findWidgetsByPageId(params['pid']).subscribe(
+      return this.widgetService.findWidgetsByPageId(params['pid']).subscribe(
         (widgets: any) => {
           this.widgets = widgets;
         },

@@ -1,6 +1,6 @@
 export class Widget {
   _id: String;
-  widgetType: String;
+  type: String;
   pageId: String;
   size: String;
   text: String;
@@ -8,9 +8,9 @@ export class Widget {
   width: String;
   name: String;
 
-  constructor(_id, type, pageId, size= '', text = '', width = '', url = '', name = '') {
+  constructor(_id, type, pageId, size, text, width, url, name) {
     this._id = _id;
-    this.widgetType = type;
+    this.type = type;
     this.pageId = pageId;
     this.size = size;
     this.url = url;

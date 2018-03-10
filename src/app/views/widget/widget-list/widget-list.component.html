@@ -18,7 +18,7 @@
 
 <div class="container-fluid cl-container-padding">
   <div *ngFor="let widget of widgets">
-    <div [ngSwitch]="widget.widgetType">
+    <div [ngSwitch]="widget.type">
 
       <div *ngSwitchCase="'HEADER'">
         <a routerLink="./{{widget._id}}" class="pull-right">
@@ -65,7 +65,6 @@
       <a routerLink="." class="cl-icon-padding">
         <span class="glyphicon glyphicon-eye-open"></span>
       </a>
-
     </div>
   </div>
 </nav>

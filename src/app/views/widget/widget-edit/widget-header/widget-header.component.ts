@@ -44,20 +44,31 @@ export class WidgetHeadingComponent implements OnInit {
   updateWidget() {
     this.widget.text = this.headerForm.value.text;
     if (this.widgetId === undefined) {
-      this.widget.widgetType = 'HEADER';
+      this.widget.type = 'HEADER';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widget: Widget) => {
-          this.widget = widget;
-        }
+          console.log('create widget header: ' + widget._id + ' ' + widget.text);
+        },
+        (error: any) => console.log(error)
       );
     } else {
-      this.widgetService.updateWidget(this.widget._id, this.widget);
+      this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
+        (widget: Widget) => {
+          console.log('update widget header: ' + widget._id + ' ' + widget.text);
+        },
+        (error: any) => console.log(error)
+      );
     }
   }
   deleteWidget() {
     if (this.widgetId !== undefined) {
-      this.widgetService.deleteWidget(this.widget._id);
+      this.widgetService.deleteWidget(this.widget._id).subscribe(
+        (data: any) => {
+          console.log('delete widget header');
+        },
+        (error: any) => console.log(error)
+      );
     }
   }
 }

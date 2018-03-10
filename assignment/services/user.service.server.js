@@ -93,10 +93,13 @@ module.exports = function(app) {
 
   function deleteUser(req, res) {
     const userId = req.params['userId'];
-    const index = users.indexOf(findUserById(userId));
-    if (index > -1) {
-      console.log("delete user: " + userId);
-      users.splice(index, 1);
+    for (const i in users) {
+      if (users[i]._id === userId) {
+        const j = +i;
+        console.log('delete user: ' + userId);
+        users.splice(j, 1);
+        return;
+      }
     }
   }
 };

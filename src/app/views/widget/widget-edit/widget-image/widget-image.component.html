@@ -23,7 +23,7 @@
 <div class="container-fluid">
   <form (ngSubmit)="updateImage()" #f="ngForm">
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="widget">
       <label for="image-name">Name</label>
       <input [(ngModel)]="widget.name"
              name="name"
@@ -33,7 +33,7 @@
              placeholder="name"/>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="widget">
       <label for="image-text">Text</label>
       <input [(ngModel)]="widget.text"
              name="text"
@@ -49,7 +49,7 @@
              name="url"
              class="form-control"
              id="image-URL"
-             placeholder="{{widget.url}}"
+             placeholder="{{widget?.url}}"
              ngModel required
              #url="ngModel"/>
     </div>
@@ -58,7 +58,7 @@
           Please enter URL!
     </span>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="widget">
       <label for="image-width">Width</label>
       <input [(ngModel)]="widget.width"
              name="width"

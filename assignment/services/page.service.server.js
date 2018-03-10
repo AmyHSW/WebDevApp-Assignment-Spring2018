@@ -80,6 +80,7 @@ module.exports = function (app) {
         const j = +i;
         console.log('delete page: ' + pageId);
         pages.splice(j, 1);
+        return;
       }
     }
   }
