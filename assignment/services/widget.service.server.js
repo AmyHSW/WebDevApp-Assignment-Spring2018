@@ -81,6 +81,7 @@ module.exports = function (app) {
         const j = +i;
         console.log('delete widget: ' + widgetId);
         widgets.splice(j, 1);
+        res.json(widgetId);
         return;
       }
     }

@@ -3,7 +3,6 @@ import {Widget} from '../../../models/widget.model.client';
 import {WidgetService} from '../../../services/widget.service.client';
 import {ActivatedRoute} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
-import index from '@angular/cli/lib/cli';
 
 @Component({
   selector: 'app-widget-list',
