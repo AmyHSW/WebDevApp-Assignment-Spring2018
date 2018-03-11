@@ -59,4 +59,14 @@ export class WidgetService {
         }
       );
   }
+
+  reorderWidgets(pageId: String, startIndex: String, endIndex: String) {
+    return this._http.put(this.baseUrl + '/api/page/' + pageId
+      + '/widget?initial=' + startIndex + '&final=' + endIndex, {})
+      .map(
+        (res: Response) => {
+          return res.json();
+        }
+      );
+  }
 }

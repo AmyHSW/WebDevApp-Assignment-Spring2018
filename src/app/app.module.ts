@@ -29,6 +29,7 @@ import {WidgetService} from './services/widget.service.client';
 
 import {routing} from './app.routing';
 import {HttpModule} from '@angular/http';
+import { SortableDirective } from './sortable.directive';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {HttpModule} from '@angular/http';
     WidgetListComponent,
     WidgetYoutubeComponent,
     WidgetEditComponent,
+    SortableDirective,
   ],
   imports: [
     BrowserModule,

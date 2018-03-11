@@ -16,11 +16,15 @@
   </div>
 </nav>
 
-<div class="container-fluid cl-container-padding">
+<div id="sortable" class="container-fluid cl-container-padding" appSortable (newIndexes)="reorderItems($event)">
+
   <div *ngFor="let widget of widgets">
     <div [ngSwitch]="widget.type">
 
       <div *ngSwitchCase="'HEADER'">
+        <a routerLink="." class="pull-right">
+          <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
+        </a>
         <a routerLink="./{{widget._id}}" class="pull-right">
           <span class="glyphicon glyphicon-cog whiteBackground"></span>
         </a>
@@ -32,6 +36,9 @@
           <iframe [src]=getUrl(widget.url)
                   frameborder="0"
                   allowfullscreen></iframe>
+          <a routerLink="." class="pull-right">
+            <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
+          </a>
           <a routerLink="./{{widget._id}}" class="pull-right">
             <span class="glyphicon glyphicon-cog whiteBackground"></span>
           </a>
@@ -39,15 +46,20 @@
       </div>
 
       <div *ngSwitchCase="'IMAGE'">
+        <a routerLink="." class="pull-right">
+          <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
+        </a>
         <a routerLink="./{{widget._id}}" class="pull-right">
           <span class="glyphicon glyphicon-cog whiteBackground"></span>
         </a>
         <img class="img-responsive img-rounded cl-widget-images"
-             src="{{widget.url}}">
+             src="{{widget.url}}"
+             width="{{widget.width}}">
       </div>
 
     </div>
   </div>
+
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
