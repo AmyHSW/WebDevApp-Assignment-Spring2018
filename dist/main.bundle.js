@@ -992,7 +992,7 @@ module.exports = ""
 /***/ "./src/app/views/user/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-fixed-top cl-blue-navbar\">\n  <div class=\"container-fluid\">\n    <a class=\"cl-text-white navbar-brand cl-text-bold\" routerLink=\"/user/{{user?._id}}\">\n      Profile\n    </a>\n    <a (click)=\"updateUser()\"\n       routerLink=\"/user/{{user?._id}}\"\n       class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding\">\n      <span class=\"glyphicon glyphicon-ok\"></span>\n    </a>\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n\n  <div *ngIf=\"updateFlag\" class=\"alert alert-success\">\n    {{updateMsg}}\n  </div>\n\n  <form>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"username\">Username</label>\n      <input [(ngModel)]=\"user.username\"\n             id=\"username\"\n             type=\"text\"\n             class=\"form-control\"\n             placeholder=\"Username\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"email\">Email address</label>\n      <input [(ngModel)]=\"user.email\"\n             id=\"email\"\n             type=\"email\"\n             class=\"form-control\"\n             placeholder=\"alice@wonderland.com\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"first-name\">First Name</label>\n      <input [(ngModel)]=\"user.firstName\"\n             id=\"first-name\"\n             type=\"text\"\n             class=\"form-control\"\n             placeholder=\"Alice\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"last-name\">Last Name</label>\n      <input [(ngModel)]=\"user.lastName\"\n             id=\"last-name\"\n             type=\"text\"\n             class=\"form-control\"\n             placeholder=\"Wonderland\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <button class=\"btn btn-primary btn-block\"\n            routerLink=\"./website\">Websites</button>\n\n    <button class=\"btn btn-danger btn-block\"\n            routerLink=\"/login\">Logout</button>\n\n    <button class=\"btn btn-danger btn-block\"\n            (click)=\"delete()\"\n            type=\"button\">Delete</button>\n\n  </form>\n</div>\n\n<nav class=\"navbar navbar-fixed-bottom cl-blue-navbar\"></nav>\n"
+module.exports = "<nav class=\"navbar navbar-fixed-top cl-blue-navbar\">\n  <div class=\"container-fluid\">\n    <a class=\"cl-text-white navbar-brand cl-text-bold\" routerLink=\"/user/{{user?._id}}\">\n      Profile\n    </a>\n    <a (click)=\"updateUser()\"\n       routerLink=\"/user/{{user?._id}}\"\n       class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding\">\n      <span class=\"glyphicon glyphicon-ok\"></span>\n    </a>\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n\n  <div *ngIf=\"updateFlag\" class=\"alert alert-success\">\n    {{updateMsg}}\n  </div>\n\n  <div *ngIf=\"userErrorFlag\" class=\"alert alert-danger\">\n    {{userErrorMsg}}\n  </div>\n\n  <form>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"username\">Username</label>\n      <input [(ngModel)]=\"username\"\n             id=\"username\"\n             type=\"text\"\n             class=\"form-control\"\n             placeholder=\"Username\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"email\">Email address</label>\n      <input [(ngModel)]=\"user.email\"\n             id=\"email\"\n             type=\"email\"\n             class=\"form-control\"\n             placeholder=\"alice@wonderland.com\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"first-name\">First Name</label>\n      <input [(ngModel)]=\"user.firstName\"\n             id=\"first-name\"\n             type=\"text\"\n             class=\"form-control\"\n             placeholder=\"Alice\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <div class=\"form-group\" *ngIf=\"user\">\n      <label for=\"last-name\">Last Name</label>\n      <input [(ngModel)]=\"user.lastName\"\n             id=\"last-name\"\n             type=\"text\"\n             class=\"form-control\"\n             placeholder=\"Wonderland\"\n             [ngModelOptions]=\"{standalone: true}\"/>\n    </div>\n\n    <button class=\"btn btn-primary btn-block\"\n            routerLink=\"./website\">Websites</button>\n\n    <button class=\"btn btn-danger btn-block\"\n            routerLink=\"/login\">Logout</button>\n\n    <button class=\"btn btn-danger btn-block\"\n            (click)=\"delete()\"\n            type=\"button\">Delete</button>\n\n  </form>\n</div>\n\n<nav class=\"navbar navbar-fixed-bottom cl-blue-navbar\"></nav>\n"
 
 /***/ }),
 
@@ -1024,6 +1024,25 @@ var ProfileComponent = /** @class */ (function () {
     }
     ProfileComponent.prototype.updateUser = function () {
         var _this = this;
+        this.updateFlag = false;
+        this.userErrorFlag = false;
+        if (this.username !== this.user.username) {
+            this.userService.findUserByUsername(this.username).subscribe(function (user) {
+                if (typeof user._id !== 'undefined') {
+                    _this.userErrorFlag = true;
+                }
+                else {
+                    _this.user.username = _this.username;
+                    _this.update();
+                }
+            }, function (error) { return console.log(error); });
+        }
+        else {
+            this.update();
+        }
+    };
+    ProfileComponent.prototype.update = function () {
+        var _this = this;
         this.userService.updateUser(this.user._id, this.user).subscribe(function (user) {
             _this.user = user;
             _this.updateFlag = true;
@@ -1044,10 +1063,13 @@ var ProfileComponent = /** @class */ (function () {
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.updateFlag = false;
+        this.userErrorFlag = false;
         this.updateMsg = 'Profile updated!';
+        this.userErrorMsg = 'The username already exists! Please use a different name.';
         this.activatedRoute.params.subscribe(function (params) {
             return _this.userService.findUserById(params['uid']).subscribe(function (user) {
                 _this.user = user;
+                _this.username = _this.user.username;
             }, function (error) {
                 console.log(error);
             });
@@ -1169,7 +1191,7 @@ module.exports = ""
 /***/ "./src/app/views/website/website-edit/website-edit.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-fixed-top cl-blue-navbar\">\n  <div class=\"container-fluid row\">\n    <div class=\"col-xs-4\">\n\n      <p class=\"navbar-text pull-left\">\n        <a routerLink=\"..\" class=\"navbar-link cl-text-white\">\n          <span class=\"glyphicon glyphicon-chevron-left\"></span>\n        </a>\n      </p>\n\n      <a class=\"cl-text-white navbar-brand cl-text-bold hidden-xs\" routerLink=\"/user/{{userId}}/website\">\n        Websites\n      </a>\n\n      <a routerLink=\"../new\" class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding hidden-xs\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n      </a>\n\n    </div>\n\n    <div class=\"col-xs-8\">\n\n      <a class=\"cl-text-white navbar-brand cl-text-bold\" routerLink=\".\">\n        Edit Website\n      </a>\n\n      <a (click)=\"updateWebsite()\" routerLink=\"..\" class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding\">\n        <span class=\"glyphicon glyphicon-ok\"></span>\n      </a>\n\n    </div>\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n\n  <div class=\"col-xs-4 hidden-xs\">\n    <ul class=\"list-group cl-list-group-borderless\">\n      <li *ngFor=\"let website_li of websites\" class=\"list-group-item cl-list-item-borderless\">\n        <a routerLink=\"../{{website_li._id}}\">\n          <span class=\"glyphicon glyphicon-cog pull-right cl-icon-padding\"></span>\n        </a>\n        <a routerLink=\"../{{website_li._id}}/page\">\n          {{website_li.name}}\n        </a>\n      </li>\n    </ul>\n  </div>\n\n  <div class=\"col-xs-12 col-sm-8 col-md-8 col-lg-8\">\n    <form>\n      <div class=\"form-group\" *ngIf=\"website\">\n        <label for=\"website-name\">Website Name</label>\n        <input [(ngModel)]=\"website.name\"\n               type=\"text\"\n               class=\"form-control\"\n               id=\"website-name\"\n               placeholder=\"Blogger\"\n               [ngModelOptions]=\"{standalone: true}\">\n      </div>\n\n      <div class=\"form-group\" *ngIf=\"website\">\n        <label for=\"website-description\">Website Description</label>\n        <textarea [(ngModel)]=\"website.description\"\n                  id=\"website-description\"\n                  class=\"form-control\"\n                  rows=\"5\"\n                  placeholder=\"Blog is a blog-publishing service.\"\n                  [ngModelOptions]=\"{standalone: true}\"></textarea>\n      </div>\n\n      <br/>\n      <a class=\"btn btn-danger btn-block\"\n         (click)=\"deleteWebsite()\"\n         routerLink=\"..\">Delete</a>\n    </form>\n  </div>\n</div>\n\n<nav class=\"navbar navbar-fixed-bottom cl-blue-navbar\">\n  <div class=\"container-fuild\">\n    <a routerLink=\"../..\" class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding\">\n      <span class=\"glyphicon glyphicon-user\"></span>\n    </a>\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-fixed-top cl-blue-navbar\">\n  <div class=\"container-fluid row\">\n    <div class=\"col-xs-4\">\n\n      <p class=\"navbar-text pull-left\">\n        <a routerLink=\"..\" class=\"navbar-link cl-text-white\">\n          <span class=\"glyphicon glyphicon-chevron-left\"></span>\n        </a>\n      </p>\n\n      <a class=\"cl-text-white navbar-brand cl-text-bold hidden-xs\" routerLink=\"..\">\n        Websites\n      </a>\n\n      <a routerLink=\"../new\" class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding hidden-xs\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n      </a>\n\n    </div>\n\n    <div class=\"col-xs-8\">\n\n      <a class=\"cl-text-white navbar-brand cl-text-bold\" routerLink=\".\">\n        Edit Website\n      </a>\n\n      <a (click)=\"updateWebsite()\" routerLink=\"..\" class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding\">\n        <span class=\"glyphicon glyphicon-ok\"></span>\n      </a>\n\n    </div>\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n\n  <div class=\"col-xs-4 hidden-xs\">\n    <ul class=\"list-group cl-list-group-borderless\">\n      <li *ngFor=\"let website_li of websites\" class=\"list-group-item cl-list-item-borderless\">\n        <a routerLink=\"../{{website_li._id}}\">\n          <span class=\"glyphicon glyphicon-cog pull-right cl-icon-padding\"></span>\n        </a>\n        <a routerLink=\"../{{website_li._id}}/page\">\n          {{website_li.name}}\n        </a>\n      </li>\n    </ul>\n  </div>\n\n  <div class=\"col-xs-12 col-sm-8 col-md-8 col-lg-8\">\n    <form>\n      <div class=\"form-group\" *ngIf=\"website\">\n        <label for=\"website-name\">Website Name</label>\n        <input [(ngModel)]=\"website.name\"\n               type=\"text\"\n               class=\"form-control\"\n               id=\"website-name\"\n               placeholder=\"Blogger\"\n               [ngModelOptions]=\"{standalone: true}\">\n      </div>\n\n      <div class=\"form-group\" *ngIf=\"website\">\n        <label for=\"website-description\">Website Description</label>\n        <textarea [(ngModel)]=\"website.description\"\n                  id=\"website-description\"\n                  class=\"form-control\"\n                  rows=\"5\"\n                  placeholder=\"Blog is a blog-publishing service.\"\n                  [ngModelOptions]=\"{standalone: true}\"></textarea>\n      </div>\n\n      <br/>\n      <a class=\"btn btn-danger btn-block\"\n         (click)=\"deleteWebsite()\"\n         routerLink=\"..\">Delete</a>\n    </form>\n  </div>\n</div>\n\n<nav class=\"navbar navbar-fixed-bottom cl-blue-navbar\">\n  <div class=\"container-fuild\">\n    <a routerLink=\"../..\" class=\"navbar-link navbar-text pull-right cl-text-white cl-icon-padding\">\n      <span class=\"glyphicon glyphicon-user\"></span>\n    </a>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -2103,9 +2125,13 @@ var WidgetListComponent = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+// The file contents for the current environment will overwrite these during build.
+// The build system defaults to the dev environment which uses `environment.ts`, but if you do
+// `ng build --env=prod` then `environment.prod.ts` will be used instead.
+// The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
-    production: true,
-    baseUrl: 'http://cs5610-shuwan-huang.herokuapp.com'
+    production: false,
+    baseUrl: 'http://localhost:3100'
 };
 
 

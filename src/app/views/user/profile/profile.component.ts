@@ -12,8 +12,11 @@ import {User} from '../../../models/user.model.client';
 export class ProfileComponent implements OnInit {
 
   user: User;
+  username: String;
   updateFlag: boolean;
   updateMsg: String;
+  userErrorFlag: boolean;
+  userErrorMsg: String;
 
   constructor(
     private userService: UserService,
@@ -21,6 +24,26 @@ export class ProfileComponent implements OnInit {
     private router: Router) { }
 
   updateUser() {
+    this.updateFlag = false;
+    this.userErrorFlag = false;
+    if (this.username !== this.user.username) {
+      this.userService.findUserByUsername(this.username).subscribe(
+        (user: User) => {
+          if (typeof user._id !== 'undefined') {
+            this.userErrorFlag = true;
+          } else {
+            this.user.username = this.username;
+            this.update();
+          }
+        },
+        (error: any) => console.log(error)
+      );
+    } else {
+      this.update();
+    }
+
+  }
+  update() {
     this.userService.updateUser(this.user._id, this.user).subscribe(
       (user: User) => {
         this.user = user;
@@ -45,12 +68,15 @@ export class ProfileComponent implements OnInit {
   }
   ngOnInit() {
     this.updateFlag = false;
+    this.userErrorFlag = false;
     this.updateMsg = 'Profile updated!';
+    this.userErrorMsg = 'The username already exists! Please use a different name.';
 
     this.activatedRoute.params.subscribe((params: any) => {
       return this.userService.findUserById(params['uid']).subscribe(
         (user: User) => {
           this.user = user;
+          this.username = this.user.username;
         },
         (error: any) => {
           console.log(error);

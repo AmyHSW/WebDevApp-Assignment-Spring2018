@@ -17,11 +17,15 @@
     {{updateMsg}}
   </div>
 
+  <div *ngIf="userErrorFlag" class="alert alert-danger">
+    {{userErrorMsg}}
+  </div>
+
   <form>
 
     <div class="form-group" *ngIf="user">
       <label for="username">Username</label>
-      <input [(ngModel)]="user.username"
+      <input [(ngModel)]="username"
              id="username"
              type="text"
              class="form-control"
