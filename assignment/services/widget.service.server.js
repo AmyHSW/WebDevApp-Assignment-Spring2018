@@ -1,11 +1,19 @@
 module.exports = function (app) {
 
+  var _path = require('path');
+
+  var multer = require('multer'); // npm install multer --save
+  var upload = multer({ dest: __dirname + '/../../src/assets/uploads' });
+
   app.post("/api/page/:pageId/widget", createWidget);
   app.get("/api/page/:pageId/widget", findAllWidgetsForPage);
   app.get("/api/widget/:widgetId", findWidgetById);
   app.put("/api/widget/:widgetId", updateWidget);
   app.delete("/api/widget/:widgetId", deleteWidget);
   app.put("/api/page/:pageId/widget?", reorderWidgets);
+
+  //UPLOAD
+  app.post ("/api/upload", upload.single('myFile'), uploadImage);
 
   const widgets = [
     {_id: '1', type: 'HEADER', pageId: '321', size: '2', text: 'GIZMODO'},
@@ -93,5 +101,42 @@ module.exports = function (app) {
     const endIndex = parseInt(req.query.final);
     widgets.splice(endIndex, 0, widgets.splice(startIndex, 1)[0]);
     res.json(200);
+  }
+
+  function uploadImage(req, res) {
+    const userId = req.body.userId;
+    const websiteId = req.body.websiteId;
+    const pageId = req.body.pageId;
+
+    const widgetId = req.body.widgetId;
+    const width = req.body.width;
+    const myFile = req.file;
+
+    console.log(req.file);
+
+    //const callbackUrl = "http://localhost:3100/user/" + userId + "/website/" + websiteId
+    //  + "/page/" + pageId + "/widget";
+
+    if(myFile == null) {
+      res.redirect("..");
+      // res.redirect(callbackUrl + "/" + widgetId);
+      return;
+    }
+
+    const originalname = myFile.originalname; // file name on user's computer
+    const filename = myFile.filename;     // new file name in upload folder
+    const path = myFile.path;         // full path of uploaded file
+    const destination = myFile.destination;  // folder where file is saved to
+    const size = myFile.size;
+    const mimetype = myFile.mimetype;
+
+    for (let i = 0; i < widgets.length; i++) {
+      if (widgets[i]._id === widgetId) {
+        widgets[i].url = _path.resolve("./src/assets/uploads/" + filename);
+        break;
+      }
+    }
+
+    res.redirect(callbackUrl);
   }
 };

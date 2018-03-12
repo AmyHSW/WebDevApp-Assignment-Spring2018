@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
     <div class="navbar-text pull-left">
-      <a routerLink="/user/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
+      <a routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
          class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
@@ -9,7 +9,7 @@
     <div class="navbar-text pull-right">
       <button (click)="f.ngSubmit.emit()"
               [disabled]="!f.valid"
-              routerLink="/user/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
+              routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
               class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </button>
@@ -68,13 +68,25 @@
              placeholder="100%"/>
     </div>
 
-    <div class="form-group">
+    <form ngNoForm action="{{baseUrl}}/api/upload" method="post" enctype="multipart/form-data">
+      <input  name="myFile"   type="file" class="form-control"/>
+      <input  name="widgetId" value="{{widgetId}}"   style="display: none"/>
+      <input  name="websiteId" value="{{websiteId}}"   style="display: none"/>
+      <input  name="pageId" value="{{pageId}}"   style="display: none"/>
+      <input  name="userId" value="{{userId}}"   style="display: none"/>
+      <button type="submit" class="btn btn-block btn-primary">Upload Image</button>
+      <br/>
+    </form>
+
+
+<!--    <div class="form-group">
       <label for="exampleInputFile">Upload</label>
       <input type="file" class="form-control" id="exampleInputFile">
     </div>
 
     <button class="btn btn-primary btn-block"
-            routerLink=".">Upload Image</button>
+            routerLink=".">Upload Image</button>-->
+
     <button class="btn btn-danger  btn-block"
             (click)="deleteImage()"
             routerLink="..">Delete</button>
