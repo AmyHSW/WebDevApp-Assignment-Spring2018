@@ -152,9 +152,10 @@ module.exports = function (app) {
 
     console.log(req.file);
 
-    const callbackUrl = "http://localhost:3100/user/" + userId + "/website/" + websiteId
+    // const callbackUrl = "http://localhost:3100/user/" + userId + "/website/" + websiteId
+    //   + "/page/" + pageId + "/widget";
+    const callbackUrl = "http://cs5610-shuwan-huang.herokuapp.com/user/" + userId + "/website/" + websiteId
       + "/page/" + pageId + "/widget";
-
     if(myFile == null) {
       res.redirect(callbackUrl + '/' + widgetId);
       return;
