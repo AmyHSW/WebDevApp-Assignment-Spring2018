@@ -70,14 +70,50 @@ module.exports = function (app) {
       if (widgets[i]._id === widgetId) {
         console.log(req.body);
         console.log("update widget: " + widgetId);
-
-        widgets[i].name = widget.name;
-        widgets[i].text = widget.text;
-        widgets[i].size = widget.size;
-        widgets[i].url = widget.url;
-        widgets[i].width = widget.width;
-        res.status(200).send(widget);
-        return;
+        switch (widgets[i].type) {
+          case 'HEADER':
+            widgets[i].name = widget.name;
+            widgets[i].text = widget.text;
+            widgets[i].size = widget.size;
+            widgets[i].url = "";
+            widgets[i].width = "";
+            res.status(200).send(widgets[i]);
+            return;
+          case 'IMAGE':
+            widgets[i].name = widget.name;
+            widgets[i].text = widget.text;
+            widgets[i].size = "";
+            widgets[i].url = widget.url;
+            widgets[i].width = widget.width;
+            res.status(200).send(widgets[i]);
+            return;
+          case 'YOUTUBE':
+            widgets[i].name = widget.name;
+            widgets[i].text = widget.text;
+            widgets[i].size = "";
+            widgets[i].url = widget.url;
+            widgets[i].width = widget.width;
+            res.status(200).send(widgets[i]);
+            return;
+          case 'HTML':
+            widgets[i].name = widget.name;
+            widgets[i].text = widget.text;
+            widgets[i].size = "";
+            widgets[i].url = "";
+            widgets[i].width = "";
+            res.status(200).send(widgets[i]);
+            return;
+          case 'TEXT':
+            widgets[i].name = widget.name;
+            widgets[i].text = widget.text;
+            widgets[i].size = widget.size;
+            widgets[i].url = "";
+            widgets[i].width = "";
+            res.status(200).send(widgets[i]);
+            return;
+          default:
+            res.status(404).send("widget type not supported");
+        }
       }
     }
     res.status(404).send("not found!");  }

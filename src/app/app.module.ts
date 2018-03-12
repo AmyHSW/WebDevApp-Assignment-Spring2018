@@ -30,6 +30,8 @@ import {WidgetService} from './services/widget.service.client';
 import {routing} from './app.routing';
 import {HttpModule} from '@angular/http';
 import { SortableDirective } from './sortable.directive';
+import { WidgetHtmlComponent } from './views/widget/widget-edit/widget-html/widget-html.component';
+import { WidgetTextComponent } from './views/widget/widget-edit/widget-text/widget-text.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { SortableDirective } from './sortable.directive';
     WidgetYoutubeComponent,
     WidgetEditComponent,
     SortableDirective,
+    WidgetHtmlComponent,
+    WidgetTextComponent,
   ],
   imports: [
     BrowserModule,
