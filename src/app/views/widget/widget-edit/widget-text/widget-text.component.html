@@ -66,18 +66,14 @@
     </div>
 
     <div class="input-group" *ngIf="widget">
-      <label>
-        <input type="text"
-               readonly
-               value="Formatted"
-               class="form-control"/>
-      </label>
+      <input type="text"
+             readonly
+             value="Formatted"
+             class="form-control"/>
       <span class="input-group-addon">
-        <label>
-          <input [(ngModel)]="widget.formatted"
-                 type="checkbox"
-                 [ngModelOptions]="{standalone: true}"/>
-        </label>
+        <input [(ngModel)]="widget.formatted"
+               type="checkbox"
+               [ngModelOptions]="{standalone: true}"/>
       </span>
     </div>
 

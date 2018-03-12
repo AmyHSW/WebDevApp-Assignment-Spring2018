@@ -27,21 +27,7 @@ app.set('port', port);
 // Create HTTP server
 const server = http.createServer(app);
 
-//var serverSide = require("./server/test-mongodb/app");
-//serverSide(app);
-
-// app.post('/api/user', function (req, res) {
-//   res.send();
-// });
-// app.get('/api/user/:userId', function (req, res) {
-//   res.send();
-// });
-// app.put('/api/user/:userId', function (req, res) {
-//   res.send();
-// });
-
 require('./assignment/app.js')(app);
-//app.listen(port);
 
 // For Build: Catch all other routes and return the index file -- BUILDING
 app.get('*', function (req, res) {
