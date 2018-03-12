@@ -42,7 +42,7 @@ export class WidgetYoutubeComponent implements OnInit {
   deleteYoutube() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: any) => {
+        (data: Widget) => {
           console.log('delete widget youtube');
         },
         (error: any) => console.log(error)

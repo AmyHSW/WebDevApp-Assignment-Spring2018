@@ -25,9 +25,10 @@ export class PageEditComponent implements OnInit {
   }
   deletePage() {
     this.pageService.deletePage(this.page._id).subscribe(
-      (data: any) => {
-        console.log('delete page');
-      }
+      (data: Page) => {
+        console.log('delete page: ' + this.page._id);
+      },
+      (error: any) => console.log(error)
     );
   }
   ngOnInit() {

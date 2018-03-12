@@ -87,9 +87,9 @@ module.exports = function (app) {
     for (const i in widgets) {
       if (widgets[i]._id === widgetId) {
         const j = +i;
+        res.json(widgets[i]);
         console.log('delete widget: ' + widgetId);
         widgets.splice(j, 1);
-        res.json(widgetId);
         return;
       }
     }

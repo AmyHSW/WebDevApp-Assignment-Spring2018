@@ -78,6 +78,7 @@ module.exports = function (app) {
     for (const i in pages) {
       if (pages[i]._id === pageId) {
         const j = +i;
+        res.json(pages[i]);
         console.log('delete page: ' + pageId);
         pages.splice(j, 1);
         return;

@@ -28,8 +28,8 @@ export class WebsiteEditComponent implements OnInit {
 
   deleteWebsite() {
     this.websiteService.deleteWebsite(this.website._id).subscribe(
-      (data: any) => {
-        console.log('deleted website');
+      (data: Website) => {
+        console.log('deleted website: ' + data._id);
       },
       (error: any) => {
         console.log(error);

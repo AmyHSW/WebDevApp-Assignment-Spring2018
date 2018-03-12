@@ -46,7 +46,7 @@ export class WidgetImageComponent implements OnInit {
   deleteImage() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: any) => {
+        (data: Widget) => {
           console.log('delete widget image');
         },
         (error: any) => console.log(error)

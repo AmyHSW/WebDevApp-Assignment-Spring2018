@@ -64,7 +64,7 @@ export class WidgetHeadingComponent implements OnInit {
   deleteWidget() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: any) => {
+        (data: Widget) => {
           console.log('delete widget header');
         },
         (error: any) => console.log(error)

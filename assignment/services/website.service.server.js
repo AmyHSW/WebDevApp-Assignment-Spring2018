@@ -78,6 +78,7 @@ module.exports = function (app) {
     for (const i in websites) {
       if (websites[i]._id === websiteId) {
         const j = +i;
+        res.json(websites[i]);
         console.log('delete website: ' + websiteId);
         websites.splice(j, 1);
         return;
