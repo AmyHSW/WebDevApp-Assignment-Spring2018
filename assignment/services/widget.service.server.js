@@ -114,12 +114,11 @@ module.exports = function (app) {
 
     console.log(req.file);
 
-    //const callbackUrl = "http://localhost:3100/user/" + userId + "/website/" + websiteId
-    //  + "/page/" + pageId + "/widget";
+    const callbackUrl = "http://localhost:3100/user/" + userId + "/website/" + websiteId
+      + "/page/" + pageId + "/widget";
 
     if(myFile == null) {
-      res.redirect("..");
-      // res.redirect(callbackUrl + "/" + widgetId);
+      res.redirect(callbackUrl + "/" + widgetId);
       return;
     }
 

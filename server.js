@@ -43,9 +43,9 @@ require('./assignment/app.js')(app);
 //app.listen(port);
 
 // For Build: Catch all other routes and return the index file -- BUILDING
-// app.get('*', function (req, res) {
-//   res.sendFile(path.join(__dirname, 'dist/index.html'));
-// });
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 
 server.listen( port , function() {
   console.log('Node app is running on port', app.get('port'))});
