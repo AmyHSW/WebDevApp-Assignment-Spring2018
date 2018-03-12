@@ -2,16 +2,14 @@
   <div class="container-fluid row">
 
     <div class="navbar-text pull-left">
-      <a routerLink="/user/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
+      <a [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']"
          class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
 
     <div class="navbar-text pull-right">
-      <button (click)="f.ngSubmit.emit()"
-              [disabled]="!f.valid"
-              routerLink="/user/{{userId}}/website/{{webId}}/page/{{pageId}}/widget"
+      <button (click)="updateYoutube()"
               class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </button>
@@ -25,7 +23,12 @@
 </nav>
 
 <div class="container-fluid">
-  <form (ngSubmit)="updateYoutube()" #f="ngForm">
+
+  <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
+  </div>
+
+  <form>
 
     <div class="form-group" *ngIf="widget">
       <label for="youtube-name">Name</label>
@@ -47,20 +50,15 @@
              [ngModelOptions]="{standalone: true}"/>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="widget">
       <label for="youtube-URL">URL</label>
-      <input type="text"
-             name="url"
+      <input [(ngModel)]="widget.url"
+             type="text"
              class="form-control"
              id="youtube-URL"
-             placeholder="{{widget?.url}}"
-             ngModel required
-             #url="ngModel"/>
+             placeholder="URL"
+             [ngModelOptions]="{standalone: true}"/>
     </div>
-
-    <span class="help-block" *ngIf="!url.valid && url.touched">
-          Please enter URL!
-    </span>
 
     <div class="form-group" *ngIf="widget">
       <label for="youtube-width">Width</label>
@@ -73,15 +71,14 @@
     </div>
 
     <button class="btn btn-danger btn-block"
-            (click)="deleteYoutube()"
-            routerLink="..">Delete</button>
+            (click)="deleteYoutube()">Delete</button>
   </form>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid row">
     <div class="pull-right navbar-text">
-      <a routerLink="/user/{{userId}}" class="cl-icon-padding">
+      <a [routerLink]="['/user', userId]" class="cl-icon-padding">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </div>

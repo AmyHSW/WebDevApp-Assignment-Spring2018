@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
 import {Widget} from '../../../../models/widget.model.client';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-widget-text',
@@ -10,17 +9,22 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./widget-text.component.css']
 })
 export class WidgetTextComponent implements OnInit {
-  @ViewChild('f') textForm: NgForm;
 
   widgetId: String;
   pageId: String;
   websiteId: String;
   userId: String;
   widget: Widget;
+  errorFlag: Boolean;
+  errorMsg: String;
 
-  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
+  constructor(private widgetService: WidgetService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
+    this.errorFlag = false;
+    this.errorMsg = 'Please enter name!';
     this.activatedRoute.params.subscribe((params: any) => {
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
@@ -47,26 +51,35 @@ export class WidgetTextComponent implements OnInit {
         (error: any) => console.log(error)
       );
     }
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
   update() {
-    this.widget.text = this.textForm.value.text;
+    if (this.widget.name === undefined) {
+      this.errorFlag = true;
+      return;
+    }
     if (this.widgetId === undefined) {
       this.widget.type = 'TEXT';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widget: Widget) => {
-          console.log('create widget text: ' + widget._id + ' ' + widget.url);
+          console.log('create widget text: ' + widget._id + ', name: ' + widget.name
+            + ', text: ' + widget.text + ', rows: ' + widget.rows + ', placeholder: '
+            + widget.placeholder + ', formatted: ' + widget.formatted);
         },
         (error: any) => console.log(error)
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
         (widget: Widget) => {
-          console.log('update widget text: ' + widget._id + ' ' + widget.url);
+          console.log('update widget text: ' + widget._id + ', name: ' + widget.name
+            + ', text: ' + widget.text + ', rows: ' + widget.rows + ', placeholder: '
+            + widget.placeholder + ', formatted: ' + widget.formatted);
         },
         (error: any) => console.log(error)
       );
     }
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 
 }

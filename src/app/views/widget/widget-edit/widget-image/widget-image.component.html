@@ -1,15 +1,13 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
     <div class="navbar-text pull-left">
-      <a routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
+      <a [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']"
          class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <button (click)="f.ngSubmit.emit()"
-              [disabled]="!f.valid"
-              routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
+      <button (click)="updateImage()"
               class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </button>
@@ -21,7 +19,12 @@
 </nav>
 
 <div class="container-fluid">
-  <form (ngSubmit)="updateImage()" #f="ngForm">
+
+  <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
+  </div>
+
+  <form>
 
     <div class="form-group" *ngIf="widget">
       <label for="image-name">Name</label>
@@ -43,17 +46,6 @@
              placeholder="Text"/>
     </div>
 
-<!--    <div class="form-group">
-      <label for="image-URL">URL</label>
-      <input type="text"
-             name="url"
-             class="form-control"
-             id="image-URL"
-             placeholder="{{widget?.url}}"
-             ngModel required
-             #url="ngModel"/>
-    </div>-->
-
     <div class="form-group" *ngIf="widget">
       <label for="image-url">URL</label>
       <input [(ngModel)]="widget.url"
@@ -63,10 +55,6 @@
              id="image-url"
              placeholder="url"/>
     </div>
-
-<!--    <span class="help-block" *ngIf="!url.valid && url.touched">
-          Please enter URL!
-    </span>-->
 
     <div class="form-group" *ngIf="widget">
       <label for="image-width">Width</label>
@@ -92,15 +80,14 @@
     </form>
 
     <button class="btn btn-danger  btn-block"
-            (click)="deleteImage()"
-            routerLink="..">Delete</button>
+            (click)="deleteImage()">Delete</button>
   </form>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid row">
     <div class="pull-right navbar-text">
-      <a routerLink="/user/{{userId}}" class="cl-icon-padding">
+      <a [routerLink]="['/user', userId]" class="cl-icon-padding">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </div>

@@ -7,9 +7,7 @@
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <button (click)="f.ngSubmit.emit()"
-              [disabled]="!f.valid"
-              routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
+      <button (click)="update()"
               class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </button>
@@ -21,7 +19,12 @@
 </nav>
 
 <div class="container-fluid">
-  <form (ngSubmit)="update()" #f="ngForm">
+
+  <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
+  </div>
+
+  <form>
 
     <div class="form-group" *ngIf="widget">
       <label for="heading-name">Name</label>
@@ -34,23 +37,17 @@
     </div>
 
     <div class="form-group">
-      <label for="text">Text</label>
-      <input type="text"
-             name="text"
+      <label for="html-text">Text</label>
+      <input [(ngModel)]="widget.text"
+             type="text"
              class="form-control"
-             id="text"
-             placeholder="{{widget?.text}}"
-             ngModel required
-             #text="ngModel"/>
+             id="html-text"
+             placeholder="text"
+             [ngModelOptions]="{standalone: true}"/>
     </div>
 
-    <span class="help-block" *ngIf="!text.valid && text.touched">
-          Please enter text!
-    </span>
-
     <button class="btn btn-danger btn-block"
-            (click)="delete()"
-            routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget">Delete</button>
+            (click)="delete()">Delete</button>
 
   </form>
 </div>
@@ -58,7 +55,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid row">
     <div class="pull-right navbar-text">
-      <a routerLink="/user/{{userId}}" class="cl-icon-padding">
+      <a [routerLink]="['/user', userId]" class="cl-icon-padding">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </div>

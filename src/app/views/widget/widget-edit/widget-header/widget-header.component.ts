@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Widget} from '../../../../models/widget.model.client';
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-widget-heading',
@@ -11,23 +10,27 @@ import {NgForm} from '@angular/forms';
 })
 
 export class WidgetHeadingComponent implements OnInit {
-@ViewChild('f') headerForm: NgForm;
 
   widgetId: String;
   pageId: String;
-  webId: String;
+  websiteId: String;
   userId: String;
   widget: Widget;
+  errorFlag: Boolean;
+  errorMsg: String;
 
   constructor(private widgetService: WidgetService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
+    this.errorFlag = false;
+    this.errorMsg = 'Please enter text!';
     this.activatedRoute.params.subscribe((params: any) => {
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
       this.pageId = params['pid'];
-      this.webId = params['wid'];
+      this.websiteId = params['wid'];
       this.userId = params['uid'];
     });
     if (this.widgetId === undefined) {
@@ -42,24 +45,28 @@ export class WidgetHeadingComponent implements OnInit {
   }
 
   updateWidget() {
-    this.widget.text = this.headerForm.value.text;
+    if (this.widget.text === undefined) {
+      this.errorFlag = true;
+      return;
+    }
     if (this.widgetId === undefined) {
       this.widget.type = 'HEADER';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widget: Widget) => {
-          console.log('create widget header: ' + widget._id + ' ' + widget.text);
-        },
+          console.log('create widget header: ' + widget._id + ', name: ' + widget.name
+            + ', text: ' + widget.text + ', size: ' + widget.size);        },
         (error: any) => console.log(error)
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
         (widget: Widget) => {
-          console.log('update widget header: ' + widget._id + ' ' + widget.text);
-        },
+          console.log('update widget header: ' + widget._id + ', name: ' + widget.name
+            + ', text: ' + widget.text + ', size: ' + widget.size);        },
         (error: any) => console.log(error)
       );
     }
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
   deleteWidget() {
     if (this.widgetId !== undefined) {
@@ -70,5 +77,6 @@ export class WidgetHeadingComponent implements OnInit {
         (error: any) => console.log(error)
       );
     }
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 }

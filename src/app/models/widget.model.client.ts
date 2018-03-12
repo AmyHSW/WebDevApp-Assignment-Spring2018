@@ -7,8 +7,11 @@ export class Widget {
   url: String;
   width: String;
   name: String;
+  formatted: Boolean;
+  rows: number;
+  placeholder: String;
 
-  constructor(_id, type, pageId, size, text, width, url, name) {
+  constructor(_id, type, pageId, size, text, width, url, name, formatted = false, rows = 1, placeholder = 'placeholder') {
     this._id = _id;
     this.type = type;
     this.pageId = pageId;
@@ -17,5 +20,8 @@ export class Widget {
     this.width = width;
     this.name = name;
     this.text = text;
+    this.formatted = formatted;
+    this.rows = rows;
+    this.placeholder = placeholder;
   }
 }

@@ -1,15 +1,15 @@
 module.exports = function (app) {
 
-  var _path = require('path');
-
-  var multer = require('multer'); // npm install multer --save
-  var upload = multer({ dest: __dirname + '/../../src/assets/uploads' });
+  const multer = require('multer'); // npm install multer --save
+  const upload = multer({dest: __dirname + '/../../src/assets/uploads'});
+  const baseUrl = "";
 
   app.post("/api/page/:pageId/widget", createWidget);
   app.get("/api/page/:pageId/widget", findAllWidgetsForPage);
   app.get("/api/widget/:widgetId", findWidgetById);
   app.put("/api/widget/:widgetId", updateWidget);
   app.delete("/api/widget/:widgetId", deleteWidget);
+
   app.put("/api/page/:pageId/widget?", reorderWidgets);
 
   //UPLOAD
@@ -30,6 +30,7 @@ module.exports = function (app) {
   function createWidget(req, res) {
     const widget = req.body;
     widget._id = (new Date()).getTime().toString();
+    console.log(req.body);
     console.log('create new widget: ' + widget._id);
     widgets.push(widget);
     res.json(widget);
@@ -77,6 +78,9 @@ module.exports = function (app) {
             widgets[i].size = widget.size;
             widgets[i].url = "";
             widgets[i].width = "";
+            widgets[i].rows = "";
+            widgets[i].placeholder = "";
+            widgets[i].formatted = "";
             res.status(200).send(widgets[i]);
             return;
           case 'IMAGE':
@@ -85,6 +89,9 @@ module.exports = function (app) {
             widgets[i].size = "";
             widgets[i].url = widget.url;
             widgets[i].width = widget.width;
+            widgets[i].rows = "";
+            widgets[i].placeholder = "";
+            widgets[i].formatted = "";
             res.status(200).send(widgets[i]);
             return;
           case 'YOUTUBE':
@@ -93,6 +100,9 @@ module.exports = function (app) {
             widgets[i].size = "";
             widgets[i].url = widget.url;
             widgets[i].width = widget.width;
+            widgets[i].rows = "";
+            widgets[i].placeholder = "";
+            widgets[i].formatted = "";
             res.status(200).send(widgets[i]);
             return;
           case 'HTML':
@@ -101,12 +111,18 @@ module.exports = function (app) {
             widgets[i].size = "";
             widgets[i].url = "";
             widgets[i].width = "";
+            widgets[i].rows = "";
+            widgets[i].placeholder = "";
+            widgets[i].formatted = "";
             res.status(200).send(widgets[i]);
             return;
           case 'TEXT':
             widgets[i].name = widget.name;
             widgets[i].text = widget.text;
-            widgets[i].size = widget.size;
+            widgets[i].rows = widget.rows;
+            widgets[i].placeholder = widget.placeholder;
+            widgets[i].formatted = widget.formatted;
+            widgets[i].size = "";
             widgets[i].url = "";
             widgets[i].width = "";
             res.status(200).send(widgets[i]);
@@ -152,9 +168,7 @@ module.exports = function (app) {
 
     console.log(req.file);
 
-    // const callbackUrl = "http://localhost:3100/user/" + userId + "/website/" + websiteId
-    //   + "/page/" + pageId + "/widget";
-    const callbackUrl = "https://cs5610-webdev-spring2018.herokuapp.com/user/" + userId + "/website/" + websiteId
+    const callbackUrl = baseUrl + '/user/' + userId + "/website/" + websiteId
       + "/page/" + pageId + "/widget";
     if(myFile == null) {
       res.redirect(callbackUrl + '/' + widgetId);
@@ -176,7 +190,7 @@ module.exports = function (app) {
 /*      widget.name = name;
       widget.text = text;
       widget.width = width;*/
-      console.log('create new widget: ' + widget._id);
+      console.log('create widget image: ' + widget._id);
       widgets.push(widget);
       res.redirect(callbackUrl + '/' + widget._id);
       return;

@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
 import {Widget} from '../../../../models/widget.model.client';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-widget-html',
@@ -10,17 +9,22 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./widget-html.component.css']
 })
 export class WidgetHtmlComponent implements OnInit {
-  @ViewChild('f') htmlForm: NgForm;
 
   widgetId: String;
   pageId: String;
   websiteId: String;
   userId: String;
   widget: Widget;
+  errorFlag: Boolean;
+  errorMsg: String;
 
-  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
+  constructor(private widgetService: WidgetService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
+    this.errorFlag = false;
+    this.errorMsg = 'Please enter text!';
     this.activatedRoute.params.subscribe((params: any) => {
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
@@ -47,26 +51,31 @@ export class WidgetHtmlComponent implements OnInit {
         (error: any) => console.log(error)
       );
     }
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
   update() {
-    this.widget.text = this.htmlForm.value.text;
+    if (this.widget.text === undefined) {
+      this.errorFlag = true;
+      return;
+    }
     if (this.widgetId === undefined) {
       this.widget.type = 'HTML';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widget: Widget) => {
-          console.log('create widget html: ' + widget._id + ' ' + widget.url);
+          console.log('create widget html: ' + widget._id + ', name: ' + widget.name + ', text: ' + widget.text);
         },
         (error: any) => console.log(error)
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
         (widget: Widget) => {
-          console.log('update widget html: ' + widget._id + ' ' + widget.url);
+          console.log('update widget html: ' + widget._id + ', name: ' + widget.name + ', text: ' + widget.text);
         },
         (error: any) => console.log(error)
       );
     }
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 
 }

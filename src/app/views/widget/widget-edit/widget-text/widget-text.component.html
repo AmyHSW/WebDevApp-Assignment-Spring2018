@@ -1,15 +1,13 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid row">
     <div class="navbar-text pull-left">
-      <a routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
+      <a [routerLink]="['/user', userId, 'website', websiteId, 'page', pageId, 'widget']"
          class="cl-text-black cl-icon-padding">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <button (click)="f.ngSubmit.emit()"
-              [disabled]="!f.valid"
-              routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget"
+      <button (click)="update()"
               class="btn btn-link cl-icon-padding cl-text-black">
         <span class="glyphicon glyphicon-ok"></span>
       </button>
@@ -21,46 +19,70 @@
 </nav>
 
 <div class="container-fluid">
-  <form (ngSubmit)="update()" #f="ngForm">
 
+  <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
+  </div>
+
+  <form>
     <div class="form-group" *ngIf="widget">
-      <label for="heading-name">Name</label>
+      <label for="text-name">Name</label>
       <input [(ngModel)]="widget.name"
              type="text"
              class="form-control"
-             id="heading-name"
+             id="text-name"
              placeholder="name"
              [ngModelOptions]="{standalone: true}"/>
     </div>
 
-    <div class="form-group">
-      <label for="text">Text</label>
-      <input type="text"
-             name="text"
-             class="form-control"
-             id="text"
-             placeholder="{{widget?.text}}"
-             ngModel required
-             #text="ngModel"/>
-    </div>
-
-    <span class="help-block" *ngIf="!text.valid && text.touched">
-          Please enter text!
-    </span>
-
     <div class="form-group" *ngIf="widget">
-      <label for="heading-size">Size</label>
-      <input [(ngModel)]="widget.size"
+      <label for="text-text">Text</label>
+      <input [(ngModel)]="widget.text"
              type="text"
              class="form-control"
-             id="heading-size"
+             id="text-text"
+             placeholder="text"
+             [ngModelOptions]="{standalone: true}"/>
+    </div>
+
+    <div class="form-group" *ngIf="widget">
+      <label for="text-rows">Rows</label>
+      <input [(ngModel)]="widget.rows"
+             type="number"
+             class="form-control"
+             id="text-rows"
              placeholder="3"
              [ngModelOptions]="{standalone: true}"/>
     </div>
 
+    <div class="form-group" *ngIf="widget">
+      <label for="text-placeholder">Placeholder</label>
+      <input [(ngModel)]="widget.placeholder"
+             type="text"
+             class="form-control"
+             id="text-placeholder"
+             placeholder="placeholder"
+             [ngModelOptions]="{standalone: true}"/>
+    </div>
+
+    <div class="input-group" *ngIf="widget">
+      <label>
+        <input type="text"
+               readonly
+               value="Formatted"
+               class="form-control"/>
+      </label>
+      <span class="input-group-addon">
+        <label>
+          <input [(ngModel)]="widget.formatted"
+                 type="checkbox"
+                 [ngModelOptions]="{standalone: true}"/>
+        </label>
+      </span>
+    </div>
+
     <button class="btn btn-danger btn-block"
-            (click)="delete()"
-            routerLink="/user/{{userId}}/website/{{websiteId}}/page/{{pageId}}/widget">Delete</button>
+            (click)="delete()">Delete</button>
 
   </form>
 </div>
@@ -68,7 +90,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid row">
     <div class="pull-right navbar-text">
-      <a routerLink="/user/{{userId}}" class="cl-icon-padding">
+      <a [routerLink]="['/user', userId]" class="cl-icon-padding">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </div>

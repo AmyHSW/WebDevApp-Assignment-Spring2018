@@ -21,64 +21,43 @@
   <div *ngFor="let widget of widgets">
     <div [ngSwitch]="widget.type">
 
-      <div *ngSwitchCase="'HEADER'">
-        <a routerLink="." class="pull-right">
-          <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
+      <div class="jga-widget-tool">
+        <a class="pull-right">
+          <span class="glyphicon glyphicon-menu-hamburger"></span>
         </a>
         <a routerLink="./{{widget._id}}" class="pull-right">
-          <span class="glyphicon glyphicon-cog whiteBackground"></span>
+          <span class="glyphicon glyphicon-cog"></span>
         </a>
+      </div>
+
+      <div *ngSwitchCase="'HEADER'">
         <div [ngSwitch]="widget.size">
-          <div *ngSwitchCase="'1'">
-            <h1>{{widget.text}}</h1>
-          </div>
-          <div *ngSwitchCase="'2'">
-            <h2>{{widget.text}}</h2>
-          </div>
-          <div *ngSwitchCase="'3'">
-            <h3>{{widget.text}}</h3>
-          </div>
-          <div *ngSwitchDefault>
-            <h1>{{widget.text}}</h1>
-          </div>
+          <h1 *ngSwitchCase="'1'">{{widget.text}}</h1>
+          <h2 *ngSwitchCase="'2'">{{widget.text}}</h2>
+          <h3 *ngSwitchCase="'3'">{{widget.text}}</h3>
+          <h4 *ngSwitchCase="'4'">{{widget.text}}</h4>
+          <h5 *ngSwitchCase="'5'">{{widget.text}}</h5>
+          <h6 *ngSwitchCase="'6'">{{widget.text}}</h6>
+          <h1 *ngSwitchDefault>{{widget.text}}</h1>
         </div>
       </div>
 
       <div *ngSwitchCase="'TEXT'">
-        <a routerLink="." class="pull-right">
-          <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
-        </a>
-        <a routerLink="./{{widget._id}}" class="pull-right">
-          <span class="glyphicon glyphicon-cog whiteBackground"></span>
-        </a>
-        <div [ngSwitch]="widget.size">
-          <div *ngSwitchCase="'2'">
-            <h2>{{widget.text}}</h2>
-          </div>
-          <div *ngSwitchCase="'3'">
-            <h3>{{widget.text}}</h3>
-          </div>
-          <div *ngSwitchCase="'4'">
-            <h4>{{widget.text}}</h4>
-          </div>
-          <div *ngSwitchCase="'5'">
-            <h5>{{widget.text}}</h5>
-          </div>
-          <div *ngSwitchDefault>
-            <h3>{{widget.text}}</h3>
-          </div>
+        <div *ngIf="widget.formatted">
+          <quill-editor [(ngModel)]="widget.text"></quill-editor>
         </div>
+
+        <input *ngIf="!widget.formatted && (!widget.rows || widget.rows <= 1)"
+               placeholder="{{widget.placeholder}}"
+               class="form-control"/>
+
+        <textarea *ngIf="!widget.formatted && (widget.rows > 1)"
+                  rows="{{widget.rows}}"
+                  placeholder="{{widget.placeholder}}"
+                  class="form-control">{{widget.text}}</textarea>
       </div>
 
-      <div *ngSwitchCase="'HTML'">
-        <a [innerHTML]="widget.text"></a>
-        <a routerLink="." class="pull-right">
-          <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
-        </a>
-        <a routerLink="./{{widget._id}}" class="pull-right">
-          <span class="glyphicon glyphicon-cog whiteBackground"></span>
-        </a>
-      </div>
+      <div *ngSwitchCase="'HTML'" [innerHTML]="widget.text"></div>
 
       <div *ngSwitchCase="'YOUTUBE'">
         <div class="embed-responsive embed-responsive-16by9">
@@ -86,22 +65,10 @@
                   width="560" height="315"
                   frameborder="0"
                   allowfullscreen></iframe>
-          <a routerLink="." class="pull-right">
-            <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
-          </a>
-          <a routerLink="./{{widget._id}}" class="pull-right">
-            <span class="glyphicon glyphicon-cog whiteBackground"></span>
-          </a>
         </div>
       </div>
 
       <div *ngSwitchCase="'IMAGE'">
-        <a routerLink="." class="pull-right">
-          <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
-        </a>
-        <a routerLink="./{{widget._id}}" class="pull-right">
-          <span class="glyphicon glyphicon-cog whiteBackground"></span>
-        </a>
         <img class="img-responsive img-rounded cl-widget-images"
              [src]="widget.url"
              width="{{widget.width}}">

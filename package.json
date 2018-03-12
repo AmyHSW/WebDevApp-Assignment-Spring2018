@@ -31,7 +31,8 @@
     "npm": "^5.7.1",
     "rxjs": "^5.5.6",
     "typescript": "^2.5.3",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
+    "ngx-quill-editor": "^2.2.2"
   },
   "devDependencies": {
     "@angular/cli": "^1.7.3",
