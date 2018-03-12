@@ -29,7 +29,7 @@ module.exports = function(app) {
 
   function createUser(req, res) {
     const user = req.body;
-    user._id = String(users.length + 1);
+    user._id = (new Date()).getTime().toString();
     console.log('create user: ' + user._id + " " + user.username);
     users.push(user);
     res.json(user);

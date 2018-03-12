@@ -29,7 +29,7 @@ module.exports = function (app) {
 
   function createWidget(req, res) {
     const widget = req.body;
-    widget._id = String(widgets.length + 1);
+    widget._id = (new Date()).getTime().toString();
     console.log('create new widget: ' + widget._id);
     widgets.push(widget);
     res.json(widget);
@@ -143,9 +143,11 @@ module.exports = function (app) {
     const userId = req.body.userId;
     const websiteId = req.body.websiteId;
     const pageId = req.body.pageId;
-
     const widgetId = req.body.widgetId;
     const width = req.body.width;
+    const name = req.body.name;
+    const text = req.body.text;
+
     const myFile = req.file;
 
     console.log(req.file);
@@ -154,7 +156,7 @@ module.exports = function (app) {
       + "/page/" + pageId + "/widget";
 
     if(myFile == null) {
-      res.redirect(callbackUrl + "/" + widgetId);
+      res.redirect(callbackUrl + '/' + widgetId);
       return;
     }
 
@@ -165,13 +167,30 @@ module.exports = function (app) {
     const size = myFile.size;
     const mimetype = myFile.mimetype;
 
+    if (widgetId === '') {
+      const widget =
+        {_id: '', type: 'IMAGE', pageId: pageId, size: '', text: '', width: '', url: '', name: ''};
+      widget._id = (new Date()).getTime().toString();
+      widget.url = 'uploads/' + filename;
+/*      widget.name = name;
+      widget.text = text;
+      widget.width = width;*/
+      console.log('create new widget: ' + widget._id);
+      widgets.push(widget);
+      res.redirect(callbackUrl + '/' + widget._id);
+      return;
+    }
+
     for (let i = 0; i < widgets.length; i++) {
       if (widgets[i]._id === widgetId) {
-        widgets[i].url = _path.resolve("./src/assets/uploads/" + filename);
+        widgets[i].url = 'uploads/' + filename;
+/*        widgets[i].name = name;
+        widgets[i].text = text;
+        widgets[i].width = width;*/
         break;
       }
     }
 
-    res.redirect(callbackUrl);
+    res.redirect(callbackUrl + '/' + widgetId);
   }
 };

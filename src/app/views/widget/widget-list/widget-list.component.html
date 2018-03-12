@@ -71,18 +71,19 @@
       </div>
 
       <div *ngSwitchCase="'HTML'">
+        <a [innerHTML]="widget.text"></a>
         <a routerLink="." class="pull-right">
           <span class="glyphicon glyphicon-menu-hamburger whiteBackground"></span>
         </a>
         <a routerLink="./{{widget._id}}" class="pull-right">
           <span class="glyphicon glyphicon-cog whiteBackground"></span>
         </a>
-        <h6>{{widget.text}}</h6>
       </div>
 
       <div *ngSwitchCase="'YOUTUBE'">
         <div class="embed-responsive embed-responsive-16by9">
           <iframe [src]=getUrl(widget.url)
+                  width="560" height="315"
                   frameborder="0"
                   allowfullscreen></iframe>
           <a routerLink="." class="pull-right">
@@ -102,7 +103,7 @@
           <span class="glyphicon glyphicon-cog whiteBackground"></span>
         </a>
         <img class="img-responsive img-rounded cl-widget-images"
-             src="{{widget.url}}"
+             [src]="widget.url"
              width="{{widget.width}}">
       </div>
 

@@ -17,7 +17,7 @@ module.exports = function (app) {
 
   function createPage(req, res) {
     const new_page = {
-      _id: (new Date()).getTime() + '',
+      _id: (new Date()).getTime().toString(),
       name: req.body.name,
       websiteId: req.params['websiteId'],
       title: req.body.title

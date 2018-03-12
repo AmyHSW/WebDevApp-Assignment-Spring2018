@@ -17,7 +17,7 @@ module.exports = function (app) {
 
   function createWebsite(req, res) {
     const new_website = {
-      _id: (new Date()).getTime() + '',
+      _id: (new Date()).getTime().toString(),
       name: req.body.name,
       developerId: req.params['userId'],
       description: req.body.description
