@@ -96,6 +96,7 @@ module.exports = function(app) {
     for (const i in users) {
       if (users[i]._id === userId) {
         const j = +i;
+        res.json(users[i]);
         console.log('delete user: ' + userId);
         users.splice(j, 1);
         return;

@@ -34,6 +34,15 @@ export class ProfileComponent implements OnInit {
   logout() {
     this.router.navigate(['/login']);
   }
+  delete() {
+    this.userService.deleteUser(this.user._id).subscribe(
+      (user: User) => {
+        console.log('delete user: ' + this.user._id);
+        this.router.navigate(['/login']);
+      },
+      (error: any) => console.log(error)
+    );
+  }
   ngOnInit() {
     this.updateFlag = false;
     this.updateMsg = 'Profile updated!';
