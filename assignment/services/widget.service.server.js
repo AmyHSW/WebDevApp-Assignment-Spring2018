@@ -148,11 +148,35 @@ module.exports = function (app) {
   }
 
   function reorderWidgets(req, res) {
-    //var pageId = req.params.pageId;
     const startIndex = parseInt(req.query.initial);
     const endIndex = parseInt(req.query.final);
-    widgets.splice(endIndex, 0, widgets.splice(startIndex, 1)[0]);
-    res.json(200);
+    const widgets_in_page = req.body;
+
+    if (startIndex === endIndex) {
+      res.json(widgets_in_page);
+      return;
+    }
+
+    const widget_to_reorder = widgets_in_page[startIndex];
+    const widget_endIndex = widgets_in_page[endIndex];
+
+    const index_start_main = findIndex(widget_to_reorder);
+    widgets.splice(index_start_main, 1);
+    console.log('start index in main widgets: ' + index_start_main);
+
+    const index_end_main = parseInt(findIndex(widget_endIndex)) + (startIndex < endIndex ? 1 : 0);
+    widgets.splice(index_end_main, 0, widget_to_reorder);
+    console.log('end index in main widgets: ' + index_end_main);
+
+    res.json({});
+  }
+
+  function findIndex(widget) {
+    for (const i in widgets) {
+      if (widgets[i]._id === widget._id) {
+        return i;
+      }
+    }
   }
 
   function uploadImage(req, res) {

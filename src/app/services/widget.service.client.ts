@@ -60,9 +60,9 @@ export class WidgetService {
       );
   }
 
-  reorderWidgets(pageId: String, startIndex: String, endIndex: String) {
+  reorderWidgets(pageId: String, startIndex: String, endIndex: String, widgets: Widget[]) {
     return this._http.put(this.baseUrl + '/api/page/' + pageId
-      + '/widget?initial=' + startIndex + '&final=' + endIndex, {})
+      + '/widget?initial=' + startIndex + '&final=' + endIndex, widgets)
       .map(
         (res: Response) => {
           return res.json();

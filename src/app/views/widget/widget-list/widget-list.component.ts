@@ -38,11 +38,12 @@ export class WidgetListComponent implements OnInit {
   }
 
   reorderItems(indexes: any) {
-    this.widgetService.reorderWidgets(this.pageId, indexes.startIndex, indexes.endIndex)
+    this.widgetService.reorderWidgets(this.pageId, indexes.startIndex, indexes.endIndex, this.widgets)
       .subscribe(
         (data: any) => {
           console.log('start: ' + indexes.startIndex);
           console.log('stop: ' + indexes.endIndex);
+          window.location.reload();
         }
       );
   }
