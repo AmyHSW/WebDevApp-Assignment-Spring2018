@@ -28,26 +28,30 @@ export class WidgetImageComponent implements OnInit {
   ngOnInit() {
     this.errorFlag = false;
     this.errorMsg = 'Please enter URL!';
+
     this.activatedRoute.params.subscribe((params: any) => {
+
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
       this.pageId = params['pid'];
       this.websiteId = params['wid'];
       this.userId = params['uid'];
+
+      if (this.widgetId === undefined) {
+        this.widget = WidgetService.getNewWidget();
+        this.widgetId = '';
+      } else {
+        this.widgetService.findWidgetById(this.widgetId).subscribe(
+          (widget: Widget) => {
+            this.widget = widget;
+          }
+        );
+      }
     });
-    if (this.widgetId === undefined) {
-      this.widget = WidgetService.getNewWidget();
-    } else {
-      this.widgetService.findWidgetById(this.widgetId).subscribe(
-        (widget: Widget) => {
-          this.widget = widget;
-        }
-      );
-    }
   }
 
   deleteImage() {
-    if (this.widgetId !== undefined) {
+    if (this.widgetId !== '') {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
         (data: Widget) => {
           console.log('delete widget image');
@@ -59,28 +63,48 @@ export class WidgetImageComponent implements OnInit {
   }
 
   updateImage() {
-    if (this.widget.url === undefined) {
+    if (this.widget.url === '') {
       this.errorFlag = true;
       return;
     }
     if (this.widgetId === undefined) {
-      this.widget.type = 'IMAGE';
-      this.widget.pageId = this.pageId;
-      this.widgetService.createWidget(this.pageId, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('create widget image: ' + widget._id + ', name: ' + widget.name
-            + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);        },
-        (error: any) => console.log(error)
-      );
+      this.create();
     } else {
-      this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('update widget image: ' + widget._id + ', name: ' + widget.name
-            + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);        },
-        (error: any) => console.log(error)
-      );
+      this.update();
     }
+  }
+
+  route() {
     this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 
+  create() {
+    this.widget.type = 'IMAGE';
+    this.widget.pageId = this.pageId;
+    this.widgetService.createWidget(this.pageId, this.widget).subscribe(
+      (widget: Widget) => {
+        this.widgetId = widget._id;
+        console.log('create widget image: ' + widget._id + ', name: ' + widget.name
+          + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+        this.route();
+        },
+      (error: any) => console.log(error)
+    );
+  }
+
+  update() {
+    this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
+      (widget: Widget) => {
+        console.log('update widget image: ' + widget._id + ', name: ' + widget.name
+          + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+        this.route();
+        },
+      (error: any) => console.log(error)
+    );
+  }
+
+  chooseFromFlickr() {
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget', this.widgetId, 'flickr']);
+
+  }
 }

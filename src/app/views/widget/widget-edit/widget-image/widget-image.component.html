@@ -75,11 +75,14 @@
       <input  name="width" value="{{widget?.width}}"   style="display: none"/>
       <input  name="name" value="{{widget?.name}}"   style="display: none"/>
       <input  name="text" value="{{widget?.text}}"   style="display: none"/>
-      <button type="submit" class="btn btn-block btn-primary">Upload Image</button>
+      <button type="submit" class="btn btn-block btn-success">Upload Image</button>
       <br/>
     </form>
 
-    <button class="btn btn-danger  btn-block"
+    <button class="btn btn-primary btn-block"
+       (click)="chooseFromFlickr()">Choose From Flickr</button>
+
+    <button class="btn btn-danger btn-block"
             (click)="deleteImage()">Delete</button>
   </form>
 </div>

@@ -24,22 +24,25 @@ export class WidgetYoutubeComponent implements OnInit {
   ngOnInit() {
     this.errorFlag = false;
     this.errorMsg = 'Please enter URL!';
+
     this.activatedRoute.params.subscribe((params: any) => {
+
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
       this.pageId = params['pid'];
       this.websiteId = params['wid'];
       this.userId = params['uid'];
+
+      if (this.widgetId === undefined) {
+        this.widget = WidgetService.getNewWidget();
+      } else {
+        this.widgetService.findWidgetById(this.widgetId).subscribe(
+          (widget: Widget) => {
+            this.widget = widget;
+          }
+        );
+      }
     });
-    if (this.widgetId === undefined) {
-      this.widget = WidgetService.getNewWidget();
-    } else {
-      this.widgetService.findWidgetById(this.widgetId).subscribe(
-        (widget: Widget) => {
-          this.widget = widget;
-        }
-      );
-    }
   }
 
   deleteYoutube() {

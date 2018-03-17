@@ -4,6 +4,9 @@
 # build
 /dist
 
+# image upload folder
+/src/assets/uploads
+
 # compiled outputs
 /tmp
 /out-tsc

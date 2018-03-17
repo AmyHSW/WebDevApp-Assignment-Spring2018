@@ -26,22 +26,26 @@ export class WidgetHeadingComponent implements OnInit {
   ngOnInit() {
     this.errorFlag = false;
     this.errorMsg = 'Please enter text!';
+
     this.activatedRoute.params.subscribe((params: any) => {
+
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
       this.pageId = params['pid'];
       this.websiteId = params['wid'];
       this.userId = params['uid'];
+
+      if (this.widgetId === undefined) {
+        this.widget = WidgetService.getNewWidget();
+      } else {
+        this.widgetService.findWidgetById(this.widgetId).subscribe(
+          (widget: Widget) => {
+            this.widget = widget;
+          },
+          (error: any) => console.log(error)
+        );
+      }
     });
-    if (this.widgetId === undefined) {
-      this.widget = WidgetService.getNewWidget();
-    } else {
-      this.widgetService.findWidgetById(this.widgetId).subscribe(
-        (widget: Widget) => {
-          this.widget = widget;
-        }
-      );
-    }
   }
 
   updateWidget() {
@@ -50,24 +54,40 @@ export class WidgetHeadingComponent implements OnInit {
       return;
     }
     if (this.widgetId === undefined) {
-      this.widget.type = 'HEADER';
-      this.widget.pageId = this.pageId;
-      this.widgetService.createWidget(this.pageId, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('create widget header: ' + widget._id + ', name: ' + widget.name
-            + ', text: ' + widget.text + ', size: ' + widget.size);        },
-        (error: any) => console.log(error)
-      );
+      this.create(this.widget);
     } else {
-      this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('update widget header: ' + widget._id + ', name: ' + widget.name
-            + ', text: ' + widget.text + ', size: ' + widget.size);        },
-        (error: any) => console.log(error)
-      );
+      this.update(this.widget);
     }
+  }
+
+  create(widget: Widget) {
+    widget.type = 'HEADER';
+    widget.pageId = this.pageId;
+    this.widgetService.createWidget(this.pageId, this.widget).subscribe(
+      (newWidget: Widget) => {
+        console.log('create widget header: ' + newWidget._id + ', name: ' + newWidget.name
+          + ', text: ' + newWidget.text + ', size: ' + newWidget.size);
+        this.route();
+        },
+      (error: any) => console.log(error)
+    );
+  }
+
+  update(widget: Widget) {
+    this.widgetService.updateWidget(this.widget._id, widget).subscribe(
+      (updatedWidget: Widget) => {
+        console.log('update widget header: ' + updatedWidget._id + ', name: ' + updatedWidget.name
+          + ', text: ' + updatedWidget.text + ', size: ' + updatedWidget.size);
+        this.route();
+        },
+      (error: any) => console.log(error)
+    );
+  }
+
+  route() {
     this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
+
   deleteWidget() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(

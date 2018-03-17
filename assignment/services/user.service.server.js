@@ -1,5 +1,7 @@
 module.exports = function(app) {
 
+  const userModel = require("../models/user/user.model.server");
+
   app.post("/api/user", createUser);
   app.get("/api/user?", findUser);
   app.get("/api/user/:userId", findUserById);

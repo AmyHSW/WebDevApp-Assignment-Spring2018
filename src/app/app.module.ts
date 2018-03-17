@@ -33,6 +33,9 @@ import {HttpModule} from '@angular/http';
 import { SortableDirective } from './sortable.directive';
 import { WidgetHtmlComponent } from './views/widget/widget-edit/widget-html/widget-html.component';
 import { WidgetTextComponent } from './views/widget/widget-edit/widget-text/widget-text.component';
+import { FlickrImageSearchComponent } from './views/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
+import {FlickrService} from './services/flickr.service.client';
+import {SharedService} from './services/shared.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,7 @@ import { WidgetTextComponent } from './views/widget/widget-edit/widget-text/widg
     SortableDirective,
     WidgetHtmlComponent,
     WidgetTextComponent,
+    FlickrImageSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,7 @@ import { WidgetTextComponent } from './views/widget/widget-edit/widget-text/widg
     HttpModule,
     QuillEditorModule
   ],
-  providers: [UserService, WebsiteService, PageService, WidgetService],
+  providers: [UserService, WebsiteService, PageService, WidgetService, FlickrService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
