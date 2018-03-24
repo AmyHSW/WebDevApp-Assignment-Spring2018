@@ -18,7 +18,8 @@ function createWebsiteForUser(website) {
       userModel.findUserById(website._userId)
         .then(function (user) {
           user.websites.push(responseWebsite);
-          return user.save();
+          user.save();
+          return responseWebsite;
         })
     });
 }
@@ -38,14 +39,11 @@ function updateWebsite(websiteId, website) {
 }
 
 function deleteWebsite(websiteId){
-  return findWebsiteById(websiteId)
-    .then(function(website){
-      WebsiteModel.remove({_id: websiteId})
-        .then(function() {
-          userModel.findUserById(website._userId)
-            .then(function(user) {
+  return findWebsiteById(websiteId).then(function(website){
+      WebsiteModel.remove({_id: websiteId}).then(function() {
+          userModel.findUserById(website._userId).then(function(user) {
               for (let i = 0; i < user.websites.length; i++) {
-                if (user.websites[i] = websiteId) {
+                if (user.websites[i].equals(websiteId)) {
                   user.websites.splice(i, 1);
                   return user.save();
                 }

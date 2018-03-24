@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const PageSchema = require("./page.schema.server");
 const PageModel = mongoose.model('PageModel', PageSchema);
+
 const websiteModel = require("../website/website.model.server");
 
 PageModel.createPage = createPage;
@@ -9,9 +10,18 @@ PageModel.findPageById = findPageById;
 PageModel.updatePage = updatePage;
 PageModel.deletePage = deletePage;
 
+module.exports = PageModel;
+
 function createPage(websiteId, page) {
-  return PageModel.create(page);
-    //.then(function(response))
+  return PageModel.create(page)
+    .then(function(responsePage) {
+      websiteModel.findWebsiteById(websiteId)
+        .then(function(website) {
+          website.pages.push(responsePage);
+          website.save();
+          return responsePage;
+        })
+    });
 }
 
 function findAllPagesForWebsite(websiteId) {
@@ -19,7 +29,7 @@ function findAllPagesForWebsite(websiteId) {
 }
 
 function findPageById(pageId) {
-  return PageModel.find({_id: pageId});
+  return PageModel.findById({_id: pageId});
 }
 
 function updatePage(pageId, page) {
@@ -27,5 +37,16 @@ function updatePage(pageId, page) {
 }
 
 function deletePage(pageId) {
-  return PageModel.remove({_id: pageId});
+  return findPageById(pageId).then(function(page) {
+    PageModel.remove({_id: pageId}).then(function() {
+      websiteModel.findWebsiteById(page._websiteId).then(function(website) {
+        for (let i = 0; i < website.pages.length; i++) {
+          if (website.pages[i].equals(pageId)) {
+            website.pages.splice(i, 1);
+            return website.save();
+          }
+        }
+      })
+    })
+  });
 }

@@ -83,7 +83,6 @@ module.exports = function(app) {
   function updateUser(req, res) {
     const userId = req.params.userId;
     const user = req.body;
-
     userModel.updateUser(userId, user)
       .then(function(status) {
         res.send(status);
