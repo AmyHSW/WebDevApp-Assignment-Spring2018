@@ -1,14 +1,11 @@
-//we create a schema
 const mongoose = require("mongoose");
-const pageSchema = require("../page/page.schema.server");
 
 const WebsiteSchema = mongoose.Schema({
-  _user: {type: mongoose.Schema.ObjectId, ref: "User"},
+  _userId: {type: mongoose.Schema.ObjectId, ref: 'UserModel'},
   name: {type: String, required: true},
-
   description: String,
-  pages: [{type: mongoose.Schema.Types.ObjectId, ref: 'Page'}],
+  pages: [{type: mongoose.Schema.Types.ObjectId, ref: 'PageModel'}],
   dateCreated: {type: Date, default: Date.now} //Date.now is the current time
-}, {collection: "assignment.website"});
+}, {collection: "website"});
 
 module.exports = WebsiteSchema;

@@ -1,17 +1,23 @@
 const mongoose = require("mongoose");
 const UserSchema = require("./user.schema.server");
 const UserModel = mongoose.model("UserModel", UserSchema);
+
 UserModel.findUserById = findUserById;
 UserModel.createUser = createUser;
 UserModel.findAllUsers = findAllUsers;
 UserModel.findUserByCredentials = findUserByCredentials;
 UserModel.findUserByUserName = findUserByUserName;
 UserModel.updateUser = updateUser;
+UserModel.deleteUser = deleteUser;
 
 module.exports = UserModel;
 
-function updateUser(userId, user){
-  return UserModel.update({_id: userId}, user );
+function createUser(user){
+  return UserModel.create(user);
+}
+
+function findUserById(userId){
+  return UserModel.findById({_id: userId});
 }
 
 function findUserByUserName(username){
@@ -22,16 +28,16 @@ function findUserByCredentials(username, password){
   return UserModel.findOne({username: username, password: password});
 }
 
-function createUser(user){
-  return UserModel.create(user);
-}
-
 function findAllUsers(){
   UserModel.find(function (err, doc) {
-    console.log(docs);
+    console.log(doc);
   })
 }
 
-function findUserById(userId){
-  return UserModel.findById(userId);
+function updateUser(userId, user){
+  return UserModel.update({_id: userId}, user);
+}
+
+function deleteUser(userId) {
+  return UserModel.remove({_id: userId});
 }
