@@ -14,12 +14,11 @@ module.exports = WebsiteModel;
 
 function createWebsiteForUser(website) {
   return WebsiteModel.create(website)
-    .then(function (responseWebsite) {
+    .then(function(responseWebsite) {
       userModel.findUserById(website._userId)
-        .then(function (user) {
+        .then(function(user) {
           user.websites.push(responseWebsite);
-          user.save();
-          return responseWebsite;
+          return user.save();
         })
     });
 }

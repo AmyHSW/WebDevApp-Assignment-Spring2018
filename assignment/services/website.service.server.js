@@ -21,10 +21,9 @@ module.exports = function (app) {
     const userId = req.params['userId'];
     const website = req.body;
     website._userId = userId;
-    // delete website._id;
     websiteModel.createWebsiteForUser(website)
-      .then(function(website) {
-        console.log('created website: ' + website);
+      .then(function(response) {
+        console.log('created website');
         websiteModel.findAllWebsitesForUser(userId)
           .then(function (websites){
             res.status(200).json(websites);
