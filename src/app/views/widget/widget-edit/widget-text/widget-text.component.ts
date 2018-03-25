@@ -46,11 +46,13 @@ export class WidgetTextComponent implements OnInit {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
         (response: any) => {
           console.log('deleted widget Text');
+          this.route();
         },
         (error: any) => console.log(error)
       );
+    } else {
+      this.route();
     }
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
   update() {
     if (this.widget.name === undefined) {
@@ -63,6 +65,7 @@ export class WidgetTextComponent implements OnInit {
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widgets: any) => {
           console.log('create new widget Text');
+          this.route();
         },
         (error: any) => console.log(error)
       );
@@ -70,11 +73,11 @@ export class WidgetTextComponent implements OnInit {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
         (response: any) => {
           console.log('updated widget Text');
+          this.route();
         },
         (error: any) => console.log(error)
       );
     }
-    this.route();
   }
 
   route() {

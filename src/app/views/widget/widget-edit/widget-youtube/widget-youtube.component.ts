@@ -49,12 +49,13 @@ export class WidgetYoutubeComponent implements OnInit {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
         (response: any) => {
           console.log('deleted widget YouTube');
+          this.route();
         },
         (error: any) => console.log(error)
       );
+    } else {
+      this.route();
     }
-    this.route();
-
   }
   updateYoutube() {
     if (this.widget.url === undefined) {
@@ -67,6 +68,7 @@ export class WidgetYoutubeComponent implements OnInit {
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (widgets: any) => {
           console.log('created new widget YouTube');
+          this.route();
           },
         (error: any) => console.log(error)
       );
@@ -74,11 +76,11 @@ export class WidgetYoutubeComponent implements OnInit {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
         (response: any) => {
           console.log('updated widget YouTube');
+          this.route();
           },
         (error: any) => console.log(error)
       );
     }
-    this.route();
   }
 
   route() {

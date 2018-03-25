@@ -90,10 +90,12 @@ export class WidgetHeadingComponent implements OnInit {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
         (response: any) => {
           console.log('delete widget header');
+          this.route();
         },
         (error: any) => console.log(error)
       );
+    } else {
+      this.route();
     }
-    this.route();
   }
 }

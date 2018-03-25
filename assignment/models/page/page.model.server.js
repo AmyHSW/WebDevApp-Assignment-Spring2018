@@ -20,7 +20,6 @@ function createPage(websiteId, page) {
         .then(function(website) {
           website.pages.push(responsePage);
           website.save();
-          return responsePage;
         })
     });
   return promise;

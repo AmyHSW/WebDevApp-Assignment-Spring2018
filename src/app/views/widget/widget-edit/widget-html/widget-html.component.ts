@@ -46,11 +46,13 @@ export class WidgetHtmlComponent implements OnInit {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
         (response: any) => {
           console.log('deleted widget HTML');
+          this.route();
         },
         (error: any) => console.log(error)
       );
+    } else {
+      this.route();
     }
-    this.route();
   }
   update() {
     if (this.widget.text === undefined) {
@@ -63,6 +65,7 @@ export class WidgetHtmlComponent implements OnInit {
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
         (response: any) => {
           console.log('create new widget HTML');
+          this.route();
         },
         (error: any) => console.log(error)
       );
@@ -70,11 +73,11 @@ export class WidgetHtmlComponent implements OnInit {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
         (response: any) => {
           console.log('updated widget HTML');
+          this.route();
         },
         (error: any) => console.log(error)
       );
     }
-    this.route();
   }
 
   route() {
