@@ -1,7 +1,7 @@
 module.exports = function (app) {
 
   const mongoose = require("mongoose");
-  const WidgetSchema = require("./widget.schema.server");
+  const WidgetSchema = require("../models/widget/widget.schema.server");
   const WidgetModel = mongoose.model('WidgetModel', WidgetSchema);
 
   const pageModel = require("../models/page/page.model.server");
