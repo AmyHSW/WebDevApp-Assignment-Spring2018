@@ -58,11 +58,13 @@ function deleteWidget(widgetId) {
     WidgetModel.remove({_id: widgetId}).then(function() {
       updatePosition(widget._pageId, widget.position).then(function() {
         pageModel.findPageById(widget._pageId).then(function(page) {
-          for (let i = 0; i < page.widgets.length; i++) {
-            if (page.widgets[i].equals(widgetId)) {
-              page.widgets.splice(i, 1);
-              page.save();
-              break;
+          if (page != null) {
+            for (let i = 0; i < page.widgets.length; i++) {
+              if (page.widgets[i].equals(widgetId)) {
+                page.widgets.splice(i, 1);
+                page.save();
+                break;
+              }
             }
           }
         })

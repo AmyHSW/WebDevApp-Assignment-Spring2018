@@ -60,10 +60,9 @@ module.exports = function (app) {
     if (widgetId === '') {
       let widget = {type: 'Image', _pageId: pageId, url: 'uploads/' + filename};
       widgetModel.createWidget(pageId, widget).then(function(newWidget) {
-        widget = newWidget;
+        console.log('created widget image (from upload image)');
+        res.redirect(callbackUrl + '/' + newWidget._id);
       });
-      console.log('created widget image (from upload image)');
-      res.redirect(callbackUrl + '/' + widget._id);
       return;
     }
 
