@@ -77,7 +77,7 @@ module.exports = function (app) {
         widgetModel.findAllWidgetsForPage(pageId)
           .then(function(widgets) {
             widgets.forEach(function(widget) {
-              widgetModel.remove(widget._id);
+              widgetModel.remove({_id: widget._id});
             })
           });
         console.log('deleted page: pageId = ' + pageId);

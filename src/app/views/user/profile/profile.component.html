@@ -21,6 +21,10 @@
     {{userErrorMsg}}
   </div>
 
+  <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
+  </div>
+
   <form>
 
     <div class="form-group" *ngIf="user">

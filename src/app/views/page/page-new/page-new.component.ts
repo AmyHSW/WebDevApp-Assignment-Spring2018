@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {PageService} from '../../../services/page.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-page-new',
@@ -14,7 +14,9 @@ export class PageNewComponent implements OnInit {
   page: any;
   webId: String;
 
-  constructor(private pageService: PageService, private activatedRoute: ActivatedRoute) { }
+  constructor(private pageService: PageService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
@@ -28,6 +30,7 @@ export class PageNewComponent implements OnInit {
     this.pageService.createPage(this.webId, this.page).subscribe(
       (pages: any) => {
         console.log('created page');
+        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
       },
       (error: any) => {
         console.log(error);

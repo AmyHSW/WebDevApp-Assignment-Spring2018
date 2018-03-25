@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageService } from '../../../services/page.service.client';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-page-edit',
@@ -12,12 +12,13 @@ export class PageEditComponent implements OnInit {
 
   page: any;
 
-  constructor(private pageService: PageService, private activatedRoute: ActivatedRoute) { }
+  constructor(private pageService: PageService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   updatePage() {
     this.pageService.updatePage(this.page._id, this.page).subscribe(
       (response: any) => {
         console.log('updated page');
+        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
       }
     );
   }
@@ -25,6 +26,7 @@ export class PageEditComponent implements OnInit {
     this.pageService.deletePage(this.page._id).subscribe(
       (response: any) => {
         console.log('deleted page: pageId = ' + this.page._id);
+        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
       },
       (error: any) => console.log(error)
     );

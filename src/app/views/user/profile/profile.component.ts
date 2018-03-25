@@ -16,6 +16,8 @@ export class ProfileComponent implements OnInit {
   updateMsg: String;
   userErrorFlag: boolean;
   userErrorMsg: String;
+  errorFlag: boolean;
+  errorMsg: String;
 
   constructor(
     private userService: UserService,
@@ -25,7 +27,12 @@ export class ProfileComponent implements OnInit {
   updateUser() {
     this.updateFlag = false;
     this.userErrorFlag = false;
+    this.errorFlag = false;
     if (this.username !== this.user.username) {
+      if (this.username === '') {
+        this.errorFlag = true;
+        return;
+      }
       this.userService.findUserByUsername(this.username).subscribe(
         (user: any) => {
           if (typeof user._id !== 'undefined') {
@@ -67,8 +74,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.updateFlag = false;
     this.userErrorFlag = false;
+    this.errorFlag = false;
     this.updateMsg = 'Profile updated!';
     this.userErrorMsg = 'The username already exists! Please use a different name.';
+    this.errorMsg = 'Please enter username!';
 
     this.activatedRoute.params.subscribe((params: any) => {
       return this.userService.findUserById(params['uid']).subscribe(
