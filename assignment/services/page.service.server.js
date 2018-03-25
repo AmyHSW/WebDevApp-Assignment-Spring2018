@@ -1,5 +1,9 @@
 module.exports = function (app) {
 
+  const mongoose = require("mongoose");
+  const WidgetSchema = require("./widget.schema.server");
+  const WidgetModel = mongoose.model('WidgetModel', WidgetSchema);
+
   const pageModel = require("../models/page/page.model.server");
   const widgetModel = require("../models/widget/widget.model.server");
 
@@ -77,7 +81,7 @@ module.exports = function (app) {
         widgetModel.findAllWidgetsForPage(pageId)
           .then(function(widgets) {
             widgets.forEach(function(widget) {
-              widgetModel.deleteWidget(widget._id);
+              WidgetModel.remove({_id: widget._id});
             })
           });
         console.log('deleted page: pageId = ' + pageId);
