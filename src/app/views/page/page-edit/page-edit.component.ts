@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from '../../../models/page.model.client';
 import { PageService } from '../../../services/page.service.client';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,22 +10,21 @@ import { ActivatedRoute } from '@angular/router';
 
 export class PageEditComponent implements OnInit {
 
-  page: Page;
+  page: any;
 
   constructor(private pageService: PageService, private activatedRoute: ActivatedRoute) { }
 
   updatePage() {
     this.pageService.updatePage(this.page._id, this.page).subscribe(
-      (page: Page) => {
-        this.page = page;
-        console.log('update page: ' + page._id + ' ' + page.name);
+      (response: any) => {
+        console.log('updated page');
       }
     );
   }
   deletePage() {
     this.pageService.deletePage(this.page._id).subscribe(
-      (data: Page) => {
-        console.log('delete page: ' + this.page._id);
+      (response: any) => {
+        console.log('deleted page: pageId = ' + this.page._id);
       },
       (error: any) => console.log(error)
     );
@@ -34,7 +32,7 @@ export class PageEditComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
       this.pageService.findPageById(params['pid']).subscribe(
-        (page: Page) => {
+        (page: any) => {
           this.page = page;
         }
       );

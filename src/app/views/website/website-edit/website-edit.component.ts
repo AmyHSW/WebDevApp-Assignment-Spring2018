@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Website} from '../../../models/website.model.client';
 import {WebsiteService} from '../../../services/website.service.client';
 import {ActivatedRoute} from '@angular/router';
 
@@ -10,15 +9,15 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class WebsiteEditComponent implements OnInit {
 
-  website: Website;
-  websites: Website[] = [];
+  website: any;
+  websites: any;
   constructor(private websiteService: WebsiteService,
               private activatedRoute: ActivatedRoute) { }
 
   updateWebsite() {
     this.websiteService.updateWebsite(this.website._id, this.website).subscribe(
-      (website: Website) => {
-        console.log(website);
+      (response: any) => {
+        console.log('updated website');
       },
       (error: any) => {
         console.log(error);
@@ -28,8 +27,8 @@ export class WebsiteEditComponent implements OnInit {
 
   deleteWebsite() {
     this.websiteService.deleteWebsite(this.website._id).subscribe(
-      (data: Website) => {
-        console.log('deleted website: ' + data._id);
+      (response: any) => {
+        console.log('deleted website: websiteId = ' + this.website._id);
       },
       (error: any) => {
         console.log(error);
@@ -47,7 +46,7 @@ export class WebsiteEditComponent implements OnInit {
           console.log(error);
         });
       this.websiteService.findWebsitesById(params['wid']).subscribe(
-        (website: Website) => {
+        (website: any) => {
           this.website = website;
         },
         (error: any) => {

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Widget} from '../../../../models/widget.model.client';
 
 @Component({
   selector: 'app-widget-heading',
@@ -15,7 +14,7 @@ export class WidgetHeadingComponent implements OnInit {
   pageId: String;
   websiteId: String;
   userId: String;
-  widget: Widget;
+  widget: any;
   errorFlag: Boolean;
   errorMsg: String;
 
@@ -39,7 +38,7 @@ export class WidgetHeadingComponent implements OnInit {
         this.widget = WidgetService.getNewWidget();
       } else {
         this.widgetService.findWidgetById(this.widgetId).subscribe(
-          (widget: Widget) => {
+          (widget: any) => {
             this.widget = widget;
           },
           (error: any) => console.log(error)
@@ -60,24 +59,22 @@ export class WidgetHeadingComponent implements OnInit {
     }
   }
 
-  create(widget: Widget) {
-    widget.type = 'HEADER';
+  create(widget: any) {
+    widget.type = 'Header';
     widget.pageId = this.pageId;
     this.widgetService.createWidget(this.pageId, this.widget).subscribe(
-      (newWidget: Widget) => {
-        console.log('create widget header: ' + newWidget._id + ', name: ' + newWidget.name
-          + ', text: ' + newWidget.text + ', size: ' + newWidget.size);
+      (widgets: any) => {
+        console.log('created new widget Header');
         this.route();
         },
       (error: any) => console.log(error)
     );
   }
 
-  update(widget: Widget) {
+  update(widget: any) {
     this.widgetService.updateWidget(this.widget._id, widget).subscribe(
-      (updatedWidget: Widget) => {
-        console.log('update widget header: ' + updatedWidget._id + ', name: ' + updatedWidget.name
-          + ', text: ' + updatedWidget.text + ', size: ' + updatedWidget.size);
+      (response: any) => {
+        console.log('updated widget header');
         this.route();
         },
       (error: any) => console.log(error)
@@ -91,12 +88,12 @@ export class WidgetHeadingComponent implements OnInit {
   deleteWidget() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: Widget) => {
+        (response: any) => {
           console.log('delete widget header');
         },
         (error: any) => console.log(error)
       );
     }
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+    this.route();
   }
 }

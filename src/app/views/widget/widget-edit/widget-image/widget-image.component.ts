@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Widget} from '../../../../models/widget.model.client';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../../../environments/environment';
@@ -16,7 +15,7 @@ export class WidgetImageComponent implements OnInit {
   pageId: String;
   websiteId: String;
   userId: String;
-  widget: Widget;
+  widget: any;
   errorFlag: Boolean;
   errorMsg: String;
   baseUrl = environment.baseUrl;
@@ -42,7 +41,7 @@ export class WidgetImageComponent implements OnInit {
         this.widgetId = '';
       } else {
         this.widgetService.findWidgetById(this.widgetId).subscribe(
-          (widget: Widget) => {
+          (widget: any) => {
             this.widget = widget;
           }
         );
@@ -53,13 +52,13 @@ export class WidgetImageComponent implements OnInit {
   deleteImage() {
     if (this.widgetId !== '') {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: Widget) => {
-          console.log('delete widget image');
+        (response: any) => {
+          console.log('deleted widget Image');
         },
         (error: any) => console.log(error)
       );
     }
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+    this.route();
   }
 
   updateImage() {
@@ -79,13 +78,11 @@ export class WidgetImageComponent implements OnInit {
   }
 
   create() {
-    this.widget.type = 'IMAGE';
+    this.widget.type = 'Image';
     this.widget.pageId = this.pageId;
     this.widgetService.createWidget(this.pageId, this.widget).subscribe(
-      (widget: Widget) => {
-        this.widgetId = widget._id;
-        console.log('create widget image: ' + widget._id + ', name: ' + widget.name
-          + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+      (widgets: any) => {
+        console.log('created new widget Image');
         this.route();
         },
       (error: any) => console.log(error)
@@ -94,9 +91,8 @@ export class WidgetImageComponent implements OnInit {
 
   update() {
     this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
-      (widget: Widget) => {
-        console.log('update widget image: ' + widget._id + ', name: ' + widget.name
-          + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+      (response: any) => {
+        console.log('updated widget Image');
         this.route();
         },
       (error: any) => console.log(error)

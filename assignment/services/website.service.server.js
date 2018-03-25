@@ -23,7 +23,7 @@ module.exports = function (app) {
     website._userId = userId;
     websiteModel.createWebsiteForUser(website)
       .then(function(response) {
-        console.log('created website');
+        console.log('created website: ' + response);
         websiteModel.findAllWebsitesForUser(userId)
           .then(function (websites){
             res.status(200).json(websites);
@@ -39,7 +39,7 @@ module.exports = function (app) {
     websiteModel.findAllWebsitesForUser(userId)
       .then(function(websites){
         res.status(200).json(websites);
-        console.log('found all websites for user: ' + websites);
+        console.log('found all websites for user:\n' + websites);
       }, function(err) {
         console.log(err);
         res.status(500);
@@ -50,7 +50,7 @@ module.exports = function (app) {
     const websiteId = req.params['websiteId'];
     websiteModel.findWebsiteById(websiteId)
       .then(function(website){
-        console.log('found website by id: ' + website);
+        console.log('found website by id:\n' + website);
         res.status(200).json(website);
       }, function(err) {
         console.log(err);
@@ -63,7 +63,7 @@ module.exports = function (app) {
     const website = req.body;
     websiteModel.updateWebsite(websiteId, website)
       .then(function(response) {
-        res.status(200).json(response);
+        res.status(200).json({});
         console.log('updated website: websiteId = ' + websiteId);
       }, function(err) {
         console.log(err);
@@ -75,7 +75,7 @@ module.exports = function (app) {
     const websiteId = req.params['websiteId'];
     websiteModel.deleteWebsite(websiteId)
       .then(function(response){
-        res.status(200).json(response);
+        res.status(200).json({});
         console.log('deleted website: websiteId = ' + websiteId);
       }, function(err) {
         console.log(err);

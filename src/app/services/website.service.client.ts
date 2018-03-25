@@ -1,4 +1,3 @@
-import { Website } from '../models/website.model.client';
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {environment} from '../../environments/environment';
@@ -11,10 +10,10 @@ export class WebsiteService {
   baseUrl = environment.baseUrl;
 
   static getNewWebsite() {
-    return new Website(undefined, undefined, undefined, undefined);
+    return {_id: undefined, name: undefined, _userId: undefined, description: undefined};
   }
 
-  createWebsite(userId: String, website: Website) {
+  createWebsite(userId: String, website: any) {
     return this._http.post(this.baseUrl + '/api/user/' + userId + '/website', website)
       .map(
         (res: Response) => {
@@ -41,7 +40,7 @@ export class WebsiteService {
       );
   }
 
-  updateWebsite(websiteId: String, website: Website) {
+  updateWebsite(websiteId: String, website: any) {
     return this._http.put(this.baseUrl + '/api/website/' + websiteId, website)
       .map(
         (res: Response) => {

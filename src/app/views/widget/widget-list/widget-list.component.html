@@ -16,9 +16,9 @@
   </div>
 </nav>
 
-<div id="sortable" class="container-fluid cl-container-padding" appSortable (newIndexes)="reorderItems($event)">
+<div id="sortable" class="container-fluid cl-container-padding" appSortable (newIndexes)="reorderItems($event)" *ngIf="widgets">
 
-  <div *ngFor="let widget of widgets">
+  <div *ngFor="let widget of widgets | orderBy">
     <div [ngSwitch]="widget.type">
 
       <div class="jga-widget-tool">
@@ -30,7 +30,7 @@
         </a>
       </div>
 
-      <div *ngSwitchCase="'HEADER'">
+      <div *ngSwitchCase="'Header'">
         <div [ngSwitch]="widget.size">
           <h1 *ngSwitchCase="'1'">{{widget.text}}</h1>
           <h2 *ngSwitchCase="'2'">{{widget.text}}</h2>
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div *ngSwitchCase="'TEXT'">
+      <div *ngSwitchCase="'Text'">
         <div *ngIf="widget.formatted">
           <quill-editor [(ngModel)]="widget.text"></quill-editor>
         </div>
@@ -59,7 +59,7 @@
 
       <div *ngSwitchCase="'HTML'" [innerHTML]="widget.text"></div>
 
-      <div *ngSwitchCase="'YOUTUBE'">
+      <div *ngSwitchCase="'YouTube'">
         <div class="embed-responsive embed-responsive-16by9">
           <iframe [src]=getUrl(widget.url)
                   width="560" height="315"
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div *ngSwitchCase="'IMAGE'">
+      <div *ngSwitchCase="'Image'">
         <img class="img-responsive img-rounded cl-widget-images"
              [src]="widget.url"
              width="{{widget.width}}">

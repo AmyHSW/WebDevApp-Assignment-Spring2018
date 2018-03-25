@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Website} from '../../../models/website.model.client';
 import {WebsiteService} from '../../../services/website.service.client';
 import {ActivatedRoute} from '@angular/router';
 
@@ -13,8 +12,8 @@ export class WebsiteNewComponent implements OnInit {
   @ViewChild('f') webForm: NgForm;
 
   userId: String;
-  websites: Website[] = [];
-  website: Website;
+  websites: any;
+  website: any;
 
   constructor(private websiteService: WebsiteService,
               private activatedRoute: ActivatedRoute) { }
@@ -36,9 +35,8 @@ export class WebsiteNewComponent implements OnInit {
   createWebsite() {
     this.website.name = this.webForm.value.name;
     this.websiteService.createWebsite(this.userId, this.website).subscribe(
-      (website: Website) => {
-        this.website = website;
-        console.log('created website: ' + this.website._id + ' ' + this.website.name);
+      (websites: any) => {
+        console.log('created website');
       },
       (error: any) => {
         console.log(error);

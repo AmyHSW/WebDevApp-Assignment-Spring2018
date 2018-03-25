@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import { Widget } from '../models/widget.model.client';
 import 'rxjs/Rx';
 import {Http, Response} from '@angular/http';
 import {environment} from '../../environments/environment';
@@ -11,11 +10,11 @@ export class WidgetService {
   baseUrl = environment.baseUrl;
 
   static getNewWidget() {
-    return new Widget(undefined, undefined, undefined, undefined,
-      undefined, undefined, undefined, undefined);
+    return {_id: undefined, type: undefined, _pageId: undefined, size: undefined, text: undefined, width: undefined,
+    url: undefined, name: undefined};
   }
 
-  createWidget(pageId: String, widget: Widget) {
+  createWidget(pageId: String, widget: any) {
     return this._http.post(this.baseUrl + '/api/page/' + pageId + '/widget', widget)
       .map(
         (res: Response) => {
@@ -42,7 +41,7 @@ export class WidgetService {
       );
   }
 
-  updateWidget(widgetId: String, widget: Widget) {
+  updateWidget(widgetId: String, widget: any) {
     return this._http.put(this.baseUrl + '/api/widget/' + widgetId, widget)
       .map(
         (res: Response) => {
@@ -60,9 +59,9 @@ export class WidgetService {
       );
   }
 
-  reorderWidgets(pageId: String, startIndex: String, endIndex: String, widgets: Widget[]) {
+  reorderWidgets(pageId: String, startIndex: String, endIndex: String) {
     return this._http.put(this.baseUrl + '/api/page/' + pageId
-      + '/widget?initial=' + startIndex + '&final=' + endIndex, widgets)
+      + '/widget?initial=' + startIndex + '&final=' + endIndex, {})
       .map(
         (res: Response) => {
           return res.json();

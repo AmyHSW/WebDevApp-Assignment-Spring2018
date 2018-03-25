@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
-import {User} from '../../../models/user.model.client';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +10,7 @@ import {User} from '../../../models/user.model.client';
 
 export class ProfileComponent implements OnInit {
 
-  user: User;
+  user: any;
   username: String;
   updateFlag: boolean;
   updateMsg: String;
@@ -28,7 +27,7 @@ export class ProfileComponent implements OnInit {
     this.userErrorFlag = false;
     if (this.username !== this.user.username) {
       this.userService.findUserByUsername(this.username).subscribe(
-        (user: User) => {
+        (user: any) => {
           if (typeof user._id !== 'undefined') {
             this.userErrorFlag = true;
           } else {
@@ -45,8 +44,7 @@ export class ProfileComponent implements OnInit {
   }
   update() {
     this.userService.updateUser(this.user._id, this.user).subscribe(
-      (user: User) => {
-        this.user = user;
+      (response: any) => {
         this.updateFlag = true;
       },
       (error: any) => {
@@ -59,7 +57,7 @@ export class ProfileComponent implements OnInit {
   }
   delete() {
     this.userService.deleteUser(this.user._id).subscribe(
-      (user: User) => {
+      (response: any) => {
         console.log('delete user: ' + this.user._id);
         this.router.navigate(['/login']);
       },
@@ -74,7 +72,7 @@ export class ProfileComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params: any) => {
       return this.userService.findUserById(params['uid']).subscribe(
-        (user: User) => {
+        (user: any) => {
           this.user = user;
           this.username = this.user.username;
         },

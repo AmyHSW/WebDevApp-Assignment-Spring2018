@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Widget} from '../../../../models/widget.model.client';
 
 @Component({
   selector: 'app-widget-youtube',
@@ -13,7 +12,7 @@ export class WidgetYoutubeComponent implements OnInit {
   pageId: String;
   websiteId: String;
   userId: String;
-  widget: Widget;
+  widget: any;
   errorFlag: Boolean;
   errorMsg: String;
 
@@ -37,7 +36,7 @@ export class WidgetYoutubeComponent implements OnInit {
         this.widget = WidgetService.getNewWidget();
       } else {
         this.widgetService.findWidgetById(this.widgetId).subscribe(
-          (widget: Widget) => {
+          (widget: any) => {
             this.widget = widget;
           }
         );
@@ -48,13 +47,13 @@ export class WidgetYoutubeComponent implements OnInit {
   deleteYoutube() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: Widget) => {
-          console.log('delete widget youtube');
+        (response: any) => {
+          console.log('deleted widget YouTube');
         },
         (error: any) => console.log(error)
       );
     }
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+    this.route();
 
   }
   updateYoutube() {
@@ -63,24 +62,26 @@ export class WidgetYoutubeComponent implements OnInit {
       return;
     }
     if (this.widgetId === undefined) {
-      this.widget.type = 'YOUTUBE';
+      this.widget.type = 'YouTube';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('create widget youtube: ' + widget._id + ', name: ' + widget.name
-            + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+        (widgets: any) => {
+          console.log('created new widget YouTube');
           },
         (error: any) => console.log(error)
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('update widget youtube: ' + widget._id + ', name: ' + widget.name
-            + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+        (response: any) => {
+          console.log('updated widget YouTube');
           },
         (error: any) => console.log(error)
       );
     }
+    this.route();
+  }
+
+  route() {
     this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 }

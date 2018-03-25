@@ -26,13 +26,17 @@ function updatePosition (pageId, position) {
 }
 
 function createWidget(pageId, widget) {
-  return pageModel.findPageById(pageId).then(function(page) {
-    widget.position = page.widgets.length + 1;
-    WidgetModel.create(widget).then(function(responseWidget) {
-      page.widgets.push(responseWidget);
-      return page.save();
-    })
+  const promise = WidgetModel.create(widget);
+  promise
+    .then(function(responseWidget) {
+      pageModel.findPageById(pageId).then(function(page) {
+        responseWidget.position = page.widgets.length;
+        responseWidget.save();
+        page.widgets.push(responseWidget);
+        page.save();
+      })
   });
+  return promise;
 }
 
 function findAllWidgetsForPage(pageId) {
@@ -57,7 +61,8 @@ function deleteWidget(widgetId) {
           for (let i = 0; i < page.widgets.length; i++) {
             if (page.widgets[i].equals(widgetId)) {
               page.widgets.splice(i, 1);
-              return page.save();
+              page.save();
+              break;
             }
           }
         })

@@ -1,14 +1,14 @@
 <div *ngIf="widget" [ngSwitch]="widget.type" >
 
-  <div *ngSwitchCase="'HEADER'">
+  <div *ngSwitchCase="'Header'">
     <app-widget-heading></app-widget-heading>
   </div>
 
-  <div *ngSwitchCase="'IMAGE'">
+  <div *ngSwitchCase="'Image'">
     <app-widget-image></app-widget-image>
   </div>
 
-  <div *ngSwitchCase="'YOUTUBE'">
+  <div *ngSwitchCase="'YouTube'">
     <app-widget-youtube></app-widget-youtube>
   </div>
 
@@ -16,7 +16,7 @@
     <app-widget-html></app-widget-html>
   </div>
 
-  <div *ngSwitchCase="'TEXT'">
+  <div *ngSwitchCase="'Text'">
     <app-widget-text></app-widget-text>
   </div>
 

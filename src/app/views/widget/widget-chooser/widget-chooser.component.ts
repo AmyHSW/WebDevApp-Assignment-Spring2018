@@ -8,11 +8,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class WidgetChooserComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params: any) => {
-      console.log(params['pid']);
-    });
   }
 }

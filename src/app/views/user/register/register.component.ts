@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service.client';
-import {User} from '../../../models/user.model.client';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
@@ -12,7 +11,7 @@ import {NgForm} from '@angular/forms';
 
 export class RegisterComponent implements OnInit {
   @ViewChild('f') registerForm: NgForm;
-  user: User;
+  user: any;
   v_password: String;
 
   userErrorFlag: boolean;
@@ -31,14 +30,14 @@ export class RegisterComponent implements OnInit {
     this.pwErrorFlag = false;
 
     this.userService.findUserByUsername(this.user.username).subscribe(
-      (user: User) => {
-        if (typeof user._id !== 'undefined') {
+      (user: any) => {
+        if (user != null) {
           this.userErrorFlag = true;
         } else if (this.v_password !== this.user.password) {
           this.pwErrorFlag = true;
         } else {
           return this.userService.createUser(this.user).subscribe(
-            (newUser: User) => {
+            (newUser: any) => {
               this.router.navigate(['/user', newUser._id]);
             }
           );

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {Widget} from '../../../models/widget.model.client';
 import {WidgetService} from '../../../services/widget.service.client';
 import {ActivatedRoute} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
+import {OrderByPipe} from './oder-by-pipe.pipe';
 
 @Component({
   selector: 'app-widget-list',
   templateUrl: './widget-list.component.html',
-  styleUrls: ['./widget-list.component.css'],
+  styleUrls: ['./widget-list.component.css']
 })
 
 export class WidgetListComponent implements OnInit {
 
   pageId: String;
-  widgets: Widget[] = [];
+  widgets: [{}];
 
   constructor(private widgetService: WidgetService,
               private activatedRoute: ActivatedRoute,
@@ -39,12 +39,12 @@ export class WidgetListComponent implements OnInit {
   }
 
   reorderItems(indexes: any) {
-    this.widgetService.reorderWidgets(this.pageId, indexes.startIndex, indexes.endIndex, this.widgets)
+    this.widgetService.reorderWidgets(this.pageId, indexes.startIndex, indexes.endIndex)
       .subscribe(
         (data: any) => {
           console.log('start: ' + indexes.startIndex);
           console.log('stop: ' + indexes.endIndex);
-          window.location.reload();
+          // window.location.reload();
         }
       );
   }

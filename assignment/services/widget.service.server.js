@@ -58,10 +58,11 @@ module.exports = function (app) {
     const mimetype = myFile.mimetype;
 
     if (widgetId === '') {
-      const widget = {type: 'Image', _pageId: pageId};
-      widget.url = 'uploads/' + filename;
+      let widget = {type: 'Image', _pageId: pageId, url: 'uploads/' + filename};
+      widgetModel.createWidget(pageId, widget).then(function(newWidget) {
+        widget = newWidget;
+      });
       console.log('created widget image (from upload image)');
-      widgetModel.createWidget(pageId, widget);
       res.redirect(callbackUrl + '/' + widget._id);
       return;
     }
@@ -70,7 +71,7 @@ module.exports = function (app) {
     widgetModel.updateWidget(widgetId, widget)
       .then(function (response) {
         console.log('updated widget image (from upload image): widgetId=' + widgetId);
-        res.status(200).json(response);
+        res.status(200);
       }, function (err) {
         console.log(err);
         res.status(500);
@@ -86,7 +87,7 @@ module.exports = function (app) {
       .reorderWidget(pageId, startIndex, endIndex)
       .then(function(response) {
         console.log('reordered widget: pageId=' + pageId + ' initial=' + startIndex + ' final=' + endIndex);
-        res.status(200).json(response);
+        res.status(200).json({});
       }, function(err) {
         res.status(500);
       });
@@ -96,9 +97,8 @@ module.exports = function (app) {
     const widget = req.body;
     const pageId = req.params['pageId'];
     widget._pageId = pageId;
-    widgetModel.createWidget(pageId, widget)
-      .then(function(response) {
-        console.log('created widget');
+    widgetModel.createWidget(pageId, widget).then(function(response) {
+        console.log('created widget: ' + response);
         widgetModel.findAllWidgetsForPage(pageId)
           .then(function(widgets) {
           res.status(200).json(widgets);
@@ -138,7 +138,7 @@ module.exports = function (app) {
     const widget = req.body;
     widgetModel.updateWidget(widgetId, widget)
       .then(function(response) {
-        res.status(200).json(response);
+        res.status(200).json({});
         console.log('updated widget: widgetId = ' + widgetId);
       }, function(err) {
         console.log(err);
@@ -150,7 +150,7 @@ module.exports = function (app) {
     const widgetId = req.params['widgetId'];
     widgetModel.deleteWidget(widgetId)
       .then(function(response){
-        res.status(200).json(response);
+        res.status(200).json({});
         console.log('deleted widget: widgetId = ' + widgetId);
       }, function(err) {
         console.log(err);

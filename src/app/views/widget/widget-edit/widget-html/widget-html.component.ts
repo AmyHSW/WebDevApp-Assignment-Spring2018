@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Widget} from '../../../../models/widget.model.client';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -14,7 +13,7 @@ export class WidgetHtmlComponent implements OnInit {
   pageId: String;
   websiteId: String;
   userId: String;
-  widget: Widget;
+  widget: any;
   errorFlag: Boolean;
   errorMsg: String;
 
@@ -36,7 +35,7 @@ export class WidgetHtmlComponent implements OnInit {
       this.widget = WidgetService.getNewWidget();
     } else {
       this.widgetService.findWidgetById(this.widgetId).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
         }
       );
@@ -45,13 +44,13 @@ export class WidgetHtmlComponent implements OnInit {
   delete() {
     if (this.widgetId !== undefined) {
       this.widgetService.deleteWidget(this.widget._id).subscribe(
-        (data: Widget) => {
-          console.log('delete widget html');
+        (response: any) => {
+          console.log('deleted widget HTML');
         },
         (error: any) => console.log(error)
       );
     }
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+    this.route();
   }
   update() {
     if (this.widget.text === undefined) {
@@ -62,20 +61,23 @@ export class WidgetHtmlComponent implements OnInit {
       this.widget.type = 'HTML';
       this.widget.pageId = this.pageId;
       this.widgetService.createWidget(this.pageId, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('create widget html: ' + widget._id + ', name: ' + widget.name + ', text: ' + widget.text);
+        (response: any) => {
+          console.log('create new widget HTML');
         },
         (error: any) => console.log(error)
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
-        (widget: Widget) => {
-          console.log('update widget html: ' + widget._id + ', name: ' + widget.name + ', text: ' + widget.text);
+        (response: any) => {
+          console.log('updated widget HTML');
         },
         (error: any) => console.log(error)
       );
     }
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+    this.route();
   }
 
+  route() {
+    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+  }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
 import {NgForm} from '@angular/forms';
-import {User} from '../../../models/user.model.client';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.userService.findUserByCredentials(this.username, this.password)
       .subscribe(
         (user: any) => {
-          if (typeof user._id !== 'undefined') {
+          if (user != null) {
             console.log(user);
             this.router.navigate(['/user', user._id]);
           } else {

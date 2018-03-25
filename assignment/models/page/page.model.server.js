@@ -13,7 +13,8 @@ PageModel.deletePage = deletePage;
 module.exports = PageModel;
 
 function createPage(websiteId, page) {
-  return PageModel.create(page)
+  const promise = PageModel.create(page);
+  promise
     .then(function(responsePage) {
       websiteModel.findWebsiteById(websiteId)
         .then(function(website) {
@@ -22,6 +23,7 @@ function createPage(websiteId, page) {
           return responsePage;
         })
     });
+  return promise;
 }
 
 function findAllPagesForWebsite(websiteId) {

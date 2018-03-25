@@ -1,4 +1,3 @@
-import {User} from '../models/user.model.client';
 import {Injectable} from '@angular/core';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
@@ -11,10 +10,10 @@ export class UserService {
   baseUrl = environment.baseUrl;
 
   static getNewUser() {
-    return new User(undefined, undefined, undefined, undefined, undefined, undefined);
+    return {_id: undefined, username: undefined, firstName: undefined, lastName: undefined, password: undefined, email: undefined};
   }
 
-  createUser(user: User) {
+  createUser(user: any) {
     return this._http.post(this.baseUrl + '/api/user', user)
       .map(
         (res: Response) => {
@@ -50,7 +49,7 @@ export class UserService {
   }
 
 
-  updateUser(userId: String, user: User) {
+  updateUser(userId: String, user: any) {
     return this._http.put(this.baseUrl + '/api/user/' + userId, user)
       .map(
         (res: Response) => {

@@ -62,7 +62,7 @@ module.exports = function (app) {
     pageModel.updatePage(pageId, page)
       .then(function(response) {
         console.log('updated page: pageId = ' + pageId);
-        res.status(200).json(response);
+        res.status(200).json({});
       }, function(err) {
         console.log(err);
         res.status(500);
@@ -74,7 +74,7 @@ module.exports = function (app) {
     pageModel.deletePage(pageId)
       .then(function(response){
         console.log('deleted page: pageId = ' + pageId);
-        res.status(200).json(response);
+        res.status(200).json({});
       }, function(err) {
         console.log(err);
         res.status(500);

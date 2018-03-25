@@ -30,12 +30,13 @@ import {WidgetService} from './services/widget.service.client';
 
 import {routing} from './app.routing';
 import {HttpModule} from '@angular/http';
-import { SortableDirective } from './sortable.directive';
+import { SortableDirective } from './views/widget/widget-list/sortable.directive';
 import { WidgetHtmlComponent } from './views/widget/widget-edit/widget-html/widget-html.component';
 import { WidgetTextComponent } from './views/widget/widget-edit/widget-text/widget-text.component';
 import { FlickrImageSearchComponent } from './views/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
 import {FlickrService} from './services/flickr.service.client';
 import {SharedService} from './services/shared.service';
+import {OrderByPipe} from './views/widget/widget-list/oder-by-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import {SharedService} from './services/shared.service';
     WidgetHtmlComponent,
     WidgetTextComponent,
     FlickrImageSearchComponent,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,

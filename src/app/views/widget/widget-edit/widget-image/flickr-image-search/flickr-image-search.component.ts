@@ -3,7 +3,6 @@ import {FlickrService} from '../../../../../services/flickr.service.client';
 import {WidgetService} from '../../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../../../services/shared.service';
-import {Widget} from '../../../../../models/widget.model.client';
 
 @Component({
   selector: 'app-flickr-image-search',
@@ -16,7 +15,7 @@ export class FlickrImageSearchComponent implements OnInit {
   pageId: String;
   userId: String;
   widgetId: String;
-  widget: Widget;
+  widget: any;
   photos: [any];
   error: String;
   searchText: String;
@@ -43,7 +42,7 @@ export class FlickrImageSearchComponent implements OnInit {
             this.widget = WidgetService.getNewWidget();
           } else {
             this.widgetService.findWidgetById(this.widgetId).subscribe(
-              (widget: Widget) => {
+              (widget: any) => {
                 this.widget = widget;
               },
               (error: any) => console.log(error)
@@ -74,7 +73,7 @@ export class FlickrImageSearchComponent implements OnInit {
     this.widget.url = url;
 
     if (this.widgetId === '') {
-      this.widget.type = 'IMAGE';
+      this.widget.type = 'Image';
       this.widget.pageId = this.pageId;
       this.create(this.widget);
     } else {
@@ -82,24 +81,23 @@ export class FlickrImageSearchComponent implements OnInit {
     }
   }
 
-  create(widget: Widget) {
+  create(widget: any) {
     this.widgetService.createWidget(this.pageId, widget).subscribe(
-      (newWidget: Widget) => {
-        this.widgetId = newWidget._id;
-        console.log('create widget image: ' + widget._id + ', name: ' + widget.name
-          + ', text: ' + widget.text + ', url: ' + widget.url + ', width: ' + widget.width);
+      (widgets: any) => {
+        this.widgetId = widgets[widgets.length - 1]._id;
+        console.log('create new widget Image');
         this.route();
       },
       (error: any) => console.log(error)
     );
   }
 
-  update(widget: Widget) {
+  update(widget: any) {
     this.widgetService
       .updateWidget(this.widgetId, widget)
       .subscribe(
-        (updatedWidget: Widget) => {
-          console.log('updated image url using Flickr: ' + updatedWidget._id + ', url: ' + updatedWidget.url);
+        (response: any) => {
+          console.log('updated Image url using Flickr');
           this.route();
         },
         (error: any) => {

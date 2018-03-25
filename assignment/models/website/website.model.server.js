@@ -13,14 +13,15 @@ WebsiteModel.deleteWebsite = deleteWebsite;
 module.exports = WebsiteModel;
 
 function createWebsiteForUser(website) {
-  return WebsiteModel.create(website)
-    .then(function(responseWebsite) {
+  const promise = WebsiteModel.create(website);
+  promise.then(function(responseWebsite) {
       userModel.findUserById(website._userId)
         .then(function(user) {
           user.websites.push(responseWebsite);
           return user.save();
         })
     });
+  return promise;
 }
 
 function findAllWebsitesForUser(userId){

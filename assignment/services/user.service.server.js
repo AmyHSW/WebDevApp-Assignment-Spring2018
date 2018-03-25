@@ -33,7 +33,7 @@ module.exports = function(app) {
     const newUser = req.body;
     userModel.createUser(newUser)
       .then(function(user) {
-        res.json(user);
+        res.status(200).json(user);
         console.log('created user: ' + user);
       }, function(err) {
         console.log(err);
@@ -47,7 +47,7 @@ module.exports = function(app) {
     if (username && password){
       const promise = userModel.findUserByCredentials(username, password);
       promise.then(function(user) {
-        res.json(user);
+        res.status(200).json(user);
         console.log('found user by credentials: ' + user);
       }, function(err) {
         console.log(err);
@@ -57,7 +57,7 @@ module.exports = function(app) {
     } else if (username){
       userModel.findUserByUserName(username)
         .then(function(user) {
-          res.json(user);
+          res.status(200).json(user);
           console.log('found user by username: ' + user);
         }, function(err) {
           console.log(err);
@@ -84,9 +84,9 @@ module.exports = function(app) {
     const userId = req.params.userId;
     const user = req.body;
     userModel.updateUser(userId, user)
-      .then(function(status) {
-        res.send(status);
-        console.log('updated user: ' + user);
+      .then(function(response) {
+        res.status(200).json({});
+        console.log('updated user');
       }, function(err) {
         console.log(err);
         res.status(500);
@@ -96,8 +96,8 @@ module.exports = function(app) {
   function deleteUser(req, res) {
     const userId = req.params['userId'];
     userModel.deleteUser(userId)
-      .then(function(status) {
-        res.send(status);
+      .then(function(response) {
+        res.status(200).json({});
         console.log('deleted user: userId = ' + userId);
       }, function(err) {
         console.log(err);
