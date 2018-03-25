@@ -1,6 +1,7 @@
 module.exports = function(app) {
 
   const userModel = require("../models/user/user.model.server");
+  const websiteModel = require("../models/website/website.model.server");
 
   app.post("/api/user", createUser);
   app.get("/api/user?", findUser);
@@ -97,6 +98,12 @@ module.exports = function(app) {
     const userId = req.params['userId'];
     userModel.deleteUser(userId)
       .then(function(response) {
+        websiteModel.findAllWebsitesForUser(userId)
+          .then(function (websites) {
+            websites.forEach(function (website) {
+              websiteModel.deleteWebsite(website._id);
+            })
+          });
         res.status(200).json({});
         console.log('deleted user: userId = ' + userId);
       }, function(err) {

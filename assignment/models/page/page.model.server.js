@@ -3,7 +3,6 @@ const PageSchema = require("./page.schema.server");
 const PageModel = mongoose.model('PageModel', PageSchema);
 
 const websiteModel = require("../website/website.model.server");
-const widgetModel = require("../widget/widget.model.server");
 
 PageModel.createPage = createPage;
 PageModel.findAllPagesForWebsite = findAllPagesForWebsite;
@@ -53,12 +52,6 @@ function deletePage(pageId) {
             }
           }
         }
-        widgetModel.findAllWidgetsForPage(pageId)
-          .then(function(widgets) {
-            widgets.forEach(function(widget) {
-              widgetModel.deleteWidget(widget._id);
-            })
-          })
       })
     })
   });

@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const UserSchema = require("./user.schema.server");
 const UserModel = mongoose.model("UserModel", UserSchema);
 
-const websiteModel = require("../website/website.model.server");
-
 UserModel.findUserById = findUserById;
 UserModel.createUser = createUser;
 UserModel.findAllUsers = findAllUsers;
@@ -41,12 +39,5 @@ function updateUser(userId, user){
 }
 
 function deleteUser(userId) {
-  return UserModel.remove({_id: userId}).then(function() {
-    websiteModel.findAllWebsitesForUser(userId)
-      .then(function (websites) {
-        websites.forEach(function (website) {
-          websiteModel.deleteWebsite(website._id);
-        })
-      })
-  });
+  return UserModel.remove({_id: userId});
 }

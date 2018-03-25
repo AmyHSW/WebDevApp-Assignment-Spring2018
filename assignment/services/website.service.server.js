@@ -1,6 +1,7 @@
 module.exports = function (app) {
 
   const websiteModel = require("../models/website/website.model.server");
+  const pageModel = require("../models/page/page.model.server");
 
   app.post("/api/user/:userId/website", createWebsite);
   app.get("/api/user/:userId/website", findAllWebsitesForUser);
@@ -75,6 +76,12 @@ module.exports = function (app) {
     const websiteId = req.params['websiteId'];
     websiteModel.deleteWebsite(websiteId)
       .then(function(response){
+        pageModel.findAllPagesForWebsite(websiteId)
+          .then(function(pages) {
+            pages.forEach(function(page) {
+              pageModel.deletePage(page._id);
+            })
+          });
         res.status(200).json({});
         console.log('deleted website: websiteId = ' + websiteId);
       }, function(err) {

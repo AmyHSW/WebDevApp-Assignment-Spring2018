@@ -40,7 +40,8 @@ function updateWebsite(websiteId, website) {
 }
 
 function deleteWebsite(websiteId){
-  return findWebsiteById(websiteId).then(function(website){
+  return findWebsiteById(websiteId)
+    .then(function(website){
       WebsiteModel.remove({_id: websiteId})
         .then(function() {
           userModel.findUserById(website._userId).then(function(user) {
@@ -52,15 +53,9 @@ function deleteWebsite(websiteId){
                 }
               }
             }
-            pageModel.findAllPagesForWebsite(websiteId)
-              .then(function(pages) {
-                pages.forEach(function(page) {
-                  pageModel.deletePage(page._id);
-                })
-              })
-            })
+          })
         });
-  });
+    });
 
 }
 

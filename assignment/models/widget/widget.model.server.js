@@ -62,8 +62,7 @@ function deleteWidget(widgetId) {
             for (let i = 0; i < page.widgets.length; i++) {
               if (page.widgets[i].equals(widgetId)) {
                 page.widgets.splice(i, 1);
-                page.save();
-                break;
+                return page.save();
               }
             }
           }
