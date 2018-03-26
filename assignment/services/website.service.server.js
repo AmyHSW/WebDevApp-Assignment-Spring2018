@@ -2,6 +2,7 @@ module.exports = function (app) {
 
   const websiteModel = require("../models/website/website.model.server");
   const pageModel = require("../models/page/page.model.server");
+  const widgetModel = require("../models/widget/widget.model.server");
 
   app.post("/api/user/:userId/website", createWebsite);
   app.get("/api/user/:userId/website", findAllWebsitesForUser);
@@ -80,6 +81,12 @@ module.exports = function (app) {
           .then(function(pages) {
             pages.forEach(function(page) {
               pageModel.deletePage(page._id);
+              widgetModel.findAllWidgetsForPage(page._id)
+                .then(function(widgets) {
+                  widgets.forEach(function(widget) {
+                    widgetModel.deleteWidget(widget._id);
+                  })
+                })
             })
           });
         res.status(200).json({});
