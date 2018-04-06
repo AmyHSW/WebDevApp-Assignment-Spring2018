@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
 import {NgForm} from '@angular/forms';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -17,24 +18,22 @@ export class LoginComponent implements OnInit {
   errorFlag: boolean;
   errorMsg: String;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService,
+              private router: Router) {}
 
   login() {
     this.username = this.loginForm.value.username;
     this.password = this.loginForm.value.password;
 
-    this.userService.findUserByCredentials(this.username, this.password)
+    console.log('login username: ', this.username);
+
+    this.userService.login(this.username, this.password)
       .subscribe(
         (user: any) => {
-          if (user != null) {
-            console.log(user);
-            this.router.navigate(['/user', user._id]);
-          } else {
-            this.errorFlag = true;
-          }
-        },
-        (error: any) => {
-          console.log(error);
+          this.errorFlag = false;
+          this.router.navigate(['/profile']);
+        }, (error: any) => {
+          this.errorFlag = true;
         }
       );
   }

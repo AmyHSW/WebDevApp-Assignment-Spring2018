@@ -17,10 +17,6 @@
     {{updateMsg}}
   </div>
 
-  <div *ngIf="userErrorFlag" class="alert alert-danger">
-    {{userErrorMsg}}
-  </div>
-
   <div *ngIf="errorFlag" class="alert alert-danger">
     {{errorMsg}}
   </div>
@@ -68,10 +64,10 @@
     </div>
 
     <button class="btn btn-success btn-block"
-            routerLink="./website">Websites</button>
+            [routerLink]="['/user', 'website']">Websites</button>
 
     <button class="btn btn-primary btn-block"
-            routerLink="/login">Logout</button>
+            (click)="logout()">Logout</button>
 
     <button class="btn btn-danger btn-block"
             (click)="delete()"

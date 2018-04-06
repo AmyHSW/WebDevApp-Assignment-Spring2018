@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,31 +13,30 @@ export class ProfileComponent implements OnInit {
 
   user: any;
   username: String;
-  updateFlag: boolean;
-  updateMsg: String;
-  userErrorFlag: boolean;
-  userErrorMsg: String;
   errorFlag: boolean;
   errorMsg: String;
+  updateFlag: boolean;
+  updateMsg: String;
 
   constructor(
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private sharedService: SharedService) { }
 
   updateUser() {
-    this.updateFlag = false;
-    this.userErrorFlag = false;
     this.errorFlag = false;
     if (this.username !== this.user.username) {
       if (this.username === '') {
         this.errorFlag = true;
+        this.errorMsg = 'Please enter username!';
         return;
       }
       this.userService.findUserByUsername(this.username).subscribe(
         (user: any) => {
           if (typeof user._id !== 'undefined') {
-            this.userErrorFlag = true;
+            this.errorFlag = true;
+            this.errorMsg = 'The username is in use. Please enter a different name.';
           } else {
             this.user.username = this.username;
             this.update();
@@ -60,7 +60,12 @@ export class ProfileComponent implements OnInit {
     );
   }
   logout() {
-    this.router.navigate(['/login']);
+    this.userService.logout()
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/login']);
+        }
+      );
   }
   delete() {
     this.userService.deleteUser(this.user._id).subscribe(
@@ -72,14 +77,12 @@ export class ProfileComponent implements OnInit {
     );
   }
   ngOnInit() {
+    this.getUser();
     this.updateFlag = false;
-    this.userErrorFlag = false;
     this.errorFlag = false;
     this.updateMsg = 'Profile updated!';
-    this.userErrorMsg = 'The username already exists! Please use a different name.';
-    this.errorMsg = 'Please enter username!';
 
-    this.activatedRoute.params.subscribe((params: any) => {
+/*    this.activatedRoute.params.subscribe((params: any) => {
       return this.userService.findUserById(params['uid']).subscribe(
         (user: any) => {
           this.user = user;
@@ -89,6 +92,10 @@ export class ProfileComponent implements OnInit {
           console.log(error);
         }
       );
-    });
+    });*/
+  }
+  getUser() {
+    this.user = this.sharedService.user;
+    this.username = this.user.username;
   }
 }

@@ -2,8 +2,8 @@
 
   <h1>Register</h1>
 
-  <div *ngIf="userErrorFlag" class="alert alert-danger">
-    {{userErrorMsg}}
+  <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
   </div>
 
   <form (ngSubmit)="register()" #f="ngForm">
@@ -39,10 +39,6 @@
              ngModel
              required
              #v_password="ngModel"/>
-    </div>
-
-    <div *ngIf="pwErrorFlag" class="alert alert-danger">
-      {{pwErrorMsg}}
     </div>
 
     <button class="btn btn-primary btn-block"

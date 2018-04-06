@@ -18,20 +18,7 @@ module.exports = function (app) {
   // UPLOAD
   app.post ("/api/upload", upload.single('myFile'), uploadImage);
 
-  // const widgets = [
-  //   {_id: '1', type: 'HEADER', pageId: '321', size: '2', text: 'GIZMODO'},
-  //   {_id: '2', type: 'HEADER', pageId: '321', size: '4', text: 'Lorem ipsum'},
-  //   {_id: '3', type: 'IMAGE', pageId: '321', size: '2', text: 'text', width: '100%',
-  //     url: 'http://lorempixel.com/400/200/'},
-  //   {_id: '4', type: 'IMAGE', pageId: '321', size: '2', text: 'my image', width: '100%',
-  //     url: 'http://food.fnr.sndimg.com/content/dam/images/food/fullset/2009/11/4/2/FNM_120109-Sugar-Fix-006_s4x3.jpg'
-  //     + '.rend.hgtvcom.616.462.suffix/1382539033745.jpeg'},
-  //   {_id: '5', type: 'YOUTUBE', pageId: '321', size: '2', text: 'text', width: '100%',
-  //     url: 'https://www.youtube.com/embed/d5nCbSNS9mA'}
-  // ];
-
   function uploadImage(req, res) {
-    const userId = req.body.userId;
     const websiteId = req.body.websiteId;
     const pageId = req.body.pageId;
     const widgetId = req.body.widgetId;
@@ -42,8 +29,7 @@ module.exports = function (app) {
 
     console.log(req.file);
 
-    const callbackUrl = baseUrl + '/user/' + userId + "/website/" + websiteId
-      + "/page/" + pageId + "/widget";
+    const callbackUrl = baseUrl + "/user/website/" + websiteId + "/page/" + pageId + "/widget";
 
     if(myFile == null) {
       res.redirect(callbackUrl + '/' + widgetId);
@@ -60,7 +46,7 @@ module.exports = function (app) {
     if (widgetId === '') {
       let widget = {type: 'Image', _pageId: pageId, url: 'uploads/' + filename};
       widgetModel.createWidget(pageId, widget).then(function(newWidget) {
-        console.log('created widget image (from upload image)');
+        // console.log('created widget image (from upload image)');
         res.redirect(callbackUrl + '/' + newWidget._id);
       });
       return;
@@ -69,7 +55,7 @@ module.exports = function (app) {
     const widget =  {url: 'uploads/' + filename};
     widgetModel.updateWidget(widgetId, widget)
       .then(function (response) {
-        console.log('updated widget image (from upload image): widgetId=' + widgetId);
+        // console.log('updated widget image (from upload image): widgetId=' + widgetId);
         res.status(200);
       }, function (err) {
         console.log(err);
@@ -85,7 +71,7 @@ module.exports = function (app) {
     widgetModel
       .reorderWidget(pageId, startIndex, endIndex)
       .then(function(response) {
-        console.log('reordered widget: pageId=' + pageId + ' initial=' + startIndex + ' final=' + endIndex);
+        // console.log('reordered widget: pageId=' + pageId + ' initial=' + startIndex + ' final=' + endIndex);
         res.status(200).json({});
       }, function(err) {
         res.status(500);
@@ -97,7 +83,7 @@ module.exports = function (app) {
     const pageId = req.params['pageId'];
     widget._pageId = pageId;
     widgetModel.createWidget(pageId, widget).then(function(response) {
-        console.log('created widget: ' + response);
+        // console.log('created widget: ' + response);
         widgetModel.findAllWidgetsForPage(pageId)
           .then(function(widgets) {
           res.status(200).json(widgets);
@@ -113,7 +99,7 @@ module.exports = function (app) {
     widgetModel.findAllWidgetsForPage(pageId)
       .then(function(widgets) {
         res.status(200).json(widgets);
-        console.log('found all widgets for page: ' + widgets);
+        // console.log('found all widgets for page: ' + widgets);
       }, function(err) {
         console.log(err);
         res.status(500);
@@ -124,7 +110,7 @@ module.exports = function (app) {
     const widgetId = req.params['widgetId'];
     widgetModel.findWidgetById(widgetId)
       .then(function(widget){
-        console.log('found widget by id: ' + widget);
+        // console.log('found widget by id: ' + widget);
         res.status(200).json(widget);
       }, function(err) {
         console.log(err);
@@ -138,7 +124,7 @@ module.exports = function (app) {
     widgetModel.updateWidget(widgetId, widget)
       .then(function(response) {
         res.status(200).json({});
-        console.log('updated widget: widgetId = ' + widgetId);
+        // console.log('updated widget: widgetId = ' + widgetId);
       }, function(err) {
         console.log(err);
         res.status(500);
@@ -150,7 +136,7 @@ module.exports = function (app) {
     widgetModel.deleteWidget(widgetId)
       .then(function(response){
         res.status(200).json({});
-        console.log('deleted widget: widgetId = ' + widgetId);
+        // console.log('deleted widget: widgetId = ' + widgetId);
       }, function(err) {
         console.log(err);
         res.status(500);

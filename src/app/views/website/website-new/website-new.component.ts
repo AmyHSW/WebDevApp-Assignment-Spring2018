@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {WebsiteService} from '../../../services/website.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-website-new',
@@ -17,12 +18,11 @@ export class WebsiteNewComponent implements OnInit {
 
   constructor(private websiteService: WebsiteService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private sharedService: SharedService) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params: any) => {
-      this.userId = params['uid'];
-    });
+    this.userId = this.sharedService.user['_id'];
     this.websiteService.findWebsitesByUser(this.userId).subscribe(
       (websites: any) => {
         this.websites = websites;

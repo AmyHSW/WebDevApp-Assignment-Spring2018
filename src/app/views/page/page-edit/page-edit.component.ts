@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageService } from '../../../services/page.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-page-edit',
@@ -12,7 +13,9 @@ export class PageEditComponent implements OnInit {
 
   page: any;
 
-  constructor(private pageService: PageService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private pageService: PageService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   updatePage() {
     this.pageService.updatePage(this.page._id, this.page).subscribe(

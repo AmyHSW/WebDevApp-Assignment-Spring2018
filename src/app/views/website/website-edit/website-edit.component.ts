@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {WebsiteService} from '../../../services/website.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-website-edit',
@@ -9,11 +10,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class WebsiteEditComponent implements OnInit {
 
+  user: any;
+  userId: String;
   website: any;
   websites: any;
   constructor(private websiteService: WebsiteService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private sharedService: SharedService) { }
 
   updateWebsite() {
     this.websiteService.updateWebsite(this.website._id, this.website).subscribe(
@@ -40,14 +44,15 @@ export class WebsiteEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getUser();
+    this.websiteService.findWebsitesByUser(this.userId).subscribe(
+      (websites: any) => {
+        this.websites = websites;
+      },
+      (error: any) => {
+        console.log(error);
+      });
     this.activatedRoute.params.subscribe((params: any) => {
-      this.websiteService.findWebsitesByUser(params['uid']).subscribe(
-        (websites: any) => {
-          this.websites = websites;
-        },
-        (error: any) => {
-          console.log(error);
-        });
       this.websiteService.findWebsitesById(params['wid']).subscribe(
         (website: any) => {
           this.website = website;
@@ -58,5 +63,10 @@ export class WebsiteEditComponent implements OnInit {
       );
     });
   }
-
+  getUser() {
+    this.user = this.sharedService.user;
+    console.log(this.user);
+    this.userId = this.user['_id'];
+    console.log(this.userId);
+  }
 }

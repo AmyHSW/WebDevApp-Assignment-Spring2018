@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {WidgetService} from '../../../services/widget.service.client';
 import {ActivatedRoute} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
-import {OrderByPipe} from './oder-by-pipe.pipe';
 
 @Component({
   selector: 'app-widget-list',

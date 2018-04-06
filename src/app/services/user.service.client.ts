@@ -1,16 +1,85 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
-import { Http, Response } from '@angular/http';
+import { Http, RequestOptions, Response } from '@angular/http';
+import {SharedService} from './shared.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class UserService {
 
-  constructor(private _http: Http) {}
+  constructor(private _http: Http,
+              private sharedService: SharedService,
+              private router: Router) {}
   baseUrl = environment.baseUrl;
+  options = new RequestOptions();
 
   static getNewUser() {
     return {_id: undefined, username: undefined, firstName: undefined, lastName: undefined, password: undefined, email: undefined};
+  }
+
+  login(username: String, password: String) {
+    this.options.withCredentials = true; // jga
+
+    const body = {
+      username : username,
+      password : password
+    };
+    return this._http.post(this.baseUrl + '/api/login', body, this.options)
+      .map(
+        (res: Response) => {
+          const user = res.json();
+          this.sharedService.user = user;
+          return user;
+        }
+      );
+  }
+
+  logout() {
+    this.options.withCredentials = true;
+
+    return this._http.post(this.baseUrl + '/api/logout', '', this.options)
+      .map(
+        (res: Response) => {
+          this.sharedService.user = '';
+          return res.json();
+        }
+      );
+  }
+
+  register(username: String, password: String) {
+    this.options.withCredentials = true;
+    const body = {
+      username: username,
+      password: password
+    };
+    return this._http.post(this.baseUrl + '/api/register', body, this.options)
+      .map(
+        (res: Response) => {
+          const user = res.json();
+          this.sharedService.user = user;
+          return user;
+        }
+      );
+  }
+
+  loggedIn() {
+    this.options.withCredentials = true;
+    return this._http.post(this.baseUrl + '/api/loggedIn', '', this.options)
+      .map(
+        (res: Response) => {
+          const user = res.json();
+          if (user !== 0) {
+            console.log('loggedIn: ok');
+            this.sharedService.user = user;
+            return true;
+          } else {
+            console.log('loggedIn: fail');
+            this.router.navigate(['/login']);
+            return false;
+          }
+        }
+      );
   }
 
   createUser(user: any) {

@@ -13,7 +13,6 @@ export class FlickrImageSearchComponent implements OnInit {
 
   websiteId: String;
   pageId: String;
-  userId: String;
   widgetId: String;
   widget: any;
   photos: [any];
@@ -23,20 +22,14 @@ export class FlickrImageSearchComponent implements OnInit {
   constructor(private flickrService: FlickrService,
               private widgetService: WidgetService,
               private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private sharedService: SharedService) { }
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
-    // fetch userId from shared service
-    this.userId = this.sharedService.user['_id'];
-
-    // fetch userId, pageId and websiteId from url
+    // fetch pageId and websiteId from url
     this.activatedRoute.params.subscribe((params: any) => {
           this.websiteId = params['wid'];
           this.pageId = params['pid'];
           this.widgetId = params['wgid'];
-          this.userId = params['uid'];
 
           if (this.widgetId === '') {
             this.widget = WidgetService.getNewWidget();
@@ -107,6 +100,6 @@ export class FlickrImageSearchComponent implements OnInit {
   }
 
   route() {
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget', this.widgetId]);
+    this.router.navigate(['/user', 'website', this.websiteId, 'page', this.pageId, 'widget', this.widgetId]);
   }
 }

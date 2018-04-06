@@ -41,6 +41,13 @@
     <button class="btn btn-success btn-block"
             (click)="register()"
             type="button">Register</button>
+
+    <button class="btn btn-info btn-block"
+            [routerLink]="['/login']"
+            type="button">
+      <span class="fa fa-facebook"></span>
+      Facebook
+    </button>
   </form>
 
 </div>

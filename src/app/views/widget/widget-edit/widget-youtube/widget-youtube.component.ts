@@ -11,7 +11,6 @@ export class WidgetYoutubeComponent implements OnInit {
   widgetId: String;
   pageId: String;
   websiteId: String;
-  userId: String;
   widget: any;
   errorFlag: Boolean;
   errorMsg: String;
@@ -30,7 +29,6 @@ export class WidgetYoutubeComponent implements OnInit {
       this.widgetId = params['wgid'];
       this.pageId = params['pid'];
       this.websiteId = params['wid'];
-      this.userId = params['uid'];
 
       if (this.widgetId === undefined) {
         this.widget = WidgetService.getNewWidget();
@@ -84,6 +82,6 @@ export class WidgetYoutubeComponent implements OnInit {
   }
 
   route() {
-    this.router.navigate(['/user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+    this.router.navigate(['/user', 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 }
