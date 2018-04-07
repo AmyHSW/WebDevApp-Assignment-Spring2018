@@ -10,7 +10,7 @@ export class WidgetService {
   baseUrl = environment.baseUrl;
 
   static getNewWidget() {
-    return {_id: undefined, type: undefined, _pageId: undefined, size: undefined, text: undefined, width: undefined,
+    return {type: undefined, _pageId: undefined, size: undefined, text: undefined, width: undefined,
     url: undefined, name: undefined};
   }
 

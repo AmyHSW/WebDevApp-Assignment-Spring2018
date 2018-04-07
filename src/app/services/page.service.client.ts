@@ -10,7 +10,7 @@ export class PageService {
   baseUrl = environment.baseUrl;
 
   static getNewPage() {
-    return {_id: undefined, name: undefined, _websiteId: undefined, description: undefined};
+    return {name: undefined, _websiteId: undefined, description: undefined};
   }
 
   createPage(websiteId: String, page: any) {

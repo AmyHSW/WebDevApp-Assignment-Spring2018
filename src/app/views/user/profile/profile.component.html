@@ -26,11 +26,13 @@
     <div class="form-group" *ngIf="user">
       <label for="username">Username</label>
       <input [(ngModel)]="username"
+             [ngClass]="{'red-border-class': errorFlag}"
              id="username"
              type="text"
              class="form-control"
              placeholder="Username"
              [ngModelOptions]="{standalone: true}"/>
+      <span class="alert-class" *ngIf="errorFlag">{{alert}}</span>
     </div>
 
     <div class="form-group" *ngIf="user">
@@ -66,7 +68,7 @@
     <button class="btn btn-success btn-block"
             [routerLink]="['/user', 'website']">Websites</button>
 
-    <button class="btn btn-primary btn-block"
+    <button class="btn btn-warning btn-block"
             (click)="logout()">Logout</button>
 
     <button class="btn btn-danger btn-block"

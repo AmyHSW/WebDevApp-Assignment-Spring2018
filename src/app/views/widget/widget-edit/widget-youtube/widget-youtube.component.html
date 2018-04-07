@@ -28,6 +28,10 @@
     {{errorMsg}}
   </div>
 
+<!--  <div *ngIf="urlFlag" class="alert alert-warning">
+    {{urlMsg}}
+  </div>-->
+
   <form>
 
     <div class="form-group" *ngIf="widget">
@@ -35,9 +39,11 @@
       <input [(ngModel)]="widget.name"
              type="text"
              class="form-control"
+             [ngClass]="{'red-border-class': errorFlag}"
              id="youtube-name"
              placeholder="Name"
              [ngModelOptions]="{standalone: true}"/>
+      <span class="alert-class" *ngIf="errorFlag">{{errAlert}}</span>
     </div>
 
     <div class="form-group" *ngIf="widget">
@@ -58,6 +64,9 @@
              id="youtube-URL"
              placeholder="URL"
              [ngModelOptions]="{standalone: true}"/>
+<!--
+      <span class="alert-class" *ngIf="urlFlag">{{urlAlert}}</span>
+-->
     </div>
 
     <div class="form-group" *ngIf="widget">

@@ -60,7 +60,7 @@
       <div *ngSwitchCase="'HTML'" [innerHTML]="widget.text"></div>
 
       <div *ngSwitchCase="'YouTube'" class="youtube-widget">
-        <div class="embed-responsive embed-responsive-16by9">
+        <div class="embed-responsive embed-responsive-16by9" *ngIf="widget.url">
           <iframe [src]=getUrl(widget.url)
                   width="560" height="315"
                   frameborder="0"
@@ -71,7 +71,8 @@
       <div *ngSwitchCase="'Image'">
         <img class="img-responsive img-rounded cl-widget-images"
              [src]="widget.url"
-             width="{{widget.width}}">
+             width="{{widget.width}}"
+             *ngIf="widget.url">
       </div>
 
     </div>

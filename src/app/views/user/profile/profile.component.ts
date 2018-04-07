@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   errorMsg: String;
   updateFlag: boolean;
   updateMsg: String;
+  alert: String;
 
   constructor(
     private userService: UserService,
@@ -82,6 +83,7 @@ export class ProfileComponent implements OnInit {
     this.updateFlag = false;
     this.errorFlag = false;
     this.updateMsg = 'Profile updated!';
+    this.alert = '* Please enter username';
   }
   getUser() {
     this.user = this.sharedService.user;

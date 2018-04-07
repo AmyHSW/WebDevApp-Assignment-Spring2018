@@ -13,12 +13,15 @@ export class PageNewComponent implements OnInit {
 
   page: any;
   webId: String;
+  errorFlag: boolean;
+  errorMsg: String;
 
   constructor(private pageService: PageService,
               private activatedRoute: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit() {
+    this.errorFlag = false;
     this.activatedRoute.params.subscribe((params: any) => {
       this.webId = params['wid'];
     });
@@ -33,6 +36,8 @@ export class PageNewComponent implements OnInit {
         this.router.navigate(['..'], {relativeTo: this.activatedRoute});
       },
       (error: any) => {
+        this.errorFlag = true;
+        this.errorMsg = error._body;
         console.log(error);
       }
     );

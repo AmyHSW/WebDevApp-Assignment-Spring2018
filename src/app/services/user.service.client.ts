@@ -15,7 +15,7 @@ export class UserService {
   options = new RequestOptions();
 
   static getNewUser() {
-    return {_id: undefined, username: undefined, firstName: undefined, lastName: undefined, password: undefined, email: undefined};
+    return {username: undefined, firstName: undefined, lastName: undefined, password: undefined, email: undefined};
   }
 
   login(username: String, password: String) {

@@ -15,6 +15,7 @@ export class WidgetTextComponent implements OnInit {
   widget: any;
   errorFlag: Boolean;
   errorMsg: String;
+  alert: String;
 
   constructor(private widgetService: WidgetService,
               private activatedRoute: ActivatedRoute,
@@ -22,7 +23,8 @@ export class WidgetTextComponent implements OnInit {
 
   ngOnInit() {
     this.errorFlag = false;
-    this.errorMsg = 'Please enter name!';
+    this.alert = '* Please enter widget name';
+
     this.activatedRoute.params.subscribe((params: any) => {
       console.log('widget._id: ' + params['wgid']);
       this.widgetId = params['wgid'];
@@ -46,14 +48,19 @@ export class WidgetTextComponent implements OnInit {
           console.log('deleted widget Text');
           this.route();
         },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     } else {
       this.route();
     }
   }
   update() {
-    if (this.widget.name === undefined) {
+    if (this.widget.name === undefined || this.widget.name === '') {
+      this.errorMsg = 'Please enter name for this Text!';
       this.errorFlag = true;
       return;
     }
@@ -65,7 +72,11 @@ export class WidgetTextComponent implements OnInit {
           console.log('create new widget Text');
           this.route();
         },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
@@ -73,7 +84,11 @@ export class WidgetTextComponent implements OnInit {
           console.log('updated widget Text');
           this.route();
         },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     }
   }

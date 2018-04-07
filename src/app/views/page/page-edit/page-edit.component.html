@@ -19,15 +19,23 @@
 </nav>
 
 <div class="container-fluid">
+
   <form>
+
+    <div *ngIf="errorFlag" class="alert alert-danger">
+      {{errorMsg}}
+    </div>
+
     <div class="form-group" *ngIf="page">
       <label for="page-name">Name</label>
       <input [(ngModel)]="page.name"
+             [ngClass]="{'red-border-class': errorFlag}"
              type="text"
              class="form-control"
              id="page-name"
              placeholder="Page Name"
              [ngModelOptions]="{standalone: true}">
+      <span class="alert-class" *ngIf="errorFlag">{{alert}}</span>
     </div>
 
     <div class="form-group" *ngIf="page">

@@ -128,29 +128,22 @@ module.exports = function(app) {
   function register (req, res) {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password);
-    userModel.findUserByUserName(user.username)
+    userModel.createUser(user)
       .then(
-        function(user) {
-          if (user) {
-            res.status(400).send('This username is in use. Please enter a different one.');
+        function(newUser) {
+          if (newUser) {
+            req.login(newUser, function(err) {
+              if (err) {
+                res.status(400).send(err);
+              } else {
+                res.status(200).json(newUser);
+              }
+            })
           } else {
-            userModel.createUser(user)
-              .then(
-                function(newUser) {
-                  if (newUser) {
-                    req.login(newUser, function(err) {
-                      if (err) {
-                        res.status(400).send(err);
-                      } else {
-                        res.json(newUser);
-                      }
-                    })
-                  }
-                }
-              )
+            res.status(500).send('Cannot create new user');
           }
         }
-      );
+      )
   }
 
   function loggedIn(req, res) {

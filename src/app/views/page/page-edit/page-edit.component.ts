@@ -12,16 +12,29 @@ import {SharedService} from '../../../services/shared.service';
 export class PageEditComponent implements OnInit {
 
   page: any;
+  errorFlag: boolean;
+  errorMsg: String;
+  alert: String;
 
   constructor(private pageService: PageService,
               private activatedRoute: ActivatedRoute,
               private router: Router) { }
 
   updatePage() {
+    if (this.page.name === '') {
+      this.errorFlag = true;
+      this.errorMsg = 'Please enter name for this Page';
+      return;
+    }
     this.pageService.updatePage(this.page._id, this.page).subscribe(
       (response: any) => {
         console.log('updated page');
         this.router.navigate(['..'], {relativeTo: this.activatedRoute});
+      },
+      (error: any) => {
+        this.errorFlag = true;
+        this.errorMsg = error._body;
+        console.log(error);
       }
     );
   }
@@ -35,6 +48,8 @@ export class PageEditComponent implements OnInit {
     );
   }
   ngOnInit() {
+    this.errorFlag = false;
+    this.alert = '* Please enter page name';
     this.activatedRoute.params.subscribe((params: any) => {
       this.pageService.findPageById(params['pid']).subscribe(
         (page: any) => {

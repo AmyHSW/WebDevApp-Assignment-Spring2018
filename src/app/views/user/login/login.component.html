@@ -15,6 +15,7 @@
                id="username"
                type="text"
                class="form-control"
+               [ngClass]="{'red-border-class': !username.valid && username.touched}"
                ngModel
                required
                #username="ngModel"/>

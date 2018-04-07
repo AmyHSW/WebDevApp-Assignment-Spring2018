@@ -49,14 +49,21 @@
 
   <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
     <form>
+
+      <div *ngIf="errorFlag" class="alert alert-danger">
+        {{errorMsg}}
+      </div>
+
       <div class="form-group" *ngIf="website">
         <label for="website-name">Website Name</label>
         <input [(ngModel)]="website.name"
+               [ngClass]="{'red-border-class': errorFlag}"
                type="text"
                class="form-control"
                id="website-name"
                placeholder="Blogger"
                [ngModelOptions]="{standalone: true}">
+        <span class="alert-class" *ngIf="errorFlag">{{alert}}</span>
       </div>
 
       <div class="form-group" *ngIf="website">

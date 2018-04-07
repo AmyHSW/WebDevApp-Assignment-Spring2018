@@ -17,6 +17,7 @@ export class WidgetImageComponent implements OnInit {
   widget: any;
   errorFlag: Boolean;
   errorMsg: String;
+  alert: String;
   baseUrl = environment.baseUrl;
 
   constructor(private widgetService: WidgetService,
@@ -25,7 +26,7 @@ export class WidgetImageComponent implements OnInit {
 
   ngOnInit() {
     this.errorFlag = false;
-    this.errorMsg = 'Please enter URL!';
+    this.alert = '* Please enter widget name';
 
     this.activatedRoute.params.subscribe((params: any) => {
 
@@ -54,7 +55,11 @@ export class WidgetImageComponent implements OnInit {
           console.log('deleted widget Image');
           this.route();
         },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     } else {
       this.route();
@@ -62,11 +67,12 @@ export class WidgetImageComponent implements OnInit {
   }
 
   updateImage() {
-    if (this.widget.url === '') {
+    if (this.widget.name === undefined || this.widget.name === '') {
       this.errorFlag = true;
+      this.errorMsg = 'Please enter name for this Image!';
       return;
     }
-    if (this.widgetId === undefined) {
+    if (this.widgetId === '') {
       this.create();
     } else {
       this.update();
@@ -85,7 +91,11 @@ export class WidgetImageComponent implements OnInit {
         console.log('created new widget Image');
         this.route();
         },
-      (error: any) => console.log(error)
+      (error: any) => {
+        console.log(error);
+        this.errorFlag = true;
+        this.errorMsg = error._body;
+      }
     );
   }
 
@@ -95,7 +105,11 @@ export class WidgetImageComponent implements OnInit {
         console.log('updated widget Image');
         this.route();
         },
-      (error: any) => console.log(error)
+      (error: any) => {
+        console.log(error);
+        this.errorFlag = true;
+        this.errorMsg = error._body;
+      }
     );
   }
 

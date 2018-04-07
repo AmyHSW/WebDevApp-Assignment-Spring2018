@@ -20,7 +20,7 @@ module.exports = function (app) {
       })
     }, function(err){
       console.log(err);
-      res.status(500);
+      res.status(500).send(err);
     });
   }
 
@@ -32,7 +32,7 @@ module.exports = function (app) {
         res.status(200).json(pages);
       }, function(err) {
         console.log(err);
-        res.status(500);
+        res.status(500).send(err);
       });
   }
 
@@ -57,7 +57,7 @@ module.exports = function (app) {
         res.status(200).json({});
       }, function(err) {
         console.log(err);
-        res.status(500);
+        res.status(500).send(err);
       });
   }
 
@@ -75,7 +75,7 @@ module.exports = function (app) {
         res.status(200).json({});
       }, function(err) {
         console.log(err);
-        res.status(500);
+        res.status(500).send(err);
       });
   }
 };

@@ -17,6 +17,10 @@ export class RegisterComponent implements OnInit {
 
   errorFlag: boolean;
   errorMsg: String;
+  passwordFlag; boolean;
+  passwordMsg: String;
+  errorAlert: String;
+  passwordAlert: String;
 
   constructor(private userService: UserService,
               private router: Router,
@@ -28,27 +32,36 @@ export class RegisterComponent implements OnInit {
     this.v_password = this.registerForm.value.v_password;
 
     this.errorFlag = false;
+    this.passwordFlag = false;
 
     if (this.v_password !== this.user.password) {
-      this.errorFlag = true;
-      this.errorMsg = 'Password mis-matching!';
-    } else {
-      return this.userService.register(this.user.username, this.user.password)
-        .subscribe(
-          (newUser: any) => {
-            this.sharedService.user = newUser;
-            this.router.navigate(['/profile']);
-          }, (error: any) => {
-            this.errorFlag = true;
-            this.errorMsg = error._body;
-          }
-        );
+      this.passwordFlag = true;
+      this.passwordMsg = 'Password mis-matching!';
+      return;
     }
+    this.userService.findUserByUsername(this.user.username).subscribe(
+      (data: any) => {
+        if (data) {
+          this.errorFlag = true;
+          this.errorMsg = 'This username is in use. Please enter a different one.';
+        } else {
+          return this.userService.register(this.user.username, this.user.password)
+            .subscribe(
+              (newUser: any) => {
+                this.router.navigate(['/profile']);
+              }, (error: any) => {
+                this.errorMsg = error._body;
+              }
+            );
+        }
+      });
   }
   cancel() {
     this.router.navigate(['/login']);
   }
   ngOnInit() {
+    this.errorAlert = '* Please enter username';
+    this.passwordAlert = '* Please enter password';
     this.user = UserService.getNewUser();
   }
 

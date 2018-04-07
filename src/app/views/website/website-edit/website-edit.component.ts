@@ -14,12 +14,21 @@ export class WebsiteEditComponent implements OnInit {
   userId: String;
   website: any;
   websites: any;
+  errorFlag: boolean;
+  errorMsg: String;
+  alert: String;
+
   constructor(private websiteService: WebsiteService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private sharedService: SharedService) { }
 
   updateWebsite() {
+    if (this.website.name === '') {
+      this.errorFlag = true;
+      this.errorMsg = 'Please enter name for this Website';
+      return;
+    }
     this.websiteService.updateWebsite(this.website._id, this.website).subscribe(
       (response: any) => {
         console.log('updated website');
@@ -45,6 +54,8 @@ export class WebsiteEditComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
+    this.errorFlag = false;
+    this.alert = '* Please enter website name';
     this.websiteService.findWebsitesByUser(this.userId).subscribe(
       (websites: any) => {
         this.websites = websites;
@@ -65,8 +76,6 @@ export class WebsiteEditComponent implements OnInit {
   }
   getUser() {
     this.user = this.sharedService.user;
-    console.log(this.user);
     this.userId = this.user['_id'];
-    console.log(this.userId);
   }
 }

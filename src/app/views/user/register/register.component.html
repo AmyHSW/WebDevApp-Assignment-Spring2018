@@ -6,6 +6,10 @@
     {{errorMsg}}
   </div>
 
+  <div *ngIf="passwordFlag" class="alert alert-warning">
+    {{passwordMsg}}
+  </div>
+
   <form (ngSubmit)="register()" #f="ngForm">
 
     <div class="form-group">
@@ -14,9 +18,11 @@
              placeholder="username"
              type="text"
              class="form-control"
+             [ngClass]="{'red-border-class': errorFlag}"
              ngModel
              required
              #username="ngModel"/>
+      <span class="alert-class" *ngIf="errorFlag">{{errorAlert}}</span>
     </div>
 
     <div class="form-group">
@@ -25,9 +31,11 @@
              placeholder="password"
              type="password"
              class="form-control"
+             [ngClass]="{'red-border-class': passwordFlag}"
              ngModel
              required
              #password="ngModel"/>
+      <span class="alert-class" *ngIf="passwordFlag">{{passwordAlert}}</span>
     </div>
 
     <div class="form-group">

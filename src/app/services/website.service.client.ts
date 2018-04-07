@@ -10,7 +10,7 @@ export class WebsiteService {
   baseUrl = environment.baseUrl;
 
   static getNewWebsite() {
-    return {_id: undefined, name: undefined, _userId: undefined, description: undefined};
+    return {name: undefined, _userId: undefined, description: undefined};
   }
 
   createWebsite(userId: String, website: any) {

@@ -32,8 +32,10 @@
              name="name"
              type="text"
              class="form-control"
+             [ngClass]="{'red-border-class': errorFlag}"
              id="image-name"
              placeholder="name"/>
+      <span class="alert-class" *ngIf="errorFlag">{{alert}}</span>
     </div>
 
     <div class="form-group" *ngIf="widget">
@@ -53,7 +55,7 @@
              type="text"
              class="form-control"
              id="image-url"
-             placeholder="url"/>
+             placeholder="URL"/>
     </div>
 
     <div class="form-group" *ngIf="widget">

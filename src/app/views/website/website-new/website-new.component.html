@@ -55,13 +55,13 @@
                id="website-name"
                placeholder="Name"
                name="name"
+               [ngClass]="{'red-border-class': !name.valid && name.touched}"
                ngModel required
                #name="ngModel">
-      </div>
-
-      <span class="help-block" *ngIf="!name.valid && name.touched">
+        <span class="help-block" *ngIf="!name.valid && name.touched">
           Please enter a website name!
-      </span>
+        </span>
+      </div>
 
       <div class="form-group">
         <label for="website-description">Description</label>

@@ -16,6 +16,7 @@ export class WidgetHeadingComponent implements OnInit {
   widget: any;
   errorFlag: Boolean;
   errorMsg: String;
+  alert: String;
 
   constructor(private widgetService: WidgetService,
               private activatedRoute: ActivatedRoute,
@@ -23,8 +24,7 @@ export class WidgetHeadingComponent implements OnInit {
 
   ngOnInit() {
     this.errorFlag = false;
-    this.errorMsg = 'Please enter text!';
-
+    this.alert = '* Please enter widget name';
     this.activatedRoute.params.subscribe((params: any) => {
 
       console.log('widget._id: ' + params['wgid']);
@@ -46,7 +46,8 @@ export class WidgetHeadingComponent implements OnInit {
   }
 
   updateWidget() {
-    if (this.widget.text === undefined) {
+    if (this.widget.name === undefined || this.widget.name === '') {
+      this.errorMsg = 'Please enter name for this Header!';
       this.errorFlag = true;
       return;
     }
@@ -65,7 +66,11 @@ export class WidgetHeadingComponent implements OnInit {
         console.log('created new widget Header');
         this.route();
         },
-      (error: any) => console.log(error)
+      (error: any) => {
+        console.log(error);
+        this.errorFlag = true;
+        this.errorMsg = error._body;
+      }
     );
   }
 
@@ -75,7 +80,11 @@ export class WidgetHeadingComponent implements OnInit {
         console.log('updated widget header');
         this.route();
         },
-      (error: any) => console.log(error)
+      (error: any) => {
+        console.log(error);
+        this.errorFlag = true;
+        this.errorMsg = error._body;
+      }
     );
   }
 
@@ -90,7 +99,11 @@ export class WidgetHeadingComponent implements OnInit {
           console.log('delete widget header');
           this.route();
         },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     } else {
       this.route();

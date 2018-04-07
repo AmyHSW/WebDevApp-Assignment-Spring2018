@@ -14,6 +14,10 @@ export class WidgetYoutubeComponent implements OnInit {
   widget: any;
   errorFlag: Boolean;
   errorMsg: String;
+  // urlFlag: Boolean;
+  // urlMsg: String;
+  errAlert: String;
+  // urlAlert: String;
 
   constructor(private widgetService: WidgetService,
               private activatedRoute: ActivatedRoute,
@@ -21,7 +25,9 @@ export class WidgetYoutubeComponent implements OnInit {
 
   ngOnInit() {
     this.errorFlag = false;
-    this.errorMsg = 'Please enter URL!';
+    // this.urlFlag = false;
+    this.errAlert = '* Please enter widget name';
+    // this.urlAlert = '* Please enter URL';
 
     this.activatedRoute.params.subscribe((params: any) => {
 
@@ -56,9 +62,14 @@ export class WidgetYoutubeComponent implements OnInit {
     }
   }
   updateYoutube() {
-    if (this.widget.url === undefined) {
+    if (this.widget.name === undefined || this.widget.name === '') {
+      this.errorMsg = 'Please enter name for this YouTube!';
       this.errorFlag = true;
       return;
+    // } else if (this.widget.url === undefined || this.widget.url === '') {
+    //   this.urlMsg = 'Please enter URL for this YouTube!';
+    //   this.urlFlag = true;
+    //   return;
     }
     if (this.widgetId === undefined) {
       this.widget.type = 'YouTube';
@@ -68,7 +79,11 @@ export class WidgetYoutubeComponent implements OnInit {
           console.log('created new widget YouTube');
           this.route();
           },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     } else {
       this.widgetService.updateWidget(this.widget._id, this.widget).subscribe(
@@ -76,7 +91,11 @@ export class WidgetYoutubeComponent implements OnInit {
           console.log('updated widget YouTube');
           this.route();
           },
-        (error: any) => console.log(error)
+        (error: any) => {
+          console.log(error);
+          this.errorFlag = true;
+          this.errorMsg = error._body;
+        }
       );
     }
   }
