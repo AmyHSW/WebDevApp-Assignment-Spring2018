@@ -10,12 +10,10 @@ module.exports = function(app) {
   const pageModel = require("../models/page/page.model.server");
   const widgetModel = require("../models/widget/widget.model.server");
 
-  const facebookCallbackUrl = process.env.FB_CALL_BACK_URL_WAM || 'http://localhost:3100/auth/facebook/callback';
-
   const facebookConfig = {
     clientID     : process.env.FB_CLIENT_ID_WAM,
     clientSecret : process.env.FB_CLIENT_SECRET_WAM,
-    callbackURL: facebookCallbackUrl
+    callbackURL: process.env.FB_CALL_BACK_URL_WAM
   };
 
   app.post("/api/user", createUser);
@@ -36,7 +34,7 @@ module.exports = function(app) {
       successRedirect: '/profile',
       failureRedirect: '/login'
     }));
-  app.get('/facebook/login', passport.authenticate('facebook', { scope: 'email' }));
+  app.get('/api/facebook/login', passport.authenticate('facebook', { scope: 'email' }));
 
   // passport config
   passport.use(new LocalStrategy(localStrategy));
