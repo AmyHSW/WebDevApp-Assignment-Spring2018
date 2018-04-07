@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
       }
       this.userService.findUserByUsername(this.username).subscribe(
         (user: any) => {
-          if (typeof user._id !== 'undefined') {
+          if (user) {
             this.errorFlag = true;
             this.errorMsg = 'The username is in use. Please enter a different name.';
           } else {

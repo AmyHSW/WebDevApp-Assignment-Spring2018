@@ -29,26 +29,21 @@ export class RegisterComponent implements OnInit {
 
     this.errorFlag = false;
 
-    this.userService.findUserByUsername(this.user.username).subscribe(
-      (user: any) => {
-        if (user != null) {
-          this.errorFlag = true;
-          this.errorMsg = 'The username already exists! Please use a different name.';
-        } else if (this.v_password !== this.user.password) {
-          this.errorFlag = true;
-          this.errorMsg = 'Password mis-matching!';
-        } else {
-          return this.userService.register(this.user.username, this.user.password)
-            .subscribe(
-              (newUser: any) => {
-                this.sharedService.user = newUser;
-                this.router.navigate(['/profile']);
-              }, (error: any) => {
-                this.errorMsg = error._body;
-              }
-            );
-        }
-      });
+    if (this.v_password !== this.user.password) {
+      this.errorFlag = true;
+      this.errorMsg = 'Password mis-matching!';
+    } else {
+      return this.userService.register(this.user.username, this.user.password)
+        .subscribe(
+          (newUser: any) => {
+            this.sharedService.user = newUser;
+            this.router.navigate(['/profile']);
+          }, (error: any) => {
+            this.errorFlag = true;
+            this.errorMsg = error._body;
+          }
+        );
+    }
   }
   cancel() {
     this.router.navigate(['/login']);

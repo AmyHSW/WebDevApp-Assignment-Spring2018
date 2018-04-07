@@ -128,18 +128,26 @@ module.exports = function(app) {
   function register (req, res) {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password);
-    userModel
-      .createUser(user)
+    userModel.findUserByUserName(user.username)
       .then(
         function(user) {
-          if (user){
-            req.login(user, function(err) {
-              if(err) {
-                res.status(500).send(err);
-              } else {
-                res.json(user);
-              }
-            });
+          if (user) {
+            res.status(400).send('This username is in use. Please enter a different one.');
+          } else {
+            userModel.createUser(user)
+              .then(
+                function(newUser) {
+                  if (newUser) {
+                    req.login(newUser, function(err) {
+                      if (err) {
+                        res.status(400).send(err);
+                      } else {
+                        res.json(newUser);
+                      }
+                    })
+                  }
+                }
+              )
           }
         }
       );

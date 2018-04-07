@@ -4,7 +4,7 @@
       Profile
     </a>
     <a (click)="updateUser()"
-       routerLink="/profile"
+       [routerLink]="['/profile']"
        class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
       <span class="glyphicon glyphicon-ok"></span>
     </a>
