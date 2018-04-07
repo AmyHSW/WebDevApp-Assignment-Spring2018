@@ -63,6 +63,7 @@ export class ProfileComponent implements OnInit {
     this.userService.logout()
       .subscribe(
         (data: any) => {
+          this.sharedService.user = '';
           this.router.navigate(['/login']);
         }
       );
@@ -81,18 +82,6 @@ export class ProfileComponent implements OnInit {
     this.updateFlag = false;
     this.errorFlag = false;
     this.updateMsg = 'Profile updated!';
-
-/*    this.activatedRoute.params.subscribe((params: any) => {
-      return this.userService.findUserById(params['uid']).subscribe(
-        (user: any) => {
-          this.user = user;
-          this.username = this.user.username;
-        },
-        (error: any) => {
-          console.log(error);
-        }
-      );
-    });*/
   }
   getUser() {
     this.user = this.sharedService.user;

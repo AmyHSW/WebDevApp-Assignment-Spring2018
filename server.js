@@ -11,8 +11,17 @@ const passport      = require('passport');
 const cookieParser  = require('cookie-parser');
 const session       = require('express-session');
 
+let secret = "this is the secret";
+if (process.env.SECRET) {
+  secret = process.env.SECRET;
+}
+
+process.env.FB_CLIENT_ID_WAM = '217702625645594';
+process.env.FB_CLIENT_SECRET_WAM = '1045f4218fdee89e4894e5a8894bc17e';
+// process.env.FB_CALL_BACK_URL_WAM = 'https://cs5610-webdev-spring2018.herokuapp.com/auth/facebook/callback';
+
 app.use(session({
-  secret: 'this is the secret',
+  secret: secret,
   resave: true,
   saveUninitialized: true
 }));

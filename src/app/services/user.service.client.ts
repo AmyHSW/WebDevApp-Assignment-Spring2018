@@ -25,12 +25,11 @@ export class UserService {
       username : username,
       password : password
     };
+
     return this._http.post(this.baseUrl + '/api/login', body, this.options)
       .map(
         (res: Response) => {
-          const user = res.json();
-          this.sharedService.user = user;
-          return user;
+          return res.json();
         }
       );
   }
@@ -41,7 +40,6 @@ export class UserService {
     return this._http.post(this.baseUrl + '/api/logout', '', this.options)
       .map(
         (res: Response) => {
-          this.sharedService.user = '';
           return res.json();
         }
       );
@@ -56,9 +54,7 @@ export class UserService {
     return this._http.post(this.baseUrl + '/api/register', body, this.options)
       .map(
         (res: Response) => {
-          const user = res.json();
-          this.sharedService.user = user;
-          return user;
+          return res.json();
         }
       );
   }
@@ -70,7 +66,7 @@ export class UserService {
         (res: Response) => {
           const user = res.json();
           if (user !== 0) {
-            console.log('loggedIn: ok');
+            console.log('loggedIn: ' + user['username']);
             this.sharedService.user = user;
             return true;
           } else {

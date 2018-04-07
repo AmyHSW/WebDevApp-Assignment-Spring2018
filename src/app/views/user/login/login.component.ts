@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
   errorMsg: String;
 
   constructor(private userService: UserService,
-              private router: Router) {}
+              private router: Router,
+              private sharedService: SharedService) {}
 
   login() {
     this.username = this.loginForm.value.username;
@@ -31,13 +32,13 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (user: any) => {
           this.errorFlag = false;
+          this.sharedService.user = user;
           this.router.navigate(['/profile']);
         }, (error: any) => {
           this.errorFlag = true;
         }
       );
   }
-
   register() {
     this.router.navigate(['/register']);
   }
