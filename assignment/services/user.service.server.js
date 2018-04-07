@@ -10,10 +10,7 @@ module.exports = function(app) {
   const pageModel = require("../models/page/page.model.server");
   const widgetModel = require("../models/widget/widget.model.server");
 
-  let facebookCallbackUrl = 'http://localhost:3100/auth/facebook/callback';
-  if (process.env.FB_CALL_BACK_URL_WAM) {
-    facebookCallbackUrl = process.env.FB_CALL_BACK_URL_WAM;
-  }
+  const facebookCallbackUrl = process.env.FB_CALL_BACK_URL_WAM || 'http://localhost:3100/auth/facebook/callback';
 
   const facebookConfig = {
     clientID     : process.env.FB_CLIENT_ID_WAM,

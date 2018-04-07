@@ -11,13 +11,9 @@ const passport      = require('passport');
 const cookieParser  = require('cookie-parser');
 const session       = require('express-session');
 
-let secret = "this is the secret";
-if (process.env.SECRET) {
-  secret = process.env.SECRET;
-}
-
-process.env.FB_CLIENT_ID_WAM = '217702625645594';
-process.env.FB_CLIENT_SECRET_WAM = '1045f4218fdee89e4894e5a8894bc17e';
+const secret = process.env.SECRET || "this is the secret";
+// process.env.FB_CLIENT_ID_WAM = '217702625645594';
+// process.env.FB_CLIENT_SECRET_WAM = '1045f4218fdee89e4894e5a8894bc17e';
 // process.env.FB_CALL_BACK_URL_WAM = 'https://cs5610-webdev-spring2018.herokuapp.com/auth/facebook/callback';
 
 app.use(session({
@@ -40,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'src/assets')));
 
 //CORS
 app.use(function(reg, res, next){
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE, OPTIONS');
   res.header("Access-Control-Allow-Credentials", "true");

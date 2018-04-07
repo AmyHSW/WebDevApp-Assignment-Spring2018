@@ -3,6 +3,7 @@ import { Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
 import {NgForm} from '@angular/forms';
 import {SharedService} from '../../../services/shared.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ import {SharedService} from '../../../services/shared.service';
 
 export class LoginComponent implements OnInit {
   @ViewChild('f') loginForm: NgForm;
+  baseUrl = environment.baseUrl;
+
   username: String; // see usage as two-way data binding
   password: String; // see usage as two-way data binding
 
